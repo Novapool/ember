@@ -8,7 +8,9 @@ Milestone 2: Core Game Engine ✅ Complete (Feb 8, 2026)
 Milestone 3: Server Infrastructure ✅ Complete (Feb 8, 2026)
 Milestone 4: Client Library ✅ Complete (Feb 9, 2026)
 Milestone 5: UI Component Library ✅ Complete (Feb 12, 2026)
-**Next:** Milestone 6: First Game - Intimacy Ladder v2 🔵
+Milestone 6: First Game - Intimacy Ladder v2 ✅ Complete (Feb 28, 2026)
+Milestone 7: Dual-Use Architecture ✅ Complete (Feb 28, 2026)
+**Next:** Milestone 8: Second Game - Validation 🔵
 
 ## Documentation
 

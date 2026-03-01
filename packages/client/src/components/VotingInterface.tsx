@@ -31,17 +31,24 @@ export interface VotingInterfaceProps {
   className?: string;
   /** Inline styles for the root element */
   style?: React.CSSProperties;
+  /** Inline styles for inner elements */
+  styles?: {
+    option?: React.CSSProperties;
+    voteBar?: React.CSSProperties;
+    winnerBadge?: React.CSSProperties;
+  };
 }
 
 interface VoteBarProps {
   count: number;
   total: number;
+  style?: React.CSSProperties;
 }
 
-const VoteBar: React.FC<VoteBarProps> = ({ count, total }) => {
+const VoteBar: React.FC<VoteBarProps> = ({ count, total, style }) => {
   const pct = total > 0 ? Math.round((count / total) * 100) : 0;
   return (
-    <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.125rem' }}>
+    <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.125rem', ...style }}>
       <div style={{ height: '0.375rem', width: '100%', backgroundColor: C.gray200, borderRadius: radius.full, overflow: 'hidden' }}>
         <div
           style={{ height: '100%', backgroundColor: C.indigo500, borderRadius: radius.full, transition: 'width 0.5s ease', width: `${pct}%` }}
@@ -70,6 +77,7 @@ export const VotingInterface: React.FC<VotingInterfaceProps> = ({
   title,
   className = '',
   style,
+  styles = {},
 }) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
@@ -132,12 +140,13 @@ export const VotingInterface: React.FC<VotingInterfaceProps> = ({
               cursor: disabled && !showResults ? 'not-allowed' : 'pointer',
               fontFamily: 'inherit',
               fontSize: '1rem',
+              ...styles.option,
             }}
           >
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.75rem' }}>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ fontWeight: 600, display: 'block', color: labelColor }}>
-                  {isWinner && <span aria-hidden="true" style={{ marginRight: '0.25rem' }}>🏆</span>}
+                  {isWinner && <span aria-hidden="true" style={{ marginRight: '0.25rem', ...styles.winnerBadge }}>🏆</span>}
                   {option.label}
                 </span>
                 {option.description && (
@@ -172,7 +181,7 @@ export const VotingInterface: React.FC<VotingInterfaceProps> = ({
                 </span>
               )}
             </div>
-            {showResults && <VoteBar count={count} total={totalVoters} />}
+            {showResults && <VoteBar count={count} total={totalVoters} style={styles.voteBar} />}
           </button>
         );
       })}

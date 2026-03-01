@@ -323,7 +323,17 @@ export abstract class SocialGame<TState extends GameState = GameState> extends G
       this.roomStatus = 'playing';
 
       // Call lifecycle hook
+      const phaseBeforeStart = this.state.phase;
       await this.onGameStart();
+
+      // Dev warning: onGameStart() returned without calling transitionPhase()
+      if (process.env.NODE_ENV !== 'production' && this.state.phase === phaseBeforeStart) {
+        console.warn(
+          `[Bonfire] onGameStart() returned but the phase is still "${phaseBeforeStart}". ` +
+          `Did you forget to call transitionPhase()? ` +
+          `Valid phases are: [${this.config.phases.join(', ')}]`
+        );
+      }
 
       // Emit event
       await this.emitEvent('game:started', { startedAt });

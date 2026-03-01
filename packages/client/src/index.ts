@@ -13,6 +13,10 @@ export { usePlayer } from './hooks/usePlayer';
 export { usePhase } from './hooks/usePhase';
 export { useBonfireEvent } from './hooks/useBonfireEvent';
 export { useTurn } from './hooks/useTurn';
+export { useLobby } from './hooks/useLobby';
+export type { UseLobbyOptions, UseLobbyReturn } from './hooks/useLobby';
+export { useResponseInput } from './hooks/useResponseInput';
+export type { UseResponseInputOptions, UseResponseInputReturn, RankingOps } from './hooks/useResponseInput';
 
 // ---- Components ----
 export { BonfireErrorBoundary } from './components/BonfireErrorBoundary';

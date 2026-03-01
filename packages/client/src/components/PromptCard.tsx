@@ -22,6 +22,12 @@ export interface PromptCardProps {
   className?: string;
   /** Inline styles for the root element */
   style?: React.CSSProperties;
+  /** Inline styles for inner elements */
+  styles?: {
+    promptText?: React.CSSProperties;
+    badge?: React.CSSProperties;
+    subtitle?: React.CSSProperties;
+  };
   /** Whether to animate in on mount */
   animate?: boolean;
 }
@@ -77,6 +83,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
   children,
   className = '',
   style,
+  styles = {},
   animate: _animate = false,
 }) => {
   const cfg = variantConfig[variant];
@@ -115,6 +122,7 @@ export const PromptCard: React.FC<PromptCardProps> = ({
             fontWeight: 600,
             backgroundColor: cfg.badgeBg,
             color: cfg.badgeColor,
+            ...styles.badge,
           }}
         >
           <span aria-hidden="true">{cfg.icon}</span>
@@ -123,12 +131,12 @@ export const PromptCard: React.FC<PromptCardProps> = ({
       </div>
 
       {/* Prompt text */}
-      <p style={{ fontSize: '1.25rem', fontWeight: 600, textAlign: 'center', lineHeight: '1.625', color: C.gray900, marginBottom: '0.5rem', marginTop: 0 }}>
+      <p style={{ fontSize: '1.25rem', fontWeight: 600, textAlign: 'center', lineHeight: '1.625', color: C.gray900, marginBottom: '0.5rem', marginTop: 0, ...styles.promptText }}>
         {prompt}
       </p>
 
       {subtitle && (
-        <p style={{ fontSize: '0.875rem', textAlign: 'center', color: C.gray500, marginTop: '0.5rem', marginBottom: 0 }}>
+        <p style={{ fontSize: '0.875rem', textAlign: 'center', color: C.gray500, marginTop: '0.5rem', marginBottom: 0, ...styles.subtitle }}>
           {subtitle}
         </p>
       )}

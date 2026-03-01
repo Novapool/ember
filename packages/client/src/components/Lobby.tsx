@@ -1,7 +1,5 @@
 import React, { ReactNode, useState } from 'react';
-import { useGameState } from '../hooks/useGameState';
-import { usePlayer } from '../hooks/usePlayer';
-import { useRoom } from '../hooks/useRoom';
+import { useLobby } from '../hooks/useLobby';
 import { PlayerAvatar } from './PlayerAvatar';
 import { C, radius, shadow } from '../utils/theme';
 import type { Player } from '@bonfire/core';
@@ -19,6 +17,15 @@ export interface LobbyProps {
   className?: string;
   /** Inline styles for the root element */
   style?: React.CSSProperties;
+  /** Inline styles for inner elements */
+  styles?: {
+    container?: React.CSSProperties;
+    roomCode?: React.CSSProperties;
+    playerRow?: React.CSSProperties;
+    hostBadge?: React.CSSProperties;
+    startButton?: React.CSSProperties;
+    waitingText?: React.CSSProperties;
+  };
   /** Hide the start button */
   hideStartButton?: boolean;
 }
@@ -26,6 +33,8 @@ export interface LobbyProps {
 /**
  * Pre-built lobby component with room code display, player list, and start button.
  * Automatically connects to game state via hooks.
+ *
+ * For custom UI with the same logic, use the `useLobby()` hook directly.
  */
 export const Lobby: React.FC<LobbyProps> = ({
   roomCode: overrideRoomCode,
@@ -35,50 +44,24 @@ export const Lobby: React.FC<LobbyProps> = ({
   hideStartButton = false,
   className = '',
   style,
+  styles = {},
 }) => {
-  const { state } = useGameState();
-  const { isHost, playerId } = usePlayer();
-  const { startGame } = useRoom();
-  const [isStarting, setIsStarting] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const {
+    roomCode,
+    players,
+    isHost,
+    playerId,
+    minPlayers,
+    maxPlayers,
+    canStart,
+    isStarting,
+    copied,
+    handleCopyCode,
+    handleStart,
+  } = useLobby({ roomCode: overrideRoomCode, onStart });
+
   const [copyHovered, setCopyHovered] = useState(false);
   const [startHovered, setStartHovered] = useState(false);
-
-  const roomCode = overrideRoomCode || (state?.metadata?.roomCode as string) || state?.roomId || '';
-  const players = state?.players || [];
-
-  const config = (state?.metadata?.config as any) || {};
-  const minPlayers = config.minPlayers || 2;
-  const maxPlayers = config.maxPlayers || 8;
-
-  const canStart = isHost && players.length >= minPlayers;
-
-  const handleCopyCode = async () => {
-    try {
-      await navigator.clipboard.writeText(roomCode);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy room code:', err);
-    }
-  };
-
-  const handleStart = async () => {
-    if (!canStart) return;
-    setIsStarting(true);
-    try {
-      if (onStart) {
-        await onStart();
-      } else {
-        const result = await startGame();
-        if (!result.success) console.error('Failed to start game:', result.error);
-      }
-    } catch (error) {
-      console.error('Error starting game:', error);
-    } finally {
-      setIsStarting(false);
-    }
-  };
 
   return (
     <div
@@ -91,6 +74,7 @@ export const Lobby: React.FC<LobbyProps> = ({
         borderRadius: radius.md,
         boxShadow: shadow.card,
         ...style,
+        ...styles.container,
       }}
       role="region"
       aria-label="Game lobby"
@@ -101,7 +85,16 @@ export const Lobby: React.FC<LobbyProps> = ({
           Room Code
         </h2>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-          <div style={{ fontSize: '2.25rem', fontWeight: 700, letterSpacing: '0.1em', fontFamily: 'monospace', color: C.indigo500 }}>
+          <div
+            style={{
+              fontSize: '2.25rem',
+              fontWeight: 700,
+              letterSpacing: '0.1em',
+              fontFamily: 'monospace',
+              color: C.indigo500,
+              ...styles.roomCode,
+            }}
+          >
             {roomCode || '------'}
           </div>
           {roomCode && (
@@ -163,6 +156,7 @@ export const Lobby: React.FC<LobbyProps> = ({
                 padding: '0.75rem',
                 borderRadius: radius.md,
                 backgroundColor: player.id === playerId ? C.indigo50 : C.gray100,
+                ...styles.playerRow,
               }}
             >
               <PlayerAvatar name={player.name} size="md" isHost={isPlayerHost} showStatus={false} />
@@ -180,14 +174,17 @@ export const Lobby: React.FC<LobbyProps> = ({
                 )}
               </div>
               {isPlayerHost && (
-                <span style={{
-                  fontSize: '0.75rem',
-                  fontWeight: 600,
-                  color: C.yellow600,
-                  backgroundColor: C.yellow100,
-                  padding: '0.25rem 0.5rem',
-                  borderRadius: radius.sm,
-                }}>
+                <span
+                  style={{
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                    color: C.yellow600,
+                    backgroundColor: C.yellow100,
+                    padding: '0.25rem 0.5rem',
+                    borderRadius: radius.sm,
+                    ...styles.hostBadge,
+                  }}
+                >
                   HOST
                 </span>
               )}
@@ -218,6 +215,7 @@ export const Lobby: React.FC<LobbyProps> = ({
               backgroundColor: canStart && !isStarting
                 ? (startHovered ? C.indigo600 : C.indigo500)
                 : C.gray300,
+              ...styles.startButton,
             }}
             aria-label="Start game"
           >
@@ -233,7 +231,7 @@ export const Lobby: React.FC<LobbyProps> = ({
 
       {/* Waiting message for non-hosts */}
       {!hideStartButton && !isHost && (
-        <div style={{ textAlign: 'center', color: C.gray500 }}>
+        <div style={{ textAlign: 'center', color: C.gray500, ...styles.waitingText }}>
           <p style={{ fontSize: '0.875rem', margin: 0 }}>Waiting for host to start the game...</p>
         </div>
       )}

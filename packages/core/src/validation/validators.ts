@@ -84,7 +84,7 @@ export class GameValidator {
     if (!config.phases.includes(nextPhase)) {
       return createValidationError(
         'INVALID_PHASE',
-        `Phase "${nextPhase}" is not defined in game config`,
+        `Phase "${nextPhase}" is not defined in game config. Valid phases are: [${config.phases.join(', ')}]`,
         { validPhases: config.phases, requestedPhase: nextPhase }
       );
     }

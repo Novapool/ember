@@ -287,41 +287,98 @@
 
 **Goal:** Build complete game using the framework to validate abstractions
 
+**Status:** Implementation complete, pending multi-browser playtest and optional settings UI.
+
 ### Tasks
 - [x] 🟢 Create LOIV2 project structure with curated Bonfire docs
 - [x] 🟢 Port question database to TypeScript (levels 1–5, ~200 questions)
 - [x] 🟢 Write GAME_DESIGN.md — state model, player actions, turn flow
 - [x] 🟢 Write ARCHITECTURE.md — how game uses Bonfire layers
 - [x] 🟢 Write docs/bonfire/ — curated server-setup and client-api guides
-- [ ] 🔴 Implement `IntimacyLadderGame` extending `SocialGame`
-- [ ] 🔴 Implement progressive disclosure mechanic (descending levels)
-- [ ] 🔴 Add reflection phase between levels
-- [ ] 🔴 Build mobile-responsive UI (screens: Lobby, Select, Answer, Finished)
-- [ ] 🔴 Add game settings (start level, questions per level)
-- [ ] 🔴 Implement reroll/skip question functionality
-- [ ] 🔴 Test with real users, gather feedback
-- [ ] 🔴 Document pain points in framework usage
+- [x] 🟢 Implement `IntimacyLadderGame` extending `SocialGame`
+- [x] 🟢 Implement progressive disclosure mechanic (descending levels, questionsPerLevel)
+- [ ] 🔴 Add reflection phase between levels *(deferred — not required for v1)*
+- [x] 🟢 Build mobile-responsive UI (Landing, Lobby, QuestionSelect, Answering, Waiting, Finished)
+- [ ] 🔴 Add game settings UI (start level, questions per level) *(defaults hardcoded server-side)*
+- [x] 🟢 Implement reroll/skip question functionality
+- [ ] 🔴 Multi-browser playtest with real users
+- [x] 🟢 Document pain points in framework usage (`docs/TO-REMEMBER.md`)
+- [x] 🟢 Fix bugs surfaced by integration: turn rotation, phase guards, joinRoom error handling, unit tests
 
 **Deliverable:** Fully functional Intimacy Ladder game proving framework works
 
 **Location:** `~/Documents/Programs/LOIV2/` (standalone project, not in this monorepo)
 
+**Key learnings captured in:** `~/Documents/Programs/LOIV2/docs/TO-REMEMBER.md`
+
 ---
 
-## Milestone 7: Framework Refinement 🔴
+## Milestone 7: Dual-Use Architecture 🟢
 
-**Goal:** Improve framework based on first game experience
+**Status:** ✅ Complete (Feb 28, 2026)
 
-### Tasks
-- [ ] 🔴 Refactor awkward APIs discovered during game 1
-- [ ] 🔴 Add missing features identified during development
-- [ ] 🔴 Improve error messages and developer warnings
-- [ ] 🔴 Optimize bundle size (code splitting, tree shaking)
-- [ ] 🔴 Add performance monitoring hooks
-- [ ] 🔴 Improve TypeScript types based on actual usage
-- [ ] 🔴 Write migration guide for breaking changes
+**Goal:** Make Bonfire equally good for two usage patterns — drop-in default components and fully custom UI — based on real integration experience from LOIV2.
 
-**Deliverable:** Polished framework ready for game 2
+**Why this milestone exists:** LOIV2 revealed that both usage patterns are partially supported but neither is complete. Default components work visually (inline styles, fixed in M5). Hooks-only custom UI works (7 pure game-state hooks). But the *middle ground* — using a component's business logic with custom UI — requires duplicating framework logic in every game. That gap must close before game 2.
+
+### Architectural decision: headless hooks pattern
+
+Bonfire adopts the **headless component pattern**: every component with business logic ships a corresponding `use*` hook that exposes the logic without any UI. The component becomes a thin wrapper over its hook. Game devs can then choose:
+
+1. **Full component** — `<Lobby />` — zero setup, Bonfire's default visual style
+2. **Headless + custom UI** — `useLobby()` — full logic, your own markup and styles
+3. **Hooks only** — `useGameState()` / `usePlayer()` etc. — write everything yourself
+
+The 7 game-state hooks (useGameState, useRoom, usePlayer, usePhase, useTurn, useConnection, useBonfireEvent) already satisfy pattern 3. Pattern 1 works after the M5 inline-style fix. This milestone closes pattern 2.
+
+---
+
+### Phase 1: Headless hooks — close the dual-use gap ✅ Complete
+
+- [x] 🟢 Extract `useLobby()` → `{ roomCode, players, isHost, playerId, minPlayers, maxPlayers, canStart, isStarting, copied, handleCopyCode, handleStart }`
+- [x] 🟢 Extract `useResponseInput(config)` → `{ value, handleChange, canSubmit, disabled, reset, rankingOps: { moveUp, moveDown, add, remove } }`
+- [x] 🟢 Refactor `<Lobby>` to be a thin wrapper over `useLobby()` (no duplicated logic)
+- [x] 🟢 Refactor `<ResponseInput>` to be a thin wrapper over `useResponseInput()`
+- [x] 🟢 Export `useLobby` and `useResponseInput` from `@bonfire/client`
+- [x] 🟢 Add tests for new hooks (38 tests total, all passing)
+
+### Phase 2: Inner-element theming — enable custom-styled Bonfire components ✅ Complete
+
+- [x] 🟢 Add `styles` prop to `<PromptCard>` → `{ promptText?, badge?, subtitle? }`
+- [x] 🟢 Add `styles` prop to `<Lobby>` → `{ container?, roomCode?, playerRow?, hostBadge?, startButton?, waitingText? }`
+- [x] 🟢 Add `styles` prop to `<PlayerAvatar>` → `{ statusDot?, crownBadge? }`
+- [x] 🟢 Add `styles` prop to `<Timer>` → `{ ring?, timeText? }`
+- [x] 🟢 Add `styles` prop to `<VotingInterface>` → `{ option?, voteBar?, winnerBadge? }`
+- [x] 🟢 Documented in `docs/DUAL_USE_GUIDE.md`: when to use `style` (root override) vs `styles` (inner element overrides)
+
+### Phase 3: DX improvements from LOIV2 learnings ✅ Complete
+
+- [x] 🟢 `transitionPhase()` error message now lists valid phases: `Phase "X" is not defined. Valid phases are: [lobby, playing, results]`
+- [x] 🟢 Dev-mode console warning when `onGameStart()` returns without calling `transitionPhase()` (silent foot-gun)
+- [x] 🟢 `BonfireClient.createRoom()` / `joinRoom()` now have 10-second timeout — returns `{ success: false, error: '...' }` if server never responds instead of hanging forever
+- [x] 🟢 API docs audited (already fixed during M6 LOIV2 integration — correct signatures in README, CLAUDE.md, and architecture docs)
+
+### Phase 4: Dual-use documentation ✅ Complete
+
+- [x] 🟢 `docs/DUAL_USE_GUIDE.md` written — covers all three patterns with full code examples
+- [x] 🟢 "Using default components" (Pattern 1) — drop-in, zero config, `styles` prop theming
+- [x] 🟢 "Headless hooks + custom UI" (Pattern 2) — `useLobby`, `useResponseInput` with custom markup
+- [x] 🟢 "Hooks only" (Pattern 3) — full custom screens using game-state hooks
+- [x] 🟢 Pattern comparison table and decision tree
+- [x] 🟢 Side-by-side lobby example showing all three patterns
+
+**Deliverable:** ✅ Framework is equally polished for all three usage modes. Game 2 should require zero framework modifications and no workarounds.
+
+**What Was Built:**
+- **`useLobby()` headless hook** — all Lobby business logic (room code, start validation, clipboard, player list) extracted, tested (15 tests)
+- **`useResponseInput()` headless hook** — all ResponseInput business logic (value tracking, canSubmit, submit, reset, ranking ops: moveUp/Down/add/remove), tested (23 tests)
+- **`<Lobby>` and `<ResponseInput>`** refactored as thin wrappers over their hooks
+- **`styles` prop map** added to 5 components: PromptCard, Lobby, PlayerAvatar, Timer, VotingInterface
+- **`transitionPhase()` error messages** improved to list valid phases
+- **Dev-mode warning** added when `onGameStart()` returns without calling `transitionPhase()`
+- **Socket timeout** added to `createRoom()` / `joinRoom()` — resolves with `{ success: false, error: '...' }` after 10s if server never responds
+- **`docs/DUAL_USE_GUIDE.md`** — comprehensive guide covering all three usage patterns with full code examples
+- **242 client tests, 131 core tests — all passing**
 
 ---
 
@@ -460,11 +517,11 @@
 
 ## Progress Tracking
 
-**Overall Progress:** 5/13 milestones complete (38.5%) — Milestone 6 next
+**Overall Progress:** 7/13 milestones complete (53.8%) — Milestones 6 and 7 complete, Milestone 8 next
 
-**Current Focus:** Milestone 6 - First Game (Intimacy Ladder v2)
+**Current Focus:** Milestone 8 - Second Game (validation of framework flexibility)
 
-**Last Updated:** February 27, 2026
+**Last Updated:** February 28, 2026
 
 ---
 
@@ -489,4 +546,5 @@
 - **Milestone 4:** Duplicating server response types in the client avoids pulling in Node.js-only server deps (Express, firebase-admin) — clean client/server boundary.
 - **Milestone 4:** MockBonfireClient with `simulate*` methods mirrors the real client's subscription API, enabling fast hook unit tests without sockets.
 - **Milestone 4:** Server-authoritative model (no client-side optimistic update machinery) is sufficient for turn-based social games. Can revisit in Milestone 7 if needed.
+- **Milestone 6 / Milestone 7 (Feb 28, 2026):** LOIV2 integration revealed the key architectural gap: game devs can use default components OR build fully custom UI with hooks, but there is no clean path for "component logic, custom UI." Headless hooks (`useLobby`, `useResponseInput`) are the missing layer. Also: inner-element styling (font, color of prompt text, badge styles) requires a `styles` prop map — the `style` prop only reaches the root container. Full analysis in `~/Documents/Programs/LOIV2/docs/TO-REMEMBER.md`.
 

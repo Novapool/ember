@@ -25,6 +25,33 @@ import type {
 
 type Listener<T> = (data: T) => void;
 
+/** Default socket acknowledgement timeout (ms) — prevents infinite hangs if server never responds */
+const SOCKET_ACK_TIMEOUT_MS = 10_000;
+
+/** Wraps a socket.emit acknowledgement with a timeout, resolving with a failure response if the server never calls back */
+function withTimeout<T extends { success: false; error: string }>(
+  emitFn: (resolve: (response: T) => void) => void,
+  fallbackError: string
+): Promise<T> {
+  return new Promise((resolve) => {
+    let settled = false;
+    const timer = setTimeout(() => {
+      if (!settled) {
+        settled = true;
+        resolve({ success: false, error: fallbackError } as T);
+      }
+    }, SOCKET_ACK_TIMEOUT_MS);
+
+    emitFn((response: T) => {
+      if (!settled) {
+        settled = true;
+        clearTimeout(timer);
+        resolve(response);
+      }
+    });
+  });
+}
+
 type TypedClientSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
 
 export class BonfireClient {
@@ -92,34 +119,40 @@ export class BonfireClient {
   // ---- Room Operations ----
 
   createRoom(gameType: string, hostName: string): Promise<RoomCreateResponse> {
-    return new Promise((resolve) => {
-      this.socket.emit('room:create', gameType, hostName, (response: RoomCreateResponse) => {
-        if (response.success && response.state && response.roomId) {
-          this._roomId = response.roomId;
-          this._gameState = response.state;
-          const host = response.state.players.find((p) => p.isHost);
-          if (host) this._playerId = host.id;
-          this.notifyStateListeners(response.state);
-          this.saveSession(response.roomId, host?.id ?? null);
-        }
-        resolve(response);
-      });
-    });
+    return withTimeout<RoomCreateResponse>(
+      (resolve) => {
+        this.socket.emit('room:create', gameType, hostName, (response: RoomCreateResponse) => {
+          if (response.success && response.state && response.roomId) {
+            this._roomId = response.roomId;
+            this._gameState = response.state;
+            const host = response.state.players.find((p) => p.isHost);
+            if (host) this._playerId = host.id;
+            this.notifyStateListeners(response.state);
+            this.saveSession(response.roomId, host?.id ?? null);
+          }
+          resolve(response);
+        });
+      },
+      'Server did not respond to room:create. Check your connection.'
+    );
   }
 
   joinRoom(roomId: RoomId, playerName: string): Promise<RoomJoinResponse> {
-    return new Promise((resolve) => {
-      this.socket.emit('room:join', roomId, playerName, (response: RoomJoinResponse) => {
-        if (response.success && response.state && response.playerId) {
-          this._roomId = roomId;
-          this._playerId = response.playerId;
-          this._gameState = response.state;
-          this.notifyStateListeners(response.state);
-          this.saveSession(roomId, response.playerId);
-        }
-        resolve(response);
-      });
-    });
+    return withTimeout<RoomJoinResponse>(
+      (resolve) => {
+        this.socket.emit('room:join', roomId, playerName, (response: RoomJoinResponse) => {
+          if (response.success && response.state && response.playerId) {
+            this._roomId = roomId;
+            this._playerId = response.playerId;
+            this._gameState = response.state;
+            this.notifyStateListeners(response.state);
+            this.saveSession(roomId, response.playerId);
+          }
+          resolve(response);
+        });
+      },
+      `Server did not respond to room:join for room "${roomId}". The room may not exist or the server is unreachable.`
+    );
   }
 
   leaveRoom(): Promise<BaseResponse> {

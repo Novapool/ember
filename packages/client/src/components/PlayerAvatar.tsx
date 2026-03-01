@@ -19,6 +19,11 @@ export interface PlayerAvatarProps {
   className?: string;
   /** Inline styles for the root element (merged with internal styles) */
   style?: React.CSSProperties;
+  /** Inline styles for inner elements */
+  styles?: {
+    statusDot?: React.CSSProperties;
+    crownBadge?: React.CSSProperties;
+  };
 }
 
 const sizeDims: Record<NonNullable<PlayerAvatarProps['size']>, React.CSSProperties> = {
@@ -58,6 +63,7 @@ export const PlayerAvatar: React.FC<PlayerAvatarProps> = ({
   isHost = false,
   className = '',
   style,
+  styles = {},
 }) => {
   const initials = getPlayerInitials(name);
   const backgroundColor = color || getPlayerColor(name);
@@ -97,6 +103,7 @@ export const PlayerAvatar: React.FC<PlayerAvatarProps> = ({
             borderColor: C.white,
             backgroundColor: isOnline ? C.green500 : C.gray400,
             ...statusDims[size],
+            ...styles.statusDot,
           }}
           aria-hidden="true"
         />
@@ -112,6 +119,7 @@ export const PlayerAvatar: React.FC<PlayerAvatarProps> = ({
             alignItems: 'center',
             justifyContent: 'center',
             ...crownDims[size],
+            ...styles.crownBadge,
           }}
           aria-hidden="true"
           title="Host"

@@ -2,7 +2,7 @@
 
 React hooks and utilities for building Bonfire party game UIs.
 
-**Status:** Milestone 4 Complete + Milestone 5 UI Components Complete ✅ - 205 tests, all passing
+**Status:** Milestone 4 + 5 + 7 Complete ✅ - 242 tests, all passing
 
 ---
 
@@ -11,9 +11,10 @@ React hooks and utilities for building Bonfire party game UIs.
 This package provides the client-side React integration for Bonfire games:
 - **BonfireClient** - Socket.io wrapper with Promise-based API and subscription model
 - **BonfireProvider** - React context provider for client access
-- **7 React hooks** - Type-safe hooks for game state, connection, room management, player data, phase tracking, events, and turn management
+- **9 React hooks** - 7 game-state hooks + 2 headless component hooks (`useLobby`, `useResponseInput`)
 - **BonfireErrorBoundary** - Error boundary component for graceful error handling
 - **8 UI components** - Lobby, PlayerAvatar, Timer, PromptCard, ResponseInput, RevealPhase, GameProgress, VotingInterface
+- **`styles` prop** - All 5 complex components accept a `styles` object for inner-element theming (see `docs/DUAL_USE_GUIDE.md`)
 - **colorHash utility** - Deterministic player color generation from names
 - **Storybook 8** - Interactive component documentation
 - **Inline styles** - Components use inline styles via a shared `src/utils/theme.ts` token file. No Tailwind required — components render correctly with zero consumer setup
@@ -38,7 +39,9 @@ src/
 │   ├── usePlayer.ts                  - Player data and derived state
 │   ├── usePhase.ts                   - Current phase tracking
 │   ├── useBonfireEvent.ts            - Custom event subscription
-│   └── useTurn.ts                    - Turn-based game helper (isMyTurn, currentPlayer)
+│   ├── useTurn.ts                    - Turn-based game helper (isMyTurn, currentPlayer)
+│   ├── useLobby.ts                   - Headless Lobby logic (roomCode, players, canStart, handlers)
+│   └── useResponseInput.ts           - Headless ResponseInput logic (value, canSubmit, rankingOps)
 ├── components/
 │   ├── BonfireErrorBoundary.tsx      - Error boundary component
 │   ├── Lobby.tsx                     - Pre-built lobby screen (room code, players, start)

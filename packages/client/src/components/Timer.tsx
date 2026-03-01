@@ -16,6 +16,11 @@ export interface TimerProps {
   className?: string;
   /** Inline styles for the root element */
   style?: React.CSSProperties;
+  /** Inline styles for inner elements */
+  styles?: {
+    ring?: React.CSSProperties;
+    timeText?: React.CSSProperties;
+  };
   /** Auto-start timer on mount */
   autoStart?: boolean;
 }
@@ -44,6 +49,7 @@ export const Timer: React.FC<TimerProps> = ({
   size = 'md',
   className = '',
   style,
+  styles = {},
   autoStart = true,
 }) => {
   const [timeLeft, setTimeLeft] = useState(duration);
@@ -109,7 +115,7 @@ export const Timer: React.FC<TimerProps> = ({
     >
       {showProgress && (
         <svg
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', transform: 'rotate(-90deg)' }}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', transform: 'rotate(-90deg)', ...styles.ring }}
           viewBox={`0 0 ${r * 2 + 8} ${r * 2 + 8}`}
         >
           {/* Background circle */}
@@ -137,7 +143,7 @@ export const Timer: React.FC<TimerProps> = ({
         </svg>
       )}
 
-      <span style={{ fontWeight: 700, color: variantColors[currentVariant], position: 'relative', zIndex: 1 }}>
+      <span style={{ fontWeight: 700, color: variantColors[currentVariant], position: 'relative', zIndex: 1, ...styles.timeText }}>
         {displayTime}
       </span>
     </div>

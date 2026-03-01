@@ -1,33 +1,43 @@
 # IN-PROGRESS - Bonfire
 
-**Last Updated:** February 28, 2026 (UI components converted to inline styles)
+**Last Updated:** February 28, 2026 (Milestone 7 complete — dual-use architecture)
 
 ---
 
 ## Current Work
 
-### Milestone 6 - First Game: Intimacy Ladder v2 (IN PROGRESS)
-- Status: 🟡 In Progress — scaffolding done, implementation next
-- Goal: Build a complete game using the framework to validate abstractions
-- Location: `~/Documents/Programs/LOIV2/` (standalone project)
+### Milestone 8 - Second Game: Validation (PENDING)
+- Status: 🔴 Not Started
+- Goal: Build a different game type to prove framework flexibility
+- Milestone 7 is a prerequisite: framework now ready for Game 2 with zero workarounds
 
 ---
 
 ## Active Plan
 
-LOIV2 is a standalone project that consumes Bonfire as a dependency via local `file:` references.
-It has its own `CLAUDE.md`, `IN-PROGRESS.md`, and `docs/` with everything needed for implementation.
+No active plan — Milestone 7 just completed. Start Milestone 8 by choosing a game concept.
 
-**Next implementation steps (work in LOIV2):**
-1. Implement `IntimacyLadderGame` in `LOIV2/server/src/game.ts`
-2. Wire up `SocketServer` in `LOIV2/server/src/index.ts`
-3. Build React screens in `LOIV2/client/src/screens/`
+**Options for Game 2:**
+- Two Truths and a Lie — simple, different mechanic from LOIV2
+- Values Alignment — voting-heavy, good stress test for VotingInterface
+- Hot Takes — opinion-based, good use of ResponseInput + RevealPhase
 
 ---
 
 ## Recently Completed
 
-1. **Convert UI components to inline styles** (Feb 28, 2026)
+1. **Milestone 7 - Dual-Use Architecture** (Feb 28, 2026)
+   - ✅ `useLobby()` headless hook — all Lobby logic, 15 tests
+   - ✅ `useResponseInput()` headless hook — all ResponseInput logic, rankingOps, 23 tests
+   - ✅ `<Lobby>` and `<ResponseInput>` refactored as thin wrappers
+   - ✅ `styles` prop map added to 5 components (PromptCard, Lobby, PlayerAvatar, Timer, VotingInterface)
+   - ✅ `transitionPhase()` error now lists valid phases
+   - ✅ Dev-mode warning when `onGameStart()` returns without `transitionPhase()`
+   - ✅ `createRoom()` / `joinRoom()` timeout — returns `{ success: false }` after 10s
+   - ✅ `docs/DUAL_USE_GUIDE.md` — all three patterns documented with full examples
+   - ✅ 242 client tests, 131 core tests — all passing
+
+2. **Convert UI components to inline styles** (Feb 28, 2026)
    - ✅ New `src/utils/theme.ts` — shared color, radius, and shadow constants used by all 8 UI components
    - ✅ All 8 components (PlayerAvatar, PromptCard, Timer, ResponseInput, Lobby, GameProgress, RevealPhase, VotingInterface) migrated from Tailwind utility classes to inline styles
    - ✅ Zero external CSS dependencies — consumers no longer need Tailwind installed or configured
@@ -108,14 +118,12 @@ _No active blockers. See `docs/KNOWN_ISSUES.md` for the canonical issue tracker.
 
 ## Next Steps
 
-1. **Short-term (Next Sprint — Milestone 6):**
-   - Implement `IntimacyLadderGame` class in `LOIV2/server/src/game.ts`
-   - Wire up `SocketServer` in `LOIV2/server/src/index.ts`
-   - Build React screens in `LOIV2/client/src/screens/`
+1. **Short-term (Next Sprint — Milestone 8):**
+   - Choose Game 2 concept (see options in Active Plan)
+   - Scaffold standalone project like LOIV2
+   - Build using framework with zero modifications — prove it works
 
-2. **Medium-term (Milestone 7+):**
-   - Framework refinement based on Intimacy Ladder experience
-   - Build second game to prove framework flexibility
+2. **Medium-term (Milestone 9+):**
    - CLI tool (`create-bonfire-game`) for scaffolding new games
    - Documentation site (Docusaurus/VitePress)
 

@@ -8,7 +8,32 @@ Active bugs and framework gaps discovered during development.
 
 ## Active Issues
 
-_No active issues. All known blockers have been resolved._
+### Component business logic has no standalone headless hooks
+
+**Severity:** Medium — affects game devs who want custom UI but don't want to re-derive framework-managed logic
+
+**Discovered:** February 28, 2026 — during LOIV2 dual-use architecture review
+
+**Affected components:**
+
+| Component | Logic trapped inside | Missing hook |
+|---|---|---|
+| `<Lobby>` | `canStart = isHost && players.length >= minPlayers`, reads `minPlayers`/`maxPlayers` from `state.metadata.config`, room code clipboard handling, `isStarting` state | `useLobby()` |
+| `<ResponseInput>` | Text validation, ranking `moveUp`/`moveDown`/`add`/`remove`, multi-select toggle, character counter | `useResponseInput(config)` |
+
+**Impact:** A game dev who wants a fully custom-styled lobby (different font, colors, layout) can use `useGameState()` / `usePlayer()` / `useRoom()` for game state, but still has to manually re-derive `canStart`, `minPlayers`, and `roomCode` — logic the framework already knows. The same applies to any input form that wants custom UI around `<ResponseInput>`'s ranking/validation logic.
+
+**Current workaround:** Re-implement the logic in the consuming game (as LOIV2 does).
+
+**Fix needed:** Extract standalone hooks:
+```typescript
+// useLobby — expose all lobby logic without the UI
+const { roomCode, canStart, minPlayers, maxPlayers, isStarting, handleCopyCode, handleStart, copied } = useLobby();
+
+// useResponseInput — expose all input logic without the UI
+const { value, handleChange, canSubmit, reset, rankingOps } = useResponseInput(config);
+```
+Then `<Lobby>` and `<ResponseInput>` become thin wrappers over these hooks. Tracked in **Milestone 7, Phase 1**.
 
 ---
 

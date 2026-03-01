@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useResponseInput } from '../hooks/useResponseInput';
 import { C, radius } from '../utils/theme';
 
 // ---- Types ----
@@ -206,30 +207,16 @@ const MultipleChoiceInput: React.FC<MultipleChoiceInputProps> = ({ config, value
 interface RankingInputProps {
   config: RankingConfig;
   value: string[];
-  onChange: (v: string[]) => void;
+  onMoveUp: (index: number) => void;
+  onMoveDown: (index: number) => void;
+  onAdd: (id: string) => void;
+  onRemove: (id: string) => void;
   disabled: boolean;
 }
 
-const RankingInput: React.FC<RankingInputProps> = ({ config, value, onChange, disabled }) => {
+const RankingInput: React.FC<RankingInputProps> = ({ config, value, onMoveUp, onMoveDown, onAdd, onRemove, disabled }) => {
   const ranked = value.map((id) => config.items.find((i) => i.id === id)).filter(Boolean) as Choice[];
   const unranked = config.items.filter((i) => !value.includes(i.id));
-
-  const moveUp = (index: number) => {
-    if (index === 0) return;
-    const next = [...value];
-    [next[index - 1], next[index]] = [next[index], next[index - 1]];
-    onChange(next);
-  };
-
-  const moveDown = (index: number) => {
-    if (index === value.length - 1) return;
-    const next = [...value];
-    [next[index], next[index + 1]] = [next[index + 1], next[index]];
-    onChange(next);
-  };
-
-  const addToRanking = (id: string) => onChange([...value, id]);
-  const removeFromRanking = (id: string) => onChange(value.filter((v) => v !== id));
 
   const ctrlBtn: React.CSSProperties = {
     padding: '0.25rem',
@@ -280,7 +267,7 @@ const RankingInput: React.FC<RankingInputProps> = ({ config, value, onChange, di
               <div style={{ display: 'flex', gap: '0.25rem' }}>
                 <button
                   type="button"
-                  onClick={() => moveUp(index)}
+                  onClick={() => onMoveUp(index)}
                   disabled={disabled || index === 0}
                   aria-label={`Move ${item.label} up`}
                   style={{ ...ctrlBtn, opacity: disabled || index === 0 ? 0.3 : 1 }}
@@ -291,7 +278,7 @@ const RankingInput: React.FC<RankingInputProps> = ({ config, value, onChange, di
                 </button>
                 <button
                   type="button"
-                  onClick={() => moveDown(index)}
+                  onClick={() => onMoveDown(index)}
                   disabled={disabled || index === ranked.length - 1}
                   aria-label={`Move ${item.label} down`}
                   style={{ ...ctrlBtn, opacity: disabled || index === ranked.length - 1 ? 0.3 : 1 }}
@@ -302,7 +289,7 @@ const RankingInput: React.FC<RankingInputProps> = ({ config, value, onChange, di
                 </button>
                 <button
                   type="button"
-                  onClick={() => removeFromRanking(item.id)}
+                  onClick={() => onRemove(item.id)}
                   disabled={disabled}
                   aria-label={`Remove ${item.label} from ranking`}
                   style={{ ...ctrlBtn, opacity: disabled ? 0.3 : 1 }}
@@ -326,7 +313,7 @@ const RankingInput: React.FC<RankingInputProps> = ({ config, value, onChange, di
             <button
               key={item.id}
               type="button"
-              onClick={() => !disabled && addToRanking(item.id)}
+              onClick={() => !disabled && onAdd(item.id)}
               disabled={disabled}
               aria-label={`Add ${item.label} to ranking`}
               style={{
@@ -364,6 +351,8 @@ const RankingInput: React.FC<RankingInputProps> = ({ config, value, onChange, di
 /**
  * Polymorphic input component for collecting player responses.
  * Supports text, multiple-choice (single or multi-select), and ranking modes.
+ *
+ * For custom UI with the same logic, use the `useResponseInput()` hook directly.
  */
 export const ResponseInput: React.FC<ResponseInputProps> = ({
   config,
@@ -378,28 +367,20 @@ export const ResponseInput: React.FC<ResponseInputProps> = ({
 }) => {
   const [submitHovered, setSubmitHovered] = useState(false);
 
-  const isText = config.type === 'text';
-  const internalValue: string | string[] = value ?? (isText ? '' : []);
-
-  const handleChange = (v: string | string[]) => onChange?.(v);
-  const handleSubmit = () => {
-    if (internalValue !== '' || (Array.isArray(internalValue) && internalValue.length > 0)) {
-      onSubmit?.(internalValue);
-    }
-  };
-
-  const canSubmit = isText
-    ? (internalValue as string).trim().length > 0
-    : (internalValue as string[]).length > 0;
-
-  const submitActive = canSubmit && !disabled;
+  const {
+    value: resolvedValue,
+    canSubmit,
+    handleChange,
+    handleSubmit,
+    rankingOps,
+  } = useResponseInput({ config, value, onChange, onSubmit, disabled });
 
   return (
     <div className={className} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', ...style }}>
       {config.type === 'text' && (
         <TextInput
           config={config}
-          value={internalValue as string}
+          value={resolvedValue as string}
           onChange={(v) => handleChange(v)}
           onSubmit={handleSubmit}
           disabled={disabled}
@@ -409,7 +390,7 @@ export const ResponseInput: React.FC<ResponseInputProps> = ({
       {config.type === 'multiple-choice' && (
         <MultipleChoiceInput
           config={config}
-          value={internalValue as string[]}
+          value={resolvedValue as string[]}
           onChange={(v) => handleChange(v)}
           disabled={disabled}
         />
@@ -418,8 +399,11 @@ export const ResponseInput: React.FC<ResponseInputProps> = ({
       {config.type === 'ranking' && (
         <RankingInput
           config={config}
-          value={internalValue as string[]}
-          onChange={(v) => handleChange(v)}
+          value={resolvedValue as string[]}
+          onMoveUp={rankingOps.moveUp}
+          onMoveDown={rankingOps.moveDown}
+          onAdd={rankingOps.add}
+          onRemove={rankingOps.remove}
           disabled={disabled}
         />
       )}
@@ -428,7 +412,7 @@ export const ResponseInput: React.FC<ResponseInputProps> = ({
         <button
           type="button"
           onClick={handleSubmit}
-          disabled={!submitActive}
+          disabled={!canSubmit || disabled}
           onMouseEnter={() => setSubmitHovered(true)}
           onMouseLeave={() => setSubmitHovered(false)}
           style={{
@@ -440,9 +424,9 @@ export const ResponseInput: React.FC<ResponseInputProps> = ({
             fontSize: '1rem',
             fontFamily: 'inherit',
             transition: 'all 0.15s ease',
-            cursor: submitActive ? 'pointer' : 'not-allowed',
-            backgroundColor: submitActive ? (submitHovered ? C.indigo600 : C.indigo500) : C.gray200,
-            color: submitActive ? C.white : C.gray400,
+            cursor: canSubmit && !disabled ? 'pointer' : 'not-allowed',
+            backgroundColor: canSubmit && !disabled ? (submitHovered ? C.indigo600 : C.indigo500) : C.gray200,
+            color: canSubmit && !disabled ? C.white : C.gray400,
           }}
           aria-label="Submit response"
         >
