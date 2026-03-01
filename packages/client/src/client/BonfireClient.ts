@@ -29,7 +29,7 @@ type Listener<T> = (data: T) => void;
 const SOCKET_ACK_TIMEOUT_MS = 10_000;
 
 /** Wraps a socket.emit acknowledgement with a timeout, resolving with a failure response if the server never calls back */
-function withTimeout<T extends { success: false; error: string }>(
+function withTimeout<T>(
   emitFn: (resolve: (response: T) => void) => void,
   fallbackError: string
 ): Promise<T> {
@@ -38,7 +38,7 @@ function withTimeout<T extends { success: false; error: string }>(
     const timer = setTimeout(() => {
       if (!settled) {
         settled = true;
-        resolve({ success: false, error: fallbackError } as T);
+        resolve({ success: false, error: fallbackError } as unknown as T);
       }
     }, SOCKET_ACK_TIMEOUT_MS);
 
