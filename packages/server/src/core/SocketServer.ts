@@ -23,7 +23,7 @@ import type {
   RoomReconnectResponse,
 } from '../types'
 import type { IDatabaseAdapter } from '../database/IDatabaseAdapter'
-import type { SocialGame, PlayerId, RoomId } from '@bonfire/core'
+import type { SocialGame, PlayerId, RoomId, GameState } from '@bonfire/core'
 import { RoomManager, type GameFactory } from './RoomManager'
 import {
   ServerError,
@@ -615,7 +615,7 @@ export class SocketServer<T extends SocialGame<any> = SocialGame<any>> {
 
       await this.roomManager.updateActivity(roomId)
 
-      callback({ success: true, state: room.game.getState(), playerId })
+      callback({ success: true, state: room.game.getState() as GameState, playerId })
     } catch (error) {
       this.handleError(socket, error, callback)
     }
