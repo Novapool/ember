@@ -13,6 +13,10 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import type { GameState } from '@bonfire/core'
 import { createTestServer, type TestServerSetup } from './fixtures/testServer'
 import { createTestClient, connectClient, disconnectClient, waitForEvent, type TestSocket } from './fixtures/socketClient'
+import { SocketServer } from '../../src/core/SocketServer'
+import { InMemoryAdapter } from '../../src/database/InMemoryAdapter'
+import { createTestGame } from '../helpers/testGame'
+import type { ServerConfig } from '../../src/types'
 
 describe('Room Lifecycle Integration', () => {
   let testSetup: TestServerSetup
@@ -239,5 +243,107 @@ describe('Room Lifecycle Integration', () => {
     expect(response.code).toBe('NOT_IN_ROOM')
 
     await disconnectClient(client)
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Max-rooms limit
+// ---------------------------------------------------------------------------
+
+describe('Max-rooms limit Integration', () => {
+  it('returns an error when room limit is reached', async () => {
+    const config: ServerConfig = {
+      port: 0,
+      nodeEnv: 'test',
+      room: { maxRooms: 2 },
+      cors: { origin: '*' },
+    }
+    const adapter = new InMemoryAdapter()
+    const server = new SocketServer(config, adapter, createTestGame, 'test-game')
+    await server.start()
+    await new Promise((resolve) => setTimeout(resolve, 100))
+    const address = server.getHttpServer().address() as { port: number }
+    const testPort = address.port
+
+    const clients: TestSocket[] = []
+    try {
+      // Fill up to the limit
+      for (let i = 0; i < 2; i++) {
+        const c = createTestClient(testPort)
+        await connectClient(c)
+        clients.push(c)
+        const res = await new Promise<any>((resolve) => {
+          c.emit('room:create', 'test-game', `Host${i}`, resolve)
+        })
+        expect(res.success).toBe(true)
+      }
+
+      // Third room creation should fail
+      const extra = createTestClient(testPort)
+      await connectClient(extra)
+      clients.push(extra)
+
+      const overLimitRes = await new Promise<any>((resolve) => {
+        extra.emit('room:create', 'test-game', 'HostOver', resolve)
+      })
+
+      expect(overLimitRes.success).toBe(false)
+      expect(overLimitRes.error).toBeDefined()
+    } finally {
+      for (const c of clients) {
+        await disconnectClient(c)
+      }
+      await server.shutdown()
+    }
+  })
+})
+
+// ---------------------------------------------------------------------------
+// CORS array-origin behaviour
+// ---------------------------------------------------------------------------
+
+describe('CORS array-origin configuration', () => {
+  it('sets the first array entry as Access-Control-Allow-Origin on all requests', async () => {
+    const allowedOrigins = ['http://localhost:3000', 'http://localhost:4000']
+    const config: ServerConfig = {
+      port: 0,
+      nodeEnv: 'test',
+      cors: { origin: allowedOrigins },
+    }
+    const adapter = new InMemoryAdapter()
+    const server = new SocketServer(config, adapter, createTestGame, 'test-game')
+    await server.start()
+    await new Promise((resolve) => setTimeout(resolve, 100))
+    const address = server.getHttpServer().address() as { port: number }
+    const testPort = address.port
+
+    try {
+      const response = await fetch(`http://localhost:${testPort}/health`)
+      // Current implementation returns origin[0] for all requests regardless of request origin
+      expect(response.headers.get('Access-Control-Allow-Origin')).toBe(allowedOrigins[0])
+    } finally {
+      await server.shutdown()
+    }
+  })
+
+  it('sets a string origin as Access-Control-Allow-Origin', async () => {
+    const config: ServerConfig = {
+      port: 0,
+      nodeEnv: 'test',
+      cors: { origin: 'http://myapp.example.com' },
+    }
+    const adapter = new InMemoryAdapter()
+    const server = new SocketServer(config, adapter, createTestGame, 'test-game')
+    await server.start()
+    await new Promise((resolve) => setTimeout(resolve, 100))
+    const address = server.getHttpServer().address() as { port: number }
+    const testPort = address.port
+
+    try {
+      const response = await fetch(`http://localhost:${testPort}/health`)
+      expect(response.headers.get('Access-Control-Allow-Origin')).toBe('http://myapp.example.com')
+    } finally {
+      await server.shutdown()
+    }
   })
 })

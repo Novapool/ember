@@ -246,3 +246,62 @@ describe('Integration: Full Game Lifecycle', () => {
     expect(eventHandler).not.toHaveBeenCalled();
   });
 });
+
+describe('Integration: allowJoinInProgress', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('allows players to join after game starts when allowJoinInProgress is true', async () => {
+    const synchronizer = new MockStateSynchronizer<GameState>();
+    const initialState = createTestState();
+    const game = new TestGame(
+      'open-room',
+      initialState,
+      { allowJoinInProgress: true },
+      synchronizer
+    );
+
+    const host = createTestPlayer({ id: 'host', isHost: true });
+    const p2 = createTestPlayer({ id: 'p2' });
+    await game.joinPlayer(host);
+    await game.joinPlayer(p2);
+
+    const startResult = await game.startGame();
+    expect(startResult.success).toBe(true);
+    expect(game.getRoomStatus()).toBe('playing');
+
+    // A third player joins mid-game
+    const p3 = createTestPlayer({ id: 'p3', name: 'Late Joiner' });
+    const joinResult = await game.joinPlayer(p3);
+    expect(joinResult.success).toBe(true);
+    expect(game.getPlayers()).toHaveLength(3);
+    expect(game.getPlayer('p3')).toBeDefined();
+
+    await game.closeRoom();
+  });
+
+  it('rejects mid-game joins when allowJoinInProgress is false (default)', async () => {
+    const synchronizer = new MockStateSynchronizer<GameState>();
+    const initialState = createTestState();
+    const game = new TestGame(
+      'closed-room',
+      initialState,
+      { allowJoinInProgress: false },
+      synchronizer
+    );
+
+    const host = createTestPlayer({ id: 'host', isHost: true });
+    const p2 = createTestPlayer({ id: 'p2' });
+    await game.joinPlayer(host);
+    await game.joinPlayer(p2);
+    await game.startGame();
+
+    const p3 = createTestPlayer({ id: 'p3' });
+    const joinResult = await game.joinPlayer(p3);
+    expect(joinResult.success).toBe(false);
+    expect(game.getPlayers()).toHaveLength(2);
+
+    await game.closeRoom();
+  });
+});

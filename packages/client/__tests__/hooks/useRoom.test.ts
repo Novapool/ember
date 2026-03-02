@@ -72,3 +72,48 @@ describe('useRoom', () => {
     expect(client.sendAction).toHaveBeenCalledWith('answer', { text: 'hello' });
   });
 });
+
+describe('useRoom — reactive state', () => {
+  it('starts with roomId=null and isInRoom=false', () => {
+    const { result } = renderWithProvider(() => useRoom());
+    expect(result.current.roomId).toBeNull();
+    expect(result.current.isInRoom).toBe(false);
+  });
+
+  it('roomId and isInRoom update after createRoom', async () => {
+    const client = new MockBonfireClient();
+    const { result } = renderWithProvider(() => useRoom(), client);
+
+    expect(result.current.roomId).toBeNull();
+    expect(result.current.isInRoom).toBe(false);
+
+    await act(async () => {
+      await result.current.createRoom('trivia', 'Alice');
+    });
+
+    expect(result.current.roomId).toBe('ABCDEF');
+    expect(result.current.isInRoom).toBe(true);
+  });
+
+  it('roomId and isInRoom update after joinRoom', async () => {
+    const client = new MockBonfireClient();
+    const { result } = renderWithProvider(() => useRoom(), client);
+
+    await act(async () => {
+      await result.current.joinRoom('ROOM99', 'Bob');
+    });
+
+    expect(result.current.roomId).toBe('ROOM99');
+    expect(result.current.isInRoom).toBe(true);
+  });
+
+  it('reflects a pre-existing roomId on initial render', () => {
+    const client = new MockBonfireClient();
+    client.setRoomId('PRESET');
+
+    const { result } = renderWithProvider(() => useRoom(), client);
+
+    expect(result.current.roomId).toBe('PRESET');
+    expect(result.current.isInRoom).toBe(true);
+  });
+});
