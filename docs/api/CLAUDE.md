@@ -16,6 +16,6 @@ Integration guides and endpoint documentation for Bonfire services.
 
 As the project grows, additional API documentation will be added here:
 
-- **POSTGRESQL.md** - PostgreSQL adapter setup and configuration (Milestone 7+)
+- **POSTGRESQL.md** - PostgreSQL adapter setup and configuration (Bonus: Migration to Railway milestone)
 - **WEBHOOKS.md** - Webhook integration for external services (future)
 - **ANALYTICS.md** - Analytics and monitoring integration (future)

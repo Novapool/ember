@@ -10,6 +10,7 @@ Milestone 4: Client Library ✅ Complete (Feb 9, 2026)
 Milestone 5: UI Component Library ✅ Complete (Feb 12, 2026)
 Milestone 6: First Game - Intimacy Ladder v2 ✅ Complete (Feb 28, 2026)
 Milestone 7: Dual-Use Architecture ✅ Complete (Feb 28, 2026)
+Milestone 7.5: Session & Timer Improvements ✅ Complete (Mar 1, 2026)
 **Next:** Milestone 8: Second Game - Validation 🔵
 
 ## Documentation
@@ -57,7 +58,7 @@ bonfire/
 ## Tech Stack
 
 - **Language:** TypeScript
-- **Monorepo:** npm workspaces or Turborepo (TBD)
+- **Monorepo:** npm workspaces (chosen over Turborepo for simplicity — see MILESTONES.md notes)
 - **Realtime:** Socket.io
 - **Frontend:** React
 - **Backend (MVP):** Firebase Realtime Database

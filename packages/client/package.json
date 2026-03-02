@@ -15,7 +15,7 @@
     "build": "npm run build:css && tsc",
     "build:css": "npx postcss ./src/styles/tailwind.css -o ./dist/styles.css",
     "dev": "npm run build:css -- --watch",
-    "test": "vitest",
+    "test": "vitest run",
     "test:coverage": "vitest --coverage",
     "lint": "echo \"Linting coming soon\"",
     "storybook": "storybook dev -p 6006",

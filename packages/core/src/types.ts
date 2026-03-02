@@ -37,6 +37,7 @@ export interface GameState {
   currentTurnIndex?: number;
   startedAt?: number;
   endedAt?: number;
+  timerEndsAt?: number;  // Unix ms timestamp when the current turn timer expires
   metadata?: Record<string, unknown>;
 }
 

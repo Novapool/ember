@@ -17,6 +17,8 @@ export { useLobby } from './hooks/useLobby';
 export type { UseLobbyOptions, UseLobbyReturn } from './hooks/useLobby';
 export { useResponseInput } from './hooks/useResponseInput';
 export type { UseResponseInputOptions, UseResponseInputReturn, RankingOps } from './hooks/useResponseInput';
+export { useCountdown } from './hooks/useCountdown';
+export { useSession } from './hooks/useSession';
 
 // ---- Components ----
 export { BonfireErrorBoundary } from './components/BonfireErrorBoundary';

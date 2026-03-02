@@ -327,7 +327,7 @@ export abstract class SocialGame<TState extends GameState = GameState> extends G
       await this.onGameStart();
 
       // Dev warning: onGameStart() returned without calling transitionPhase()
-      if (process.env.NODE_ENV !== 'production' && this.state.phase === phaseBeforeStart) {
+      if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test' && this.state.phase === phaseBeforeStart) {
         console.warn(
           `[Bonfire] onGameStart() returned but the phase is still "${phaseBeforeStart}". ` +
           `Did you forget to call transitionPhase()? ` +

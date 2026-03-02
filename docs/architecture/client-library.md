@@ -21,14 +21,14 @@ Hooks (useGameState, useRoom, usePlayer, usePhase, useConnection, useBonfireEven
 Plain TypeScript class (no React dependency) that manages the socket connection. Can be used without React.
 
 **Promise-based methods** (wrap Socket.io callback acknowledgments):
-- `createRoom(gameType, hostName)` → `RoomCreateResponse` — saves session to sessionStorage
-- `joinRoom(roomId, playerName)` → `RoomJoinResponse` — saves session to sessionStorage
+- `createRoom(gameType, hostName)` → `RoomCreateResponse` — saves session to localStorage
+- `joinRoom(roomId, playerName)` → `RoomJoinResponse` — saves session to localStorage
 - `leaveRoom()` → `BaseResponse` — clears saved session
 - `reconnectToRoom(roomId, playerId)` → `RoomReconnectResponse` — emits `room:reconnect`, restores state
 - `startGame()` → `BaseResponse`
 - `sendAction(actionType: string, payload: unknown)` → `ActionResponse` — **two args, not one object**
 - `requestState()` → `StateResponse`
-- `loadSession()` → `{ roomId, playerId } | null` — reads from sessionStorage for page-refresh reconnect
+- `loadSession()` → `{ roomId, playerId } | null` — reads from localStorage for page-refresh reconnect
 
 **Subscription API** (each returns an unsubscribe function):
 - `onStateChange(listener)` — fired on `state:update` and `state:sync` from server
@@ -45,7 +45,7 @@ Plain TypeScript class (no React dependency) that manages the socket connection.
 React context provider that wraps the app tree.
 
 - Accepts `client` (pre-created) **or** `config` (creates client internally)
-- **Important:** use the `config` prop, not `serverUrl` — `<BonfireProvider config={{ serverUrl: '...' }}>`
+- **Important:** use the `config` prop, not `serverUrl` — `<BonfireProvider config={{ url: '...' }}>`
 - `autoConnect` prop (default: true)
 - Subscribes to client state/status and triggers React re-renders
 - Exposes `useBonfireContext()` internal hook for all public hooks
@@ -61,6 +61,8 @@ React context provider that wraps the app tree.
 | `usePhase()` | `Phase \| null` — returns value directly, **not** `{ phase }` | `useMemo` derived from state |
 | `useBonfireEvent(type, handler)` | `void` | `useEffect` with auto-cleanup |
 | `useTurn()` | `{ isMyTurn, currentPlayerId, currentPlayer, turnIndex }` — requires `currentTurnIndex` in game state | `useMemo` derived from state |
+| `useCountdown(timerEndsAt)` | `number` — seconds remaining (≥ 0), synchronized to absolute timestamp so all clients agree | `useState` + `useEffect` interval |
+| `useSession()` | `{ isRestoring, restored, failed }` — auto-restores saved session on mount; `isRestoring` starts true when a session exists (prevents landing-screen flash) | `useState` + `useEffect` on connection status |
 
 ### Why `useSyncExternalStore`
 
@@ -77,7 +79,7 @@ The client package **does not depend on `@bonfire/server`**. Server response typ
 
 - **MockBonfireClient** (`__tests__/fixtures/mockBonfireClient.ts`) — Test double with `simulate*` methods
 - **renderWithProvider** (`__tests__/fixtures/renderWithProvider.tsx`) — Helper wrapping `renderHook` with BonfireProvider
-- 205 tests total, all passing (hooks at 100% coverage, BonfireClient at 97.4%)
+- 242 tests total, all passing (hooks at 100% coverage, BonfireClient at 97.4%)
 
 ---
 
@@ -288,7 +290,9 @@ packages/client/
 │   │   ├── usePlayer.ts
 │   │   ├── usePhase.ts
 │   │   ├── useBonfireEvent.ts
-│   │   └── useTurn.ts              # Turn-based game helper
+│   │   ├── useTurn.ts              # Turn-based game helper
+│   │   ├── useCountdown.ts         # Synchronized countdown timer (pairs with state.timerEndsAt)
+│   │   └── useSession.ts           # Page-refresh reconnect automation
 │   ├── components/
 │   │   ├── BonfireErrorBoundary.tsx
 │   │   ├── Lobby.tsx               # Pre-built lobby screen

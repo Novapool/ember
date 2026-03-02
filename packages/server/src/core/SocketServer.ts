@@ -766,8 +766,6 @@ export class SocketServer<T extends SocialGame<any> = SocialGame<any>> {
     error: unknown,
     callback?: (response: any) => void
   ): void {
-    console.error('Socket error:', error)
-
     if (error instanceof ServerError) {
       callback?.({
         success: false,

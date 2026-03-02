@@ -183,10 +183,10 @@ export class BonfireClient {
     });
   }
 
-  /** Read a previously saved session from sessionStorage. Returns null if missing or malformed. */
+  /** Read a previously saved session from localStorage. Returns null if missing or malformed. */
   loadSession(): { roomId: RoomId; playerId: PlayerId } | null {
     try {
-      const raw = sessionStorage.getItem('bonfire_session');
+      const raw = localStorage.getItem('bonfire_session');
       if (!raw) return null;
       const parsed = JSON.parse(raw) as unknown;
       if (
@@ -208,17 +208,17 @@ export class BonfireClient {
   private saveSession(roomId: RoomId, playerId: PlayerId | null): void {
     if (!playerId) return;
     try {
-      sessionStorage.setItem('bonfire_session', JSON.stringify({ roomId, playerId }));
+      localStorage.setItem('bonfire_session', JSON.stringify({ roomId, playerId }));
     } catch {
-      // sessionStorage may be unavailable (e.g., tests)
+      // localStorage may be unavailable (e.g., tests)
     }
   }
 
   private clearSession(): void {
     try {
-      sessionStorage.removeItem('bonfire_session');
+      localStorage.removeItem('bonfire_session');
     } catch {
-      // sessionStorage may be unavailable
+      // localStorage may be unavailable
     }
   }
 

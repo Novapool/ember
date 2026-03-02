@@ -170,7 +170,7 @@ All server infrastructure is now production-ready:
 - ✅ Phase 3: Socket.io Integration (SocketServer, event handlers, integration tests)
 - ✅ Phase 4: Firebase Integration (FirebaseAdapter, emulator, production setup)
 
-**Current:** Milestone 6 - First Game (Intimacy Ladder v2) is in progress
+**Current:** Milestone 8 - Second Game (Validation) — framework ready, game not started
 
 ---
 

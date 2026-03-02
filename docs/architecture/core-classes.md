@@ -57,6 +57,7 @@ Game (abstract base)
    - `protected updateState(updater)` - Update game-specific state fields
    - `protected broadcastEvent(type, payload)` - Push custom game events to all clients (e.g. `question_revealed`, `round_ended`)
    - Base `GameState` includes `playerOrder?: PlayerId[]` for turn-based games
+   - Base `GameState` includes `timerEndsAt?: number` — Unix ms timestamp when the current turn timer expires; pair with `useCountdown(state.timerEndsAt)` on the client for synchronized countdowns across all players
 
 **Extension Pattern:**
 

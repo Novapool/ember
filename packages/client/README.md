@@ -2,7 +2,7 @@
 
 React hooks and utilities for building Bonfire party game UIs.
 
-**Status:** Milestone 4 Complete + Milestone 5 UI Components Complete - 205 tests, all passing
+**Status:** Milestone 4 + 5 + 6 + 7 Complete — 242 tests, all passing
 
 ---
 
@@ -10,7 +10,7 @@ React hooks and utilities for building Bonfire party game UIs.
 
 - **BonfireClient** - Promise-based Socket.io wrapper with subscription model
 - **BonfireProvider** - React context provider with auto-connect/cleanup
-- **7 React hooks** - Type-safe hooks for state, connection, room, player, phase, events, and turn management
+- **11 React hooks** - Type-safe hooks for state, connection, room, player, phase, events, turn management, countdown timers, and session restoration
 - **BonfireErrorBoundary** - Error boundary component for graceful error handling
 - **8 UI components** - Lobby, PlayerAvatar, Timer, PromptCard, ResponseInput, RevealPhase, GameProgress, VotingInterface
 - **colorHash utility** - Deterministic player color generation
@@ -162,7 +162,7 @@ await client.joinRoom(roomId: string, playerName: string): Promise<RoomJoinRespo
 await client.leaveRoom(): Promise<BaseResponse>
 await client.reconnectToRoom(roomId: string, playerId: string): Promise<RoomReconnectResponse>
 
-// Session persistence (sessionStorage)
+// Session persistence (localStorage)
 client.loadSession(): { roomId: string; playerId: string } | null
 
 // Game Actions
@@ -515,9 +515,66 @@ function TurnIndicator() {
 
 ---
 
+#### useCountdown()
+
+Synchronized countdown timer. All clients show the same remaining time regardless of when they mounted, because the hook computes remaining time from an absolute timestamp rather than counting down from mount.
+
+```typescript
+function useCountdown(timerEndsAt: number | null | undefined): number
+// Returns seconds remaining (integer, ≥ 0). Returns 0 when expired or timerEndsAt is falsy.
+```
+
+**Example:**
+
+```tsx
+function TurnTimer() {
+  const { state } = useGameState();
+  const secondsLeft = useCountdown(state?.timerEndsAt);
+
+  return <div>{secondsLeft}s remaining</div>;
+}
+```
+
+**How it works:** The server sets `state.timerEndsAt = Date.now() + durationMs` when a turn starts. Each client calls `useCountdown(state.timerEndsAt)` and derives remaining seconds from the same absolute timestamp — so all clients count down in sync.
+
+---
+
+#### useSession()
+
+Automatically restores a saved Bonfire session on mount. Handles the page-refresh reconnect flow without manual wiring.
+
+```typescript
+function useSession(): {
+  isRestoring: boolean;  // true while reconnect attempt is in flight
+  restored: boolean;     // true if reconnect succeeded
+  failed: boolean;       // true if reconnect was attempted but failed (room gone, etc.)
+}
+```
+
+**Example:**
+
+```tsx
+function GameRouter() {
+  const { isRestoring } = useSession();
+  const phase = usePhase();
+
+  // isRestoring starts true when a saved session exists — prevents landing-screen flash
+  if (isRestoring) return <ReconnectingScreen />;
+  if (!phase) return <LandingScreen />;
+
+  if (phase === 'lobby') return <Lobby />;
+  if (phase === 'playing') return <Game />;
+  return null;
+}
+```
+
+**How it works:** On mount, `useSession` checks `localStorage` for a saved session. When the socket connects, it calls `reconnectToRoom` automatically. `isRestoring` is initialized to `true` (not `false`) when a saved session exists — this prevents the landing screen from flashing before the reconnect completes.
+
+---
+
 ### Reconnection (Page Refresh Recovery)
 
-Bonfire automatically saves session data to `sessionStorage` whenever a player creates or joins a room. On page refresh, use `loadSession()` + `reconnectToRoom()` to restore the session:
+Bonfire automatically saves session data to `localStorage` whenever a player creates or joins a room. The recommended approach is to use `useSession()` (above), which handles reconnect automatically. For manual control, use `loadSession()` + `reconnectToRoom()`:
 
 ```tsx
 function App() {
@@ -536,7 +593,7 @@ function App() {
 ```
 
 **How it works:**
-- `createRoom` / `joinRoom` automatically save `{ roomId, playerId }` to `sessionStorage`
+- `createRoom` / `joinRoom` automatically save `{ roomId, playerId }` to `localStorage`
 - `leaveRoom` / `room:closed` automatically clear the saved session
 - `reconnectToRoom` emits `room:reconnect` to the server and restores client state on success
 

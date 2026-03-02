@@ -11,7 +11,7 @@ React hooks and utilities for building Bonfire party game UIs.
 This package provides the client-side React integration for Bonfire games:
 - **BonfireClient** - Socket.io wrapper with Promise-based API and subscription model
 - **BonfireProvider** - React context provider for client access
-- **9 React hooks** - 7 game-state hooks + 2 headless component hooks (`useLobby`, `useResponseInput`)
+- **11 React hooks** - 7 game-state hooks + 2 headless component hooks (`useLobby`, `useResponseInput`) + 2 utility hooks (`useCountdown`, `useSession`)
 - **BonfireErrorBoundary** - Error boundary component for graceful error handling
 - **8 UI components** - Lobby, PlayerAvatar, Timer, PromptCard, ResponseInput, RevealPhase, GameProgress, VotingInterface
 - **`styles` prop** - All 5 complex components accept a `styles` object for inner-element theming (see `docs/DUAL_USE_GUIDE.md`)
@@ -41,7 +41,9 @@ src/
 │   ├── useBonfireEvent.ts            - Custom event subscription
 │   ├── useTurn.ts                    - Turn-based game helper (isMyTurn, currentPlayer)
 │   ├── useLobby.ts                   - Headless Lobby logic (roomCode, players, canStart, handlers)
-│   └── useResponseInput.ts           - Headless ResponseInput logic (value, canSubmit, rankingOps)
+│   ├── useResponseInput.ts           - Headless ResponseInput logic (value, canSubmit, rankingOps)
+│   ├── useCountdown.ts               - Synchronized countdown timer (pairs with state.timerEndsAt)
+│   └── useSession.ts                 - Page-refresh reconnect automation (isRestoring, restored, failed)
 ├── components/
 │   ├── BonfireErrorBoundary.tsx      - Error boundary component
 │   ├── Lobby.tsx                     - Pre-built lobby screen (room code, players, start)

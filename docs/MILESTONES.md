@@ -283,7 +283,7 @@
 
 ---
 
-## Milestone 6: First Game - Intimacy Ladder v2 🟡
+## Milestone 6: First Game - Intimacy Ladder v2 🟢
 
 **Goal:** Build complete game using the framework to validate abstractions
 
@@ -379,6 +379,30 @@ The 7 game-state hooks (useGameState, useRoom, usePlayer, usePhase, useTurn, use
 - **Socket timeout** added to `createRoom()` / `joinRoom()` — resolves with `{ success: false, error: '...' }` after 10s if server never responds
 - **`docs/DUAL_USE_GUIDE.md`** — comprehensive guide covering all three usage patterns with full code examples
 - **242 client tests, 131 core tests — all passing**
+
+---
+
+## Milestone 7.5: Session & Timer Improvements (from LOIV2 M4) 🟢
+
+**Status:** ✅ Complete (March 1, 2026)
+
+**Goal:** Framework improvements discovered while building Intimacy Ladder V2 Milestone 4 (session reconnect, vote-to-skip, timer). These were needed by the game and upstreamed into Bonfire so all future games benefit.
+
+### Tasks
+- [x] 🟢 `localStorage` session persistence — was `sessionStorage`, destroyed on tab close; now survives tab close/reopen
+- [x] 🟢 `timerEndsAt?: number` added to base `GameState` — Unix ms absolute timestamp for synchronized countdowns across all clients
+- [x] 🟢 `useCountdown(timerEndsAt)` hook — returns seconds remaining from Unix ms timestamp; updates every second via `setInterval`; returns 0 when expired or when `timerEndsAt` is `undefined`
+- [x] 🟢 `useSession()` hook — auto-restores saved `localStorage` session on mount; returns `{ isRestoring, restored, failed }`; handles room-expired and player-timed-out failure cases
+- [x] 🟢 `disconnectStrategy` and `disconnectTimeout` added to `GameConfig` — games can now configure disconnect behavior declaratively instead of implementing everything in `onPlayerLeave`
+
+**What Was Built:**
+- **`useSession()` hook** — client-side auto-reconnect with full lifecycle state (`isRestoring`, `restored`, `failed`). Reads `localStorage` session data set by `createRoom`/`joinRoom`, attempts `room:reconnect`, falls back gracefully on failure.
+- **`useCountdown()` hook** — countdown from an absolute Unix ms timestamp. Synchronized across all clients because all clients share the same `timerEndsAt` value from server state.
+- **`timerEndsAt` on base `GameState`** — standard field for games that need timers. Server sets it on entering a timed phase; clients call `useCountdown(state.timerEndsAt)`.
+- **`localStorage` session storage** — session survives tab close, browser restart (within TTL). Previous `sessionStorage` approach caused invisible reconnect failures for any tab close.
+- **`disconnectStrategy` config** — options: `'reconnect-window'` (hold spot), `'transfer-host'` (promote next player), `'close-on-host-leave'`, `'skip-turn'`. Implemented via `PlayerManager` timeout hooks.
+
+**Key learning:** Timer design matters. `timerEndsAt` (absolute timestamp) is correct for multi-client sync. A relative duration (seconds from now) would drift as clients join at different times or state delivery is delayed.
 
 ---
 
@@ -517,11 +541,11 @@ The 7 game-state hooks (useGameState, useRoom, usePlayer, usePhase, useTurn, use
 
 ## Progress Tracking
 
-**Overall Progress:** 7/13 milestones complete (53.8%) — Milestones 6 and 7 complete, Milestone 8 next
+**Overall Progress:** 7.5/13 milestones complete — Milestones 6, 7, and 7.5 complete, Milestone 8 next
 
 **Current Focus:** Milestone 8 - Second Game (validation of framework flexibility)
 
-**Last Updated:** February 28, 2026
+**Last Updated:** March 1, 2026
 
 ---
 
