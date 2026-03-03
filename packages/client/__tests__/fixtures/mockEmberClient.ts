@@ -1,5 +1,5 @@
 /**
- * MockBonfireClient - A test double that mirrors BonfireClient's public API
+ * MockEmberClient - A test double that mirrors EmberClient's public API
  * without creating real sockets.
  *
  * Tests call `simulate*` methods to trigger listener callbacks.
@@ -14,12 +14,12 @@ import type {
   BaseResponse,
   ActionResponse,
   StateResponse,
-  BonfireGameEvent,
+  EmberGameEvent,
 } from '../../src/types';
 
 type Listener<T> = (data: T) => void;
 
-export class MockBonfireClient {
+export class MockEmberClient {
   private _status: ConnectionStatus = 'disconnected';
   private _gameState: GameState | null = null;
   private _playerId: PlayerId | null = null;
@@ -31,7 +31,7 @@ export class MockBonfireClient {
   private eventListeners = new Map<string, Set<Listener<unknown>>>();
   private roomClosedListeners = new Set<Listener<string>>();
 
-  // Getters (same as BonfireClient)
+  // Getters (same as EmberClient)
   get status(): ConnectionStatus {
     return this._status;
   }
@@ -178,7 +178,7 @@ export class MockBonfireClient {
     this.errorListeners.forEach((l) => l(error));
   }
 
-  simulateGameEvent(event: BonfireGameEvent): void {
+  simulateGameEvent(event: EmberGameEvent): void {
     const listeners = this.eventListeners.get(event.type);
     if (listeners) {
       listeners.forEach((l) => l(event.payload));

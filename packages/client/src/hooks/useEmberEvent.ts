@@ -1,20 +1,20 @@
 import { useEffect } from 'react';
-import { useBonfireContext } from '../context/BonfireProvider';
+import { useEmberContext } from '../context/EmberProvider';
 
 /**
  * Subscribe to a specific game event type.
  * Automatically cleans up on unmount or when eventType/handler changes.
  *
  * @example
- * useBonfireEvent<{ player: Player }>('player:joined', (payload) => {
+ * useEmberEvent<{ player: Player }>('player:joined', (payload) => {
  *   toast(`${payload.player.name} joined!`);
  * });
  */
-export function useBonfireEvent<TPayload = unknown>(
+export function useEmberEvent<TPayload = unknown>(
   eventType: string,
   handler: (payload: TPayload) => void
 ): void {
-  const { client } = useBonfireContext();
+  const { client } = useEmberContext();
 
   useEffect(() => {
     const unsubscribe = client.onGameEvent(eventType, handler as (data: unknown) => void);

@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import type { ReactNode, ErrorInfo } from 'react';
 
-interface BonfireErrorBoundaryProps {
+interface EmberErrorBoundaryProps {
   /** Static fallback UI or render function receiving (error, reset) */
   fallback?: ReactNode | ((error: Error, reset: () => void) => ReactNode);
   /** Callback when an error is caught */
@@ -9,34 +9,34 @@ interface BonfireErrorBoundaryProps {
   children: ReactNode;
 }
 
-interface BonfireErrorBoundaryState {
+interface EmberErrorBoundaryState {
   error: Error | null;
 }
 
 /**
- * Error boundary for Bonfire game UI trees.
+ * Error boundary for Ember game UI trees.
  * Catches React rendering errors and displays a fallback.
  *
  * @example
- * <BonfireErrorBoundary fallback={(error, reset) => (
+ * <EmberErrorBoundary fallback={(error, reset) => (
  *   <div>
  *     <p>Something went wrong: {error.message}</p>
  *     <button onClick={reset}>Try Again</button>
  *   </div>
  * )}>
  *   <GameUI />
- * </BonfireErrorBoundary>
+ * </EmberErrorBoundary>
  */
-export class BonfireErrorBoundary extends Component<
-  BonfireErrorBoundaryProps,
-  BonfireErrorBoundaryState
+export class EmberErrorBoundary extends Component<
+  EmberErrorBoundaryProps,
+  EmberErrorBoundaryState
 > {
-  constructor(props: BonfireErrorBoundaryProps) {
+  constructor(props: EmberErrorBoundaryProps) {
     super(props);
     this.state = { error: null };
   }
 
-  static getDerivedStateFromError(error: Error): BonfireErrorBoundaryState {
+  static getDerivedStateFromError(error: Error): EmberErrorBoundaryState {
     return { error };
   }
 

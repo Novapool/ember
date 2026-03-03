@@ -1,5 +1,5 @@
 /**
- * BonfireClient - Socket.io wrapper for connecting to a Bonfire server.
+ * EmberClient - Socket.io wrapper for connecting to an Ember server.
  *
  * This is a plain TypeScript class (no React dependency) that manages
  * the socket connection, tracks game state, and provides a subscription
@@ -9,7 +9,7 @@
 import { io, type Socket } from 'socket.io-client';
 import type { GameState, PlayerId, RoomId } from '@bonfire/core';
 import type {
-  BonfireClientConfig,
+  EmberClientConfig,
   ConnectionStatus,
   RoomCreateResponse,
   RoomJoinResponse,
@@ -18,7 +18,7 @@ import type {
   ActionResponse,
   StateResponse,
   ErrorResponse,
-  BonfireGameEvent,
+  EmberGameEvent,
   ClientToServerEvents,
   ServerToClientEvents,
 } from '../types';
@@ -54,7 +54,7 @@ function withTimeout<T>(
 
 type TypedClientSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
 
-export class BonfireClient {
+export class EmberClient {
   private socket: TypedClientSocket;
   private _status: ConnectionStatus = 'disconnected';
   private _gameState: GameState | null = null;
@@ -67,7 +67,7 @@ export class BonfireClient {
   private eventListeners = new Map<string, Set<Listener<unknown>>>();
   private roomClosedListeners = new Set<Listener<string>>();
 
-  constructor(config: BonfireClientConfig) {
+  constructor(config: EmberClientConfig) {
     this.socket = io(config.url, {
       transports: ['websocket'],
       autoConnect: config.autoConnect ?? false,
@@ -322,7 +322,7 @@ export class BonfireClient {
       this.notifyStateListeners(state);
     });
 
-    this.socket.on('event:emit', (event: BonfireGameEvent) => {
+    this.socket.on('event:emit', (event: EmberGameEvent) => {
       const listeners = this.eventListeners.get(event.type);
       if (listeners) {
         listeners.forEach((l) => l(event.payload));

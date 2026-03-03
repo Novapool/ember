@@ -24,7 +24,7 @@ export type ConnectionStatus = 'disconnected' | 'connecting' | 'connected' | 're
 
 // ---- Client Configuration ----
 
-export interface BonfireClientConfig {
+export interface EmberClientConfig {
   /** Server URL (e.g., "http://localhost:3000") */
   url: string;
   /** Socket.io connection options */
@@ -71,7 +71,7 @@ export interface ServerToClientEvents {
 
 // ---- Game Events ----
 
-export interface BonfireGameEvent {
+export interface EmberGameEvent {
   type: string;
   payload: unknown;
 }
