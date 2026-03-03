@@ -1,6 +1,6 @@
 # @bonfire/client Package
 
-React hooks and utilities for building Bonfire party game UIs.
+React hooks and utilities for building Ember party game UIs.
 
 **Status:** Milestone 4 + 5 + 7 Complete ✅ - 242 tests, all passing
 
@@ -9,10 +9,10 @@ React hooks and utilities for building Bonfire party game UIs.
 ## Package Overview
 
 This package provides the client-side React integration for Bonfire games:
-- **BonfireClient** - Socket.io wrapper with Promise-based API and subscription model
-- **BonfireProvider** - React context provider for client access
+- **EmberClient** - Socket.io wrapper with Promise-based API and subscription model
+- **EmberProvider** - React context provider for client access
 - **11 React hooks** - 7 game-state hooks + 2 headless component hooks (`useLobby`, `useResponseInput`) + 2 utility hooks (`useCountdown`, `useSession`)
-- **BonfireErrorBoundary** - Error boundary component for graceful error handling
+- **EmberErrorBoundary** - Error boundary component for graceful error handling
 - **8 UI components** - Lobby, PlayerAvatar, Timer, PromptCard, ResponseInput, RevealPhase, GameProgress, VotingInterface
 - **`styles` prop** - All 5 complex components accept a `styles` object for inner-element theming (see `docs/DUAL_USE_GUIDE.md`)
 - **colorHash utility** - Deterministic player color generation from names
@@ -29,23 +29,23 @@ src/
 ├── index.ts                          - Package exports
 ├── types.ts                          - Client type definitions
 ├── client/
-│   └── BonfireClient.ts              - Core Socket.io client wrapper
+│   └── EmberClient.ts                - Core Socket.io client wrapper
 ├── context/
-│   └── BonfireProvider.tsx           - React context provider
+│   └── EmberProvider.tsx             - React context provider
 ├── hooks/
 │   ├── useGameState.ts               - Game state subscription hook
 │   ├── useConnection.ts              - Connection status and control
 │   ├── useRoom.ts                    - Room management and actions
 │   ├── usePlayer.ts                  - Player data and derived state
 │   ├── usePhase.ts                   - Current phase tracking
-│   ├── useBonfireEvent.ts            - Custom event subscription
+│   ├── useEmberEvent.ts              - Custom event subscription
 │   ├── useTurn.ts                    - Turn-based game helper (isMyTurn, currentPlayer)
 │   ├── useLobby.ts                   - Headless Lobby logic (roomCode, players, canStart, handlers)
 │   ├── useResponseInput.ts           - Headless ResponseInput logic (value, canSubmit, rankingOps)
 │   ├── useCountdown.ts               - Synchronized countdown timer (pairs with state.timerEndsAt)
 │   └── useSession.ts                 - Page-refresh reconnect automation (isRestoring, restored, failed)
 ├── components/
-│   ├── BonfireErrorBoundary.tsx      - Error boundary component
+│   ├── EmberErrorBoundary.tsx        - Error boundary component
 │   ├── Lobby.tsx                     - Pre-built lobby screen (room code, players, start)
 │   ├── Lobby.stories.tsx
 │   ├── PlayerAvatar.tsx              - Player avatar (initials, color, status, host crown)
@@ -67,16 +67,16 @@ src/
 
 __tests__/
 ├── client/
-│   └── BonfireClient.test.ts         - Client class tests
+│   └── EmberClient.test.ts           - Client class tests
 ├── hooks/
 │   ├── useGameState.test.ts
 │   ├── useConnection.test.ts
 │   ├── useRoom.test.ts
 │   ├── usePlayer.test.ts
 │   ├── usePhase.test.ts
-│   └── useBonfireEvent.test.ts
+│   └── useEmberEvent.test.ts
 ├── components/
-│   ├── BonfireErrorBoundary.test.tsx
+│   ├── EmberErrorBoundary.test.tsx
 │   ├── Lobby.test.tsx
 │   ├── PlayerAvatar.test.tsx
 │   ├── Timer.test.tsx
@@ -86,7 +86,7 @@ __tests__/
 │   ├── GameProgress.test.tsx
 │   └── VotingInterface.test.tsx
 └── fixtures/
-    ├── mockBonfireClient.ts          - Mock client for testing
+    ├── mockEmberClient.ts            - Mock client for testing
     └── renderWithProvider.tsx        - Test render utility
 ```
 
@@ -95,25 +95,25 @@ __tests__/
 ## When to Read What
 
 **README.md** - API reference and usage examples
-- Read when: Integrating Bonfire into a React app, learning the API, implementing game UIs
+- Read when: Integrating Ember into a React app, learning the API, implementing game UIs
 
 **types.ts** - Client type definitions
 - Read when: Understanding client types, working with TypeScript, implementing custom types
 
-**client/BonfireClient.ts** - Core client implementation
+**client/EmberClient.ts** - Core client implementation
 - Read when: Understanding client internals, debugging connection issues, extending functionality
 
-**context/BonfireProvider.tsx** - React context setup
+**context/EmberProvider.tsx** - React context setup
 - Read when: Understanding how hooks access the client, debugging context issues
 
 **hooks/** - Individual hook implementations
 - Read when: Understanding hook behavior, debugging hook issues, implementing custom hooks
 
-**components/BonfireErrorBoundary.tsx** - Error boundary
+**components/EmberErrorBoundary.tsx** - Error boundary
 - Read when: Implementing error handling, customizing error displays
 
-**fixtures/mockBonfireClient.ts** - Test utilities
-- Read when: Writing tests for components that use Bonfire hooks
+**fixtures/mockEmberClient.ts** - Test utilities
+- Read when: Writing tests for components that use Ember hooks
 
 ---
 
@@ -142,8 +142,8 @@ __tests__/
 
 ### Testing Approach
 - **Unit tests** for all hooks and components
-- **MockBonfireClient** for simulating server behavior
-- **renderWithProvider** helper for testing components with Bonfire context
+- **MockEmberClient** for simulating server behavior
+- **renderWithProvider** helper for testing components with Ember context
 - Test coverage goal: 90%+ (currently 90.81%)
 - All hooks at 100% coverage, BonfireClient at 97.4%
 
@@ -154,7 +154,7 @@ __tests__/
 **Basic setup:**
 ```tsx
 // 1. Wrap app with provider — use config.url, not serverUrl
-<BonfireProvider config={{ url: 'http://localhost:3000' }}>
+<EmberProvider config={{ url: 'http://localhost:3000' }}>
   <App />
 </BonfireProvider>
 
@@ -234,7 +234,7 @@ const { startGame } = useRoom();
 
 ### Custom event listeners
 ```tsx
-useBonfireEvent('player_scored', (data) => {
+useEmberEvent('player_scored', (data) => {
   showNotification(`${data.playerName} scored!`);
 });
 ```

@@ -1,4 +1,4 @@
-# IN-PROGRESS - Bonfire
+# IN-PROGRESS - Bonfire Platform / Ember Framework
 
 **Last Updated:** February 28, 2026 (Milestone 7 complete — dual-use architecture)
 
@@ -8,7 +8,7 @@
 
 ### Milestone 8 - Second Game: Validation (PENDING)
 - Status: 🔴 Not Started
-- Goal: Build a different game type to prove framework flexibility
+- Goal: Build a different game type to prove Ember framework flexibility
 - Milestone 7 is a prerequisite: framework now ready for Game 2 with zero workarounds
 
 ---
@@ -124,7 +124,7 @@ _No active blockers. See `docs/KNOWN_ISSUES.md` for the canonical issue tracker.
    - Build using framework with zero modifications — prove it works
 
 2. **Medium-term (Milestone 9+):**
-   - CLI tool (`create-bonfire-game`) for scaffolding new games
+   - CLI tool (`create-ember-game`) for scaffolding new games
    - Documentation site (Docusaurus/VitePress)
 
 ---
@@ -133,7 +133,7 @@ _No active blockers. See `docs/KNOWN_ISSUES.md` for the canonical issue tracker.
 
 **Current Architecture:**
 - Monorepo structure with TypeScript
-- Three main packages: @bonfire/core, /server, /client
+- Three main Ember framework packages: @bonfire/core, /server, /client (package scope stays @bonfire/*)
 - Using npm workspaces for dependency management
 
 **UI Component Library Summary (Milestone 5 Complete):**

@@ -1,6 +1,6 @@
 # @bonfire/server Package
 
-Server infrastructure for Bonfire - multi-room orchestration, Socket.io integration, and database abstraction.
+Server infrastructure for Ember - multi-room orchestration, Socket.io integration, and database abstraction.
 
 **Status:** ✅ Milestone 3 Complete - All 4 Phases Done! (Firebase integration ready)
 
@@ -8,7 +8,7 @@ Server infrastructure for Bonfire - multi-room orchestration, Socket.io integrat
 
 ## Package Overview
 
-This package provides the server-side infrastructure for running Bonfire games:
+This package provides the server-side infrastructure for running Ember games:
 - **SocketServer** - Production-ready Express + Socket.io server
 - **RoomManager** - Multi-room orchestration and lifecycle management
 - **SocketStateSynchronizer** - Realtime state broadcasting via Socket.io + database

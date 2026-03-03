@@ -1,4 +1,4 @@
-# Bonfire - Development Milestones
+# Ember - Development Milestones
 
 > **Status Guide:** 🔴 Not Started | 🟡 In Progress | 🟢 Complete
 
@@ -12,7 +12,7 @@
 - [x] 🟢 Set up monorepo structure (npm workspaces)
 - [x] 🟢 Initialize TypeScript configuration for all packages
 - [x] 🟢 Define base `Game` class interface and types
-- [x] 🟢 Create package structure (`@bonfire/core`, `/server`, `/client`)
+- [x] 🟢 Create package structure (`@bonfire/core`, `/server`, `/client`) — Ember framework packages
 - [x] 🟢 Set up development tooling (ESLint, Prettier)
 - [x] 🟢 Initialize Git repository with proper .gitignore
 
@@ -317,13 +317,13 @@
 
 **Status:** ✅ Complete (Feb 28, 2026)
 
-**Goal:** Make Bonfire equally good for two usage patterns — drop-in default components and fully custom UI — based on real integration experience from LOIV2.
+**Goal:** Make Ember equally good for two usage patterns — drop-in default components and fully custom UI — based on real integration experience from LOIV2.
 
 **Why this milestone exists:** LOIV2 revealed that both usage patterns are partially supported but neither is complete. Default components work visually (inline styles, fixed in M5). Hooks-only custom UI works (7 pure game-state hooks). But the *middle ground* — using a component's business logic with custom UI — requires duplicating framework logic in every game. That gap must close before game 2.
 
 ### Architectural decision: headless hooks pattern
 
-Bonfire adopts the **headless component pattern**: every component with business logic ships a corresponding `use*` hook that exposes the logic without any UI. The component becomes a thin wrapper over its hook. Game devs can then choose:
+Ember adopts the **headless component pattern**: every component with business logic ships a corresponding `use*` hook that exposes the logic without any UI. The component becomes a thin wrapper over its hook. Game devs can then choose:
 
 1. **Full component** — `<Lobby />` — zero setup, Bonfire's default visual style
 2. **Headless + custom UI** — `useLobby()` — full logic, your own markup and styles
@@ -428,14 +428,14 @@ The 7 game-state hooks (useGameState, useRoom, usePlayer, usePhase, useTurn, use
 **Goal:** Create `create-party-game` for easy project scaffolding
 
 ### Tasks
-- [ ] 🔴 Build CLI script with project name input
+- [ ] 🔴 Build CLI script with project name input (`create-ember-game`)
 - [ ] 🔴 Create template project structure
 - [ ] 🔴 Generate boilerplate game class
 - [ ] 🔴 Auto-configure package.json dependencies
 - [ ] 🔴 Add example game with comments
 - [ ] 🔴 Include README with quick start instructions
 - [ ] 🔴 Test on fresh machine (verify it "just works")
-- [ ] 🔴 Publish to npm as `create-bonfire-game`
+- [ ] 🔴 Publish to npm as `create-ember-game`
 
 **Deliverable:** Working CLI that scaffolds new games in <1 minute
 
@@ -571,4 +571,5 @@ The 7 game-state hooks (useGameState, useRoom, usePlayer, usePhase, useTurn, use
 - **Milestone 4:** MockBonfireClient with `simulate*` methods mirrors the real client's subscription API, enabling fast hook unit tests without sockets.
 - **Milestone 4:** Server-authoritative model (no client-side optimistic update machinery) is sufficient for turn-based social games. Can revisit in Milestone 7 if needed.
 - **Milestone 6 / Milestone 7 (Feb 28, 2026):** LOIV2 integration revealed the key architectural gap: game devs can use default components OR build fully custom UI with hooks, but there is no clean path for "component logic, custom UI." Headless hooks (`useLobby`, `useResponseInput`) are the missing layer. Also: inner-element styling (font, color of prompt text, badge styles) requires a `styles` prop map — the `style` prop only reaches the root container. Full analysis in `~/Documents/Programs/LOIV2/docs/TO-REMEMBER.md`.
+- **Naming (Mar 2026):** Framework renamed to **Ember**. Platform is **Bonfire**. Package scope stays `@bonfire/*` (org-scoped, avoids `@ember` npm conflict with Ember.js).
 

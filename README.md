@@ -1,8 +1,10 @@
-# Bonfire
+# Ember
 
 An open-source TypeScript framework for building social party games — think "Rails for party games."
 
-Bonfire handles the infrastructure so you can focus on game logic: WebSocket rooms, player state, reconnects, phase transitions, and a ready-made React component library are all included out of the box.
+Ember handles the infrastructure so you can focus on game logic: WebSocket rooms, player state, reconnects, phase transitions, and a ready-made React component library are all included out of the box.
+
+> **Note:** Ember is the framework. Bonfire is the party game platform built on top of it. Package scope stays `@bonfire/*` to match the platform org.
 
 ## What's in the box
 
@@ -44,11 +46,11 @@ class TriviaGame extends SocialGame<TriviaState> {
 On the client:
 
 ```tsx
-import { BonfireProvider, useGameState, usePlayer, Lobby } from '@bonfire/client';
+import { EmberProvider, useGameState, usePlayer, Lobby } from '@bonfire/client';
 
 function App() {
   return (
-    <BonfireProvider config={{ serverUrl: 'http://localhost:3001' }}>
+    <EmberProvider config={{ serverUrl: 'http://localhost:3001' }}>
       <Game />
     </BonfireProvider>
   );
@@ -78,7 +80,7 @@ npm test --workspaces
 
 The monorepo uses npm workspaces. Build order matters: `core` → `server` / `client`.
 
-## Using Bonfire in a game project
+## Using Ember in a game project
 
 Reference packages via local `file:` paths while in development:
 
@@ -108,7 +110,7 @@ export default {
 };
 ```
 
-**Always rebuild Bonfire packages before running `npm install` in your game project.**
+**Always rebuild Ember packages before running `npm install` in your game project.**
 
 ## Documentation
 

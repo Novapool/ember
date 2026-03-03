@@ -1,6 +1,6 @@
-# Bonfire Dual-Use UI Guide
+# Ember Dual-Use UI Guide
 
-Bonfire supports three distinct usage patterns for building game UIs. Pick the one that fits your needs — they compose cleanly, and you can mix patterns within a single game.
+Ember supports three distinct usage patterns for building game UIs. Pick the one that fits your needs — they compose cleanly, and you can mix patterns within a single game.
 
 ---
 

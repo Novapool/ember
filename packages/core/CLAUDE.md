@@ -1,6 +1,6 @@
 # @bonfire/core Package
 
-Core types, interfaces, and base classes for the Bonfire party game framework.
+Core types, interfaces, and base classes for the Ember party game framework.
 
 **Status:** Milestones 1–7 Complete ✅ — stable, no breaking changes expected
 

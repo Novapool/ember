@@ -1,6 +1,6 @@
 # Bonfire
 
-An open-source TypeScript framework for building social party games - "Rails for party games".
+**Bonfire** is the party game platform. **Ember** is the open-source TypeScript framework underneath it — "Rails for party games".
 
 ## Current Status
 Milestone 1: Foundation & Architecture ✅ Complete (Feb 8, 2026)
@@ -23,6 +23,9 @@ Milestone 7.5: Session & Timer Improvements ✅ Complete (Mar 1, 2026)
 - `docs/PROJECT_OVERVIEW.md` - Architecture, tech stack, philosophy, features
   - Read when: Understanding project goals, making architectural decisions, choosing tech
 
+- `docs/PLATFORM_VISION.md` - Platform product vision, business model, audience, game library strategy
+  - Read when: Working on the platform layer, making product decisions, planning Milestone 8+
+
 - `docs/MILESTONES.md` - Development roadmap with detailed tasks
   - Read when: Planning work, checking overall progress, understanding long-term priorities
 
@@ -30,7 +33,7 @@ Milestone 7.5: Session & Timer Improvements ✅ Complete (Mar 1, 2026)
   - Read when: Understanding framework internals, contributing to core, debugging issues
   - `core-classes.md` - Game engine architecture (SocialGame, PlayerManager, validators)
   - `server-infrastructure.md` - Server classes (SocketServer, RoomManager, SocketStateSynchronizer, adapters)
-  - `client-library.md` - Client library architecture (BonfireClient, Provider, hooks, UI components)
+  - `client-library.md` - Client library architecture (EmberClient, EmberProvider, hooks, UI components)
 
 - `docs/api/` - API integration and endpoint documentation
   - Read when: Setting up databases, deploying servers, managing production

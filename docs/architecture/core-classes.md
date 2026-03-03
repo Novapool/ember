@@ -1,10 +1,10 @@
 # Core Classes - Architecture Documentation
 
-This document describes the core classes that make up the Bonfire framework engine, their responsibilities, relationships, and design decisions.
+This document describes the core classes that make up the Ember framework engine, their responsibilities, relationships, and design decisions.
 
 ## Overview
 
-The Bonfire core is built around several key classes that work together to provide game lifecycle management, player handling, event propagation, and state synchronization:
+The Ember core is built around several key classes that work together to provide game lifecycle management, player handling, event propagation, and state synchronization:
 
 ```
 Game (abstract base)

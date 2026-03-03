@@ -1,6 +1,6 @@
 # Firebase Setup Guide
 
-This guide covers setting up Firebase Realtime Database for Bonfire server infrastructure, including both local development (emulator) and production deployment.
+This guide covers setting up Firebase Realtime Database for Ember server infrastructure, including both local development (emulator) and production deployment.
 
 ---
 

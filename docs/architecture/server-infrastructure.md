@@ -1,6 +1,6 @@
 # Server Infrastructure Architecture
 
-This document describes the server-side infrastructure for Bonfire, including room management, Socket.io integration, database abstraction, and core server classes.
+This document describes the server-side infrastructure for Ember, including room management, Socket.io integration, database abstraction, and core server classes.
 
 **Status:** ✅ Milestone 3 Complete - All 4 Phases Done! (Firebase integration ready)
 
@@ -8,7 +8,7 @@ This document describes the server-side infrastructure for Bonfire, including ro
 
 ## Overview
 
-The Bonfire server infrastructure provides:
+The Ember server infrastructure provides:
 
 - **Multi-room orchestration** - Manage multiple concurrent game rooms
 - **Realtime communication** - Socket.io-based state synchronization

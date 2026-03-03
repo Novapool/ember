@@ -1,8 +1,10 @@
-# Bonfire
+# Ember
 
 ## Project Vision
 
 An open-source framework for building social party games focused on relationship-building and meaningful connection. Think "Rails for party games" - providing the infrastructure and abstractions needed to rapidly build games like Jackbox, but specifically optimized for turn-based social mechanics, progressive disclosure, and depth-building interactions.
+
+> **Naming:** Ember is the framework. Bonfire is the party game platform built on top of it. npm packages are scoped as `@bonfire/*`.
 
 ## The Problem
 
@@ -50,7 +52,7 @@ A comprehensive framework that provides:
 
 ### Distribution
 - **NPM Packages** - `@bonfire/core`, `/server`, `/client`
-- **CLI Tool** - `npx create-bonfire-game my-game` for instant scaffolding
+- **CLI Tool** - `npx create-ember-game my-game` for instant scaffolding
 - **Documentation Site** - Docusaurus or VitePress for guides and API reference
 
 ## Key Features
@@ -118,7 +120,7 @@ Framework Structure:
 └──────────────────┘  └──────────────────┘
            ↓
 ┌─────────────────────────────────────┐
-│   create-bonfire-game (CLI)         │
+│   create-ember-game (CLI)           │
 │   - Project scaffolding             │
 │   - Template generation             │
 └─────────────────────────────────────┘
