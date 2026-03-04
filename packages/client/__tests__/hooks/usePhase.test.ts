@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { act } from '@testing-library/react';
 import { usePhase } from '../../src/hooks/usePhase';
 import { renderWithProvider } from '../fixtures/renderWithProvider';
-import { MockBonfireClient } from '../fixtures/mockBonfireClient';
+import { MockEmberClient } from '../fixtures/mockEmberClient';
 import type { GameState } from '@bonfire/core';
 
 describe('usePhase', () => {
@@ -12,7 +12,7 @@ describe('usePhase', () => {
   });
 
   it('should return current phase from state', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => usePhase(), client);
 
     const state: GameState = {
@@ -29,7 +29,7 @@ describe('usePhase', () => {
   });
 
   it('should allow direct phase comparison', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => usePhase(), client);
 
     act(() => {
@@ -46,7 +46,7 @@ describe('usePhase', () => {
   });
 
   it('should update phase when state changes', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => usePhase(), client);
 
     act(() => {

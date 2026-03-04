@@ -1,5 +1,5 @@
 import { useSyncExternalStore, useCallback } from 'react';
-import { useBonfireContext } from '../context/BonfireProvider';
+import { useEmberContext } from '../context/EmberProvider';
 import type { ConnectionStatus } from '../types';
 
 /**
@@ -14,7 +14,7 @@ export function useConnection(): {
   connect: () => void;
   disconnect: () => void;
 } {
-  const { client } = useBonfireContext();
+  const { client } = useEmberContext();
 
   const subscribe = useCallback(
     (onStoreChange: () => void) => client.onStatusChange(onStoreChange),

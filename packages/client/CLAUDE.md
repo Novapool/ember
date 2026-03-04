@@ -18,7 +18,7 @@ This package provides the client-side React integration for Bonfire games:
 - **colorHash utility** - Deterministic player color generation from names
 - **Storybook 8** - Interactive component documentation
 - **Inline styles** - Components use inline styles via a shared `src/utils/theme.ts` token file. No Tailwind required — components render correctly with zero consumer setup
-- **MockBonfireClient** - Test utility for simulating client behavior
+- **MockEmberClient** - Test utility for simulating client behavior
 
 ---
 
@@ -124,7 +124,7 @@ __tests__/
   - Ensures tear-free reads in concurrent mode
   - Prevents stale state from race conditions
   - Efficient re-renders only when subscribed data changes
-- **Subscription model** - BonfireClient uses subscription callbacks rather than React state
+- **Subscription model** - EmberClient uses subscription callbacks rather than React state
   - Decouples client from React (can be used outside React)
   - Enables testing without React rendering
   - Hooks subscribe to client and convert to React state
@@ -138,14 +138,14 @@ __tests__/
 - **Return values**: Hooks return objects with named properties, not arrays
   - Example: `{ state, requestState }` not `[state, requestState]`
 - **Auto-cleanup**: All subscriptions clean up automatically when components unmount
-- **Context usage**: All hooks must be used inside `<BonfireProvider>`
+- **Context usage**: All hooks must be used inside `<EmberProvider>`
 
 ### Testing Approach
 - **Unit tests** for all hooks and components
 - **MockEmberClient** for simulating server behavior
 - **renderWithProvider** helper for testing components with Ember context
 - Test coverage goal: 90%+ (currently 90.81%)
-- All hooks at 100% coverage, BonfireClient at 97.4%
+- All hooks at 100% coverage, EmberClient at 97.4%
 
 ---
 
@@ -156,7 +156,7 @@ __tests__/
 // 1. Wrap app with provider — use config.url, not serverUrl
 <EmberProvider config={{ url: 'http://localhost:3000' }}>
   <App />
-</BonfireProvider>
+</EmberProvider>
 
 // 2. Use hooks in components
 const { state } = useGameState();
@@ -175,7 +175,7 @@ Server state change
        ↓
 Socket.io 'state:update' event
        ↓
-BonfireClient.onStateChange() callbacks
+EmberClient.onStateChange() callbacks
        ↓
 useSyncExternalStore triggers re-render
        ↓
@@ -186,7 +186,7 @@ Component receives new state
 ```
 Component calls useRoom().sendAction()
        ↓
-BonfireClient.sendAction() Promise
+EmberClient.sendAction() Promise
        ↓
 Socket.io 'game:action' event
        ↓

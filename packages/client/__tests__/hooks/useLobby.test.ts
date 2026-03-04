@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act } from '@testing-library/react';
 import { useLobby } from '../../src/hooks/useLobby';
 import { renderWithProvider } from '../fixtures/renderWithProvider';
-import { MockBonfireClient } from '../fixtures/mockBonfireClient';
+import { MockEmberClient } from '../fixtures/mockEmberClient';
 import type { GameState } from '@bonfire/core';
 
 const hostState: GameState = {
@@ -35,7 +35,7 @@ describe('useLobby', () => {
 
   describe('with game state', () => {
     it('derives roomCode from state metadata', () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       client.setPlayerId('host-1');
       const { result } = renderWithProvider(() => useLobby(), client);
 
@@ -45,7 +45,7 @@ describe('useLobby', () => {
     });
 
     it('uses overrideRoomCode option over state', () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       const { result } = renderWithProvider(() => useLobby({ roomCode: 'CUSTOM' }), client);
 
       act(() => { client.simulateStateUpdate(hostState); });
@@ -54,7 +54,7 @@ describe('useLobby', () => {
     });
 
     it('reads minPlayers and maxPlayers from state config', () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       const { result } = renderWithProvider(() => useLobby(), client);
 
       act(() => { client.simulateStateUpdate(hostState); });
@@ -64,7 +64,7 @@ describe('useLobby', () => {
     });
 
     it('returns all players', () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       const { result } = renderWithProvider(() => useLobby(), client);
 
       act(() => { client.simulateStateUpdate(hostState); });
@@ -73,7 +73,7 @@ describe('useLobby', () => {
     });
 
     it('canStart is true for host with enough players', () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       client.setPlayerId('host-1');
       const { result } = renderWithProvider(() => useLobby(), client);
 
@@ -84,7 +84,7 @@ describe('useLobby', () => {
     });
 
     it('canStart is false for non-host', () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       client.setPlayerId('player-2');
       const { result } = renderWithProvider(() => useLobby(), client);
 
@@ -95,7 +95,7 @@ describe('useLobby', () => {
     });
 
     it('canStart is false when below minPlayers', () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       client.setPlayerId('host-1');
       const { result } = renderWithProvider(() => useLobby(), client);
 
@@ -112,7 +112,7 @@ describe('useLobby', () => {
 
   describe('handleStart', () => {
     it('calls startGame when canStart and no onStart provided', async () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       client.setPlayerId('host-1');
       const { result } = renderWithProvider(() => useLobby(), client);
 
@@ -124,7 +124,7 @@ describe('useLobby', () => {
     });
 
     it('calls custom onStart instead of startGame when provided', async () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       client.setPlayerId('host-1');
       const onStart = vi.fn().mockResolvedValue(undefined);
       const { result } = renderWithProvider(() => useLobby({ onStart }), client);
@@ -138,7 +138,7 @@ describe('useLobby', () => {
     });
 
     it('does not call startGame when canStart is false', async () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       client.setPlayerId('player-2'); // non-host
       const { result } = renderWithProvider(() => useLobby(), client);
 
@@ -150,7 +150,7 @@ describe('useLobby', () => {
     });
 
     it('sets isStarting to true during async onStart', async () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       client.setPlayerId('host-1');
 
       let resolveStart!: () => void;
@@ -180,7 +180,7 @@ describe('useLobby', () => {
     });
 
     it('copies roomCode to clipboard and sets copied=true', async () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       const { result } = renderWithProvider(() => useLobby(), client);
 
       act(() => { client.simulateStateUpdate(hostState); });
@@ -193,7 +193,7 @@ describe('useLobby', () => {
 
     it('resets copied to false after 2 seconds', async () => {
       vi.useFakeTimers();
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       const { result } = renderWithProvider(() => useLobby(), client);
 
       act(() => { client.simulateStateUpdate(hostState); });

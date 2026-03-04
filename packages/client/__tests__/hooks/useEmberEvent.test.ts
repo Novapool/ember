@@ -1,15 +1,15 @@
 import { describe, it, expect, vi } from 'vitest';
 import { act } from '@testing-library/react';
-import { useBonfireEvent } from '../../src/hooks/useBonfireEvent';
+import { useEmberEvent } from '../../src/hooks/useEmberEvent';
 import { renderWithProvider } from '../fixtures/renderWithProvider';
-import { MockBonfireClient } from '../fixtures/mockBonfireClient';
+import { MockEmberClient } from '../fixtures/mockEmberClient';
 
-describe('useBonfireEvent', () => {
+describe('useEmberEvent', () => {
   it('should call handler when matching event fires', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const handler = vi.fn();
 
-    renderWithProvider(() => useBonfireEvent('player:joined', handler), client);
+    renderWithProvider(() => useEmberEvent('player:joined', handler), client);
 
     act(() => {
       client.simulateGameEvent({ type: 'player:joined', payload: { name: 'Alice' } });
@@ -19,10 +19,10 @@ describe('useBonfireEvent', () => {
   });
 
   it('should not call handler for non-matching events', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const handler = vi.fn();
 
-    renderWithProvider(() => useBonfireEvent('player:joined', handler), client);
+    renderWithProvider(() => useEmberEvent('player:joined', handler), client);
 
     act(() => {
       client.simulateGameEvent({ type: 'player:left', payload: { playerId: 'p1' } });
@@ -32,11 +32,11 @@ describe('useBonfireEvent', () => {
   });
 
   it('should clean up listener on unmount', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const handler = vi.fn();
 
     const { unmount } = renderWithProvider(
-      () => useBonfireEvent('test-event', handler),
+      () => useEmberEvent('test-event', handler),
       client
     );
 

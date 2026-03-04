@@ -8,17 +8,17 @@ React hooks and utilities for building Bonfire party game UIs.
 
 ## Features
 
-- **BonfireClient** - Promise-based Socket.io wrapper with subscription model
-- **BonfireProvider** - React context provider with auto-connect/cleanup
+- **EmberClient** - Promise-based Socket.io wrapper with subscription model
+- **EmberProvider** - React context provider with auto-connect/cleanup
 - **11 React hooks** - Type-safe hooks for state, connection, room, player, phase, events, turn management, countdown timers, and session restoration
-- **BonfireErrorBoundary** - Error boundary component for graceful error handling
+- **EmberErrorBoundary** - Error boundary component for graceful error handling
 - **8 UI components** - Lobby, PlayerAvatar, Timer, PromptCard, ResponseInput, RevealPhase, GameProgress, VotingInterface
 - **colorHash utility** - Deterministic player color generation
 - **Storybook 8** - Visual documentation for all components
 - **Inline styles** - Zero-dependency styling via shared `theme.ts` constants — no CSS setup required
 - **useSyncExternalStore** - Native React 18 external state synchronization
 - **TypeScript** - Full type safety for game state and events
-- **Comprehensive tests** - MockBonfireClient for easy testing
+- **Comprehensive tests** - MockEmberClient for easy testing
 
 ---
 
@@ -43,31 +43,31 @@ npm install @bonfire/client socket.io-client
 
 ## Quick Start
 
-### 1. Set up BonfireProvider
+### 1. Set up EmberProvider
 
-Wrap your app with `BonfireProvider` to make Bonfire hooks available:
+Wrap your app with `EmberProvider` to make Bonfire hooks available:
 
 ```tsx
-import { BonfireProvider, BonfireClient } from '@bonfire/client';
+import { EmberProvider, EmberClient } from '@bonfire/client';
 import { GameState } from '@bonfire/core';
 
 // Option A: Pass config (provider creates client)
 function App() {
   return (
-    <BonfireProvider config={{ url: 'http://localhost:3000' }}>
+    <EmberProvider config={{ url: 'http://localhost:3000' }}>
       <GameUI />
-    </BonfireProvider>
+    </EmberProvider>
   );
 }
 
 // Option B: Pass pre-created client (advanced usage)
-const client = new BonfireClient({ url: 'http://localhost:3000' });
+const client = new EmberClient({ url: 'http://localhost:3000' });
 
 function App() {
   return (
-    <BonfireProvider client={client}>
+    <EmberProvider client={client}>
       <GameUI />
-    </BonfireProvider>
+    </EmberProvider>
   );
 }
 ```
@@ -114,20 +114,20 @@ function GameUI() {
 
 ### 3. Add Error Boundary
 
-Wrap components with `BonfireErrorBoundary` to catch and display errors:
+Wrap components with `EmberErrorBoundary` to catch and display errors:
 
 ```tsx
-import { BonfireErrorBoundary } from '@bonfire/client';
+import { EmberErrorBoundary } from '@bonfire/client';
 
 function App() {
   return (
-    <BonfireProvider config={{ url: 'http://localhost:3000' }}>
-      <BonfireErrorBoundary
+    <EmberProvider config={{ url: 'http://localhost:3000' }}>
+      <EmberErrorBoundary
         fallback={<div>Something went wrong. <button onClick={() => window.location.reload()}>Reload</button></div>}
       >
         <GameUI />
-      </BonfireErrorBoundary>
-    </BonfireProvider>
+      </EmberErrorBoundary>
+    </EmberProvider>
   );
 }
 ```
@@ -136,14 +136,14 @@ function App() {
 
 ## API Reference
 
-### BonfireClient
+### EmberClient
 
-Low-level Socket.io client wrapper. Usually used via `BonfireProvider` and hooks.
+Low-level Socket.io client wrapper. Usually used via `EmberProvider` and hooks.
 
 ```typescript
-import { BonfireClient } from '@bonfire/client';
+import { EmberClient } from '@bonfire/client';
 
-const client = new BonfireClient({
+const client = new EmberClient({
   url: 'http://localhost:3000',
   autoConnect: false, // optional, default: false
 });
@@ -193,17 +193,17 @@ client.isConnected: boolean
 
 ---
 
-### BonfireProvider
+### EmberProvider
 
-React context provider for BonfireClient. Auto-connects on mount and cleans up on unmount.
+React context provider for EmberClient. Auto-connects on mount and cleans up on unmount.
 
 ```typescript
-interface BonfireProviderProps {
+interface EmberProviderProps {
   // Option 1: Pass client directly (advanced)
-  client?: BonfireClient;
+  client?: EmberClient;
 
   // Option 2: Pass config (provider creates client)
-  config?: BonfireClientConfig; // { url: string; autoConnect?: boolean; ... }
+  config?: EmberClientConfig; // { url: string; autoConnect?: boolean; ... }
   autoConnect?: boolean;
 
   children: React.ReactNode;
@@ -214,22 +214,22 @@ interface BonfireProviderProps {
 
 ```tsx
 // Simple setup — note: config.url, not serverUrl
-<BonfireProvider config={{ url: 'http://localhost:3000' }}>
+<EmberProvider config={{ url: 'http://localhost:3000' }}>
   <App />
-</BonfireProvider>
+</EmberProvider>
 
 // Advanced setup with custom client
-const client = new BonfireClient({ url: process.env.SERVER_URL });
-<BonfireProvider client={client}>
+const client = new EmberClient({ url: process.env.SERVER_URL });
+<EmberProvider client={client}>
   <App />
-</BonfireProvider>
+</EmberProvider>
 ```
 
 ---
 
 ### Hooks
 
-All hooks must be used inside a `BonfireProvider`.
+All hooks must be used inside a `EmberProvider`.
 
 #### useGameState()
 
@@ -454,12 +454,12 @@ function GameScreen() {
 
 ---
 
-#### useBonfireEvent()
+#### useEmberEvent()
 
 Subscribe to custom game events with auto-cleanup.
 
 ```typescript
-function useBonfireEvent<T = any>(
+function useEmberEvent<T = any>(
   eventType: string,
   callback: (payload: T) => void
 ): void
@@ -472,7 +472,7 @@ function GameNotifications() {
   const [message, setMessage] = useState('');
 
   // Listen for custom 'player_scored' events
-  useBonfireEvent('player_scored', (payload: { playerId: string; points: number }) => {
+  useEmberEvent('player_scored', (payload: { playerId: string; points: number }) => {
     setMessage(`Player ${payload.playerId} scored ${payload.points} points!`);
     setTimeout(() => setMessage(''), 3000);
   });
@@ -579,7 +579,7 @@ Bonfire automatically saves session data to `localStorage` whenever a player cre
 ```tsx
 function App() {
   const { reconnectToRoom } = useRoom();
-  const { client } = useBonfireContext();
+  const { client } = useEmberContext();
 
   useEffect(() => {
     const session = client.loadSession();
@@ -599,12 +599,12 @@ function App() {
 
 ---
 
-### BonfireErrorBoundary
+### EmberErrorBoundary
 
 React error boundary for catching and displaying errors in game UI.
 
 ```typescript
-interface BonfireErrorBoundaryProps {
+interface EmberErrorBoundaryProps {
   fallback?: React.ReactNode | ((error: Error, reset: () => void) => React.ReactNode);
   children: React.ReactNode;
 }
@@ -613,15 +613,15 @@ interface BonfireErrorBoundaryProps {
 **Example with static fallback:**
 
 ```tsx
-<BonfireErrorBoundary fallback={<div>Something went wrong</div>}>
+<EmberErrorBoundary fallback={<div>Something went wrong</div>}>
   <GameUI />
-</BonfireErrorBoundary>
+</EmberErrorBoundary>
 ```
 
 **Example with render function:**
 
 ```tsx
-<BonfireErrorBoundary
+<EmberErrorBoundary
   fallback={(error, reset) => (
     <div>
       <h2>Error: {error.message}</h2>
@@ -631,7 +631,7 @@ interface BonfireErrorBoundaryProps {
   )}
 >
   <GameUI />
-</BonfireErrorBoundary>
+</EmberErrorBoundary>
 ```
 
 ---
@@ -887,7 +887,7 @@ All types are fully exported and type-safe:
 
 ```typescript
 import type {
-  BonfireClientConfig,
+  EmberClientConfig,
   ConnectionStatus,
   BaseResponse,
   RoomCreateResponse,
@@ -896,14 +896,14 @@ import type {
   StateResponse,
   ActionResponse,
   ErrorResponse,
-  BonfireGameEvent,
+  EmberGameEvent,
 } from '@bonfire/client';
 ```
 
 **Type Definitions:**
 
 ```typescript
-interface BonfireClientConfig {
+interface EmberClientConfig {
   url: string;                          // Server URL, e.g. "http://localhost:3000"
   socketOptions?: Record<string, unknown>;
   autoConnect?: boolean;                // default: false
@@ -934,7 +934,7 @@ interface RoomReconnectResponse extends BaseResponse {
   state?: GameState;
 }
 
-interface BonfireGameEvent {
+interface EmberGameEvent {
   type: string;
   payload: unknown;
 }
@@ -944,14 +944,14 @@ interface BonfireGameEvent {
 
 ## Testing
 
-Use `MockBonfireClient` from test fixtures for easy testing:
+Use `MockEmberClient` from test fixtures for easy testing:
 
 ```typescript
 import { renderWithProvider } from './__tests__/fixtures/renderWithProvider';
-import { mockBonfireClient } from './__tests__/fixtures/mockBonfireClient';
+import { mockEmberClient } from './__tests__/fixtures/mockEmberClient';
 
 test('displays player count', () => {
-  const client = mockBonfireClient();
+  const client = mockEmberClient();
   client.simulateState({
     phase: 'lobby',
     playerOrder: ['p1', 'p2'],
@@ -963,7 +963,7 @@ test('displays player count', () => {
 });
 ```
 
-**MockBonfireClient methods:**
+**MockEmberClient methods:**
 
 ```typescript
 client.simulateState(state: GameState): void
@@ -989,9 +989,9 @@ The client library uses **React 18's `useSyncExternalStore`** to synchronize Rea
 ```
 Socket.io Server
        ↓
-BonfireClient (subscription model)
+EmberClient (subscription model)
        ↓
-BonfireProvider (React Context)
+EmberProvider (React Context)
        ↓
 Hooks (useSyncExternalStore)
        ↓
@@ -1007,15 +1007,15 @@ For detailed architecture documentation, see `docs/architecture/client-library.m
 ### Complete Game UI Example
 
 ```tsx
-import { BonfireProvider, useGameState, useRoom, usePlayer, usePhase } from '@bonfire/client';
+import { EmberProvider, useGameState, useRoom, usePlayer, usePhase } from '@bonfire/client';
 
 function App() {
   return (
-    <BonfireProvider config={{ url: 'http://localhost:3000' }}>
-      <BonfireErrorBoundary>
+    <EmberProvider config={{ url: 'http://localhost:3000' }}>
+      <EmberErrorBoundary>
         <Game />
-      </BonfireErrorBoundary>
-    </BonfireProvider>
+      </EmberErrorBoundary>
+    </EmberProvider>
   );
 }
 
@@ -1105,7 +1105,7 @@ These cause silent failures with no helpful error message:
 | `sendAction` takes two args, not an object | `sendAction('type', payload)` |
 | `usePhase()` returns the value directly | `const phase = usePhase()` |
 | `handleAction()` receives a single object; player is inside | `action.playerId` |
-| `BonfireProvider` uses `config={{ url }}`, not `serverUrl` | `config={{ url: serverUrl }}` |
+| `EmberProvider` uses `config={{ url }}`, not `serverUrl` | `config={{ url: serverUrl }}` |
 | `onGameStart()` does NOT auto-transition phases | call `transitionPhase()` yourself |
 | `transitionPhase()` throws if phase not in `config.phases` | list ALL phases upfront in config |
 

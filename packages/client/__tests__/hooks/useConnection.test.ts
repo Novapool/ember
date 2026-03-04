@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { act } from '@testing-library/react';
 import { useConnection } from '../../src/hooks/useConnection';
 import { renderWithProvider } from '../fixtures/renderWithProvider';
-import { MockBonfireClient } from '../fixtures/mockBonfireClient';
+import { MockEmberClient } from '../fixtures/mockEmberClient';
 
 describe('useConnection', () => {
   it('should return disconnected status initially', () => {
@@ -12,7 +12,7 @@ describe('useConnection', () => {
   });
 
   it('should reflect status changes', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useConnection(), client);
 
     act(() => {
@@ -24,7 +24,7 @@ describe('useConnection', () => {
   });
 
   it('should handle reconnecting status', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useConnection(), client);
 
     act(() => {
@@ -36,7 +36,7 @@ describe('useConnection', () => {
   });
 
   it('should call connect on the client', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useConnection(), client);
 
     act(() => {
@@ -47,7 +47,7 @@ describe('useConnection', () => {
   });
 
   it('should call disconnect on the client', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useConnection(), client);
 
     act(() => {

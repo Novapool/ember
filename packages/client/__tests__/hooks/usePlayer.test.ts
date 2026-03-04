@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { act } from '@testing-library/react';
 import { usePlayer } from '../../src/hooks/usePlayer';
 import { renderWithProvider } from '../fixtures/renderWithProvider';
-import { MockBonfireClient } from '../fixtures/mockBonfireClient';
+import { MockEmberClient } from '../fixtures/mockEmberClient';
 import type { GameState } from '@bonfire/core';
 
 describe('usePlayer', () => {
@@ -15,7 +15,7 @@ describe('usePlayer', () => {
   });
 
   it('should derive current player from state and playerId', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     client.setPlayerId('p1');
 
     const { result } = renderWithProvider(() => usePlayer(), client);
@@ -40,7 +40,7 @@ describe('usePlayer', () => {
   });
 
   it('should return isHost=false for non-host player', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     client.setPlayerId('p2');
 
     const { result } = renderWithProvider(() => usePlayer(), client);
@@ -63,7 +63,7 @@ describe('usePlayer', () => {
   });
 
   it('should return null player if playerId not found in state', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     client.setPlayerId('unknown');
 
     const { result } = renderWithProvider(() => usePlayer(), client);

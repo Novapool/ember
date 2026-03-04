@@ -1,33 +1,33 @@
 /**
- * Test helper: renders a hook or component within a BonfireProvider backed by a MockBonfireClient.
+ * Test helper: renders a hook or component within a EmberProvider backed by a MockEmberClient.
  */
 
 import { render, renderHook, type RenderHookOptions, type RenderOptions } from '@testing-library/react';
 import type { ReactNode, ReactElement } from 'react';
-import { BonfireProvider } from '../../src/context/BonfireProvider';
-import { MockBonfireClient } from './mockBonfireClient';
+import { EmberProvider } from '../../src/context/EmberProvider';
+import { MockEmberClient } from './mockEmberClient';
 import type { GameState, PlayerId } from '@bonfire/core';
 
 // Overloaded signatures for different use cases
 export function renderWithProvider<TResult>(
   hook: () => TResult,
-  mockClient?: MockBonfireClient,
+  mockClient?: MockEmberClient,
   options?: Omit<RenderHookOptions<unknown>, 'wrapper'>
-): ReturnType<typeof renderHook<TResult>> & { client: MockBonfireClient };
+): ReturnType<typeof renderHook<TResult>> & { client: MockEmberClient };
 
 export function renderWithProvider(
   ui: ReactElement,
   options?: {
-    mockClient?: MockBonfireClient;
+    mockClient?: MockEmberClient;
     initialState?: GameState;
     playerId?: PlayerId;
   } & Omit<RenderOptions, 'wrapper'>
-): ReturnType<typeof render> & { mockClient: MockBonfireClient };
+): ReturnType<typeof render> & { mockClient: MockEmberClient };
 
 // Implementation
 export function renderWithProvider<TResult>(
   hookOrUi: (() => TResult) | ReactElement,
-  optionsOrClient?: MockBonfireClient | any,
+  optionsOrClient?: MockEmberClient | any,
   hookOptions?: Omit<RenderHookOptions<unknown>, 'wrapper'>
 ): any {
   // Determine if we're rendering a hook or a component
@@ -35,12 +35,12 @@ export function renderWithProvider<TResult>(
 
   if (isHook) {
     // Hook rendering (original behavior)
-    const client = optionsOrClient ?? new MockBonfireClient();
+    const client = optionsOrClient ?? new MockEmberClient();
 
     const wrapper = ({ children }: { children: ReactNode }) => (
-      <BonfireProvider client={client as any} autoConnect={false}>
+      <EmberProvider client={client as any} autoConnect={false}>
         {children}
-      </BonfireProvider>
+      </EmberProvider>
     );
 
     const result = renderHook(hookOrUi, { wrapper, ...hookOptions });
@@ -54,7 +54,7 @@ export function renderWithProvider<TResult>(
       ...renderOptions
     } = optionsOrClient || {};
 
-    const client = mockClient ?? new MockBonfireClient();
+    const client = mockClient ?? new MockEmberClient();
 
     // Set up initial state if provided
     if (initialState) {
@@ -65,9 +65,9 @@ export function renderWithProvider<TResult>(
     }
 
     const wrapper = ({ children }: { children: ReactNode }) => (
-      <BonfireProvider client={client as any} autoConnect={false}>
+      <EmberProvider client={client as any} autoConnect={false}>
         {children}
-      </BonfireProvider>
+      </EmberProvider>
     );
 
     const result = render(hookOrUi, { wrapper, ...renderOptions });

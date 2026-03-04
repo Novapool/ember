@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useBonfireContext } from '../context/BonfireProvider';
+import { useEmberContext } from '../context/EmberProvider';
 
 /** Check if a bonfire session exists in localStorage without parsing it */
 function hasSavedSession(): boolean {
@@ -37,7 +37,7 @@ export function useSession(): { isRestoring: boolean; restored: boolean; failed:
   const [failed, setFailed] = useState(false);
   const attemptedRef = useRef(false);
 
-  const { client, status } = useBonfireContext();
+  const { client, status } = useEmberContext();
 
   useEffect(() => {
     // Wait until connected

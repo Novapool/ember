@@ -1,5 +1,5 @@
 import { useSyncExternalStore, useCallback } from 'react';
-import { useBonfireContext } from '../context/BonfireProvider';
+import { useEmberContext } from '../context/EmberProvider';
 import type { GameState } from '@bonfire/core';
 
 /**
@@ -24,7 +24,7 @@ export function useGameState<TState extends GameState = GameState>(): {
   state: TState | null;
   requestState: () => Promise<void>;
 } {
-  const { client } = useBonfireContext();
+  const { client } = useEmberContext();
 
   const subscribe = useCallback(
     (onStoreChange: () => void) => client.onStateChange(onStoreChange),

@@ -1,6 +1,6 @@
 # IN-PROGRESS - Bonfire Platform / Ember Framework
 
-**Last Updated:** February 28, 2026 (Milestone 7 complete — dual-use architecture)
+**Last Updated:** March 4, 2026 (Framework rename: Bonfire* → Ember* in source code)
 
 ---
 
@@ -26,7 +26,19 @@ No active plan — Milestone 7 just completed. Start Milestone 8 by choosing a g
 
 ## Recently Completed
 
-1. **Milestone 7 - Dual-Use Architecture** (Feb 28, 2026)
+1. **Framework class rename: Bonfire* → Ember*** (Mar 4, 2026)
+   - ✅ Renamed `BonfireClient` → `EmberClient` (class + file)
+   - ✅ Renamed `BonfireProvider` → `EmberProvider` (component + file)
+   - ✅ Renamed `useBonfireEvent` → `useEmberEvent` (hook + file)
+   - ✅ Renamed `BonfireErrorBoundary` → `EmberErrorBoundary` (component + file)
+   - ✅ Renamed `MockBonfireClient` → `MockEmberClient` (test fixture + file)
+   - ✅ Renamed `useBonfireContext` → `useEmberContext` (internal hook)
+   - ✅ Renamed `BonfireClientConfig` → `EmberClientConfig`, `BonfireGameEvent` → `EmberGameEvent`
+   - ✅ Updated all imports, exports, tests, storybook, README, CLAUDE.md
+   - ✅ TypeScript compiles cleanly with zero errors
+   - Package scope stays `@bonfire/*` (avoids npm conflict with Ember.js)
+
+2. **Milestone 7 - Dual-Use Architecture** (Feb 28, 2026)
    - ✅ `useLobby()` headless hook — all Lobby logic, 15 tests
    - ✅ `useResponseInput()` headless hook — all ResponseInput logic, rankingOps, 23 tests
    - ✅ `<Lobby>` and `<ResponseInput>` refactored as thin wrappers

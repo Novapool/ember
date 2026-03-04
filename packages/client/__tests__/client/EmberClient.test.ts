@@ -13,11 +13,11 @@ vi.mock('socket.io-client', () => ({
   io: vi.fn(() => mockSocket),
 }));
 
-import { BonfireClient } from '../../src/client/BonfireClient';
+import { EmberClient } from '../../src/client/EmberClient';
 import type { GameState } from '@bonfire/core';
 
-describe('BonfireClient', () => {
-  let client: BonfireClient;
+describe('EmberClient', () => {
+  let client: EmberClient;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -28,7 +28,7 @@ describe('BonfireClient', () => {
     mockSocket.disconnect.mockReset();
     mockSocket.io.on.mockReset();
 
-    client = new BonfireClient({ url: 'http://localhost:3000' });
+    client = new EmberClient({ url: 'http://localhost:3000' });
   });
 
   describe('constructor', () => {

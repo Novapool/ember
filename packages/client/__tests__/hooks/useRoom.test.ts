@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { act } from '@testing-library/react';
 import { useRoom } from '../../src/hooks/useRoom';
 import { renderWithProvider } from '../fixtures/renderWithProvider';
-import { MockBonfireClient } from '../fixtures/mockBonfireClient';
+import { MockEmberClient } from '../fixtures/mockEmberClient';
 
 describe('useRoom', () => {
   it('should return null roomId and isInRoom=false initially', () => {
@@ -12,7 +12,7 @@ describe('useRoom', () => {
   });
 
   it('should call createRoom on the client', async () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useRoom(), client);
 
     await act(async () => {
@@ -25,7 +25,7 @@ describe('useRoom', () => {
   });
 
   it('should call joinRoom on the client', async () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useRoom(), client);
 
     await act(async () => {
@@ -37,7 +37,7 @@ describe('useRoom', () => {
   });
 
   it('should call leaveRoom on the client', async () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useRoom(), client);
 
     await act(async () => {
@@ -49,7 +49,7 @@ describe('useRoom', () => {
   });
 
   it('should call startGame on the client', async () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useRoom(), client);
 
     await act(async () => {
@@ -61,7 +61,7 @@ describe('useRoom', () => {
   });
 
   it('should call sendAction on the client', async () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useRoom(), client);
 
     await act(async () => {
@@ -81,7 +81,7 @@ describe('useRoom — reactive state', () => {
   });
 
   it('roomId and isInRoom update after createRoom', async () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useRoom(), client);
 
     expect(result.current.roomId).toBeNull();
@@ -96,7 +96,7 @@ describe('useRoom — reactive state', () => {
   });
 
   it('roomId and isInRoom update after joinRoom', async () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useRoom(), client);
 
     await act(async () => {
@@ -108,7 +108,7 @@ describe('useRoom — reactive state', () => {
   });
 
   it('reflects a pre-existing roomId on initial render', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     client.setRoomId('PRESET');
 
     const { result } = renderWithProvider(() => useRoom(), client);

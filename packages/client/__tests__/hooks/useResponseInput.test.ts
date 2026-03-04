@@ -3,7 +3,7 @@ import { renderHook, act } from '@testing-library/react';
 import { useResponseInput } from '../../src/hooks/useResponseInput';
 import type { InputConfig } from '../../src/components/ResponseInput';
 
-// useResponseInput has no BonfireProvider dependency — plain renderHook works
+// useResponseInput has no EmberProvider dependency — plain renderHook works
 describe('useResponseInput', () => {
   describe('text mode', () => {
     const config: InputConfig = { type: 'text', placeholder: 'Enter answer' };

@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { act } from '@testing-library/react';
 import { useTurn } from '../../src/hooks/useTurn';
 import { renderWithProvider } from '../fixtures/renderWithProvider';
-import { MockBonfireClient } from '../fixtures/mockBonfireClient';
+import { MockEmberClient } from '../fixtures/mockEmberClient';
 import type { GameState } from '@bonfire/core';
 
 describe('useTurn', () => {
@@ -15,7 +15,7 @@ describe('useTurn', () => {
   });
 
   it('returns turnIndex null when state has no currentTurnIndex', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useTurn(), client);
 
     act(() => {
@@ -36,7 +36,7 @@ describe('useTurn', () => {
   });
 
   it('returns turnIndex null when state has no playerOrder', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useTurn(), client);
 
     act(() => {
@@ -57,7 +57,7 @@ describe('useTurn', () => {
   });
 
   it('resolves the correct currentPlayer for turn 0', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     client.setPlayerId('p2');
     const { result } = renderWithProvider(() => useTurn(), client);
 
@@ -84,7 +84,7 @@ describe('useTurn', () => {
   });
 
   it('resolves the correct currentPlayer for a mid-game turn', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     client.setPlayerId('p2');
     const { result } = renderWithProvider(() => useTurn(), client);
 
@@ -108,7 +108,7 @@ describe('useTurn', () => {
   });
 
   it('isMyTurn is true when the local player is the current turn player', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     client.setPlayerId('p2');
     const { result } = renderWithProvider(() => useTurn(), client);
 
@@ -129,7 +129,7 @@ describe('useTurn', () => {
   });
 
   it('isMyTurn is false when another player is the current turn player', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     client.setPlayerId('p2');
     const { result } = renderWithProvider(() => useTurn(), client);
 
@@ -151,7 +151,7 @@ describe('useTurn', () => {
   });
 
   it('returns null currentPlayerId when currentTurnIndex is out-of-bounds', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useTurn(), client);
 
     act(() => {
@@ -173,7 +173,7 @@ describe('useTurn', () => {
   });
 
   it('isMyTurn is false when there is no local playerId', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     // no setPlayerId call → playerId remains null
     const { result } = renderWithProvider(() => useTurn(), client);
 
@@ -191,7 +191,7 @@ describe('useTurn', () => {
   });
 
   it('updates reactively when turn advances', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     client.setPlayerId('p1');
     const { result } = renderWithProvider(() => useTurn(), client);
 

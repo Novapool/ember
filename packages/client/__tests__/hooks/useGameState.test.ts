@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { act } from '@testing-library/react';
 import { useGameState } from '../../src/hooks/useGameState';
 import { renderWithProvider } from '../fixtures/renderWithProvider';
-import { MockBonfireClient } from '../fixtures/mockBonfireClient';
+import { MockEmberClient } from '../fixtures/mockEmberClient';
 import type { GameState } from '@bonfire/core';
 
 describe('useGameState', () => {
@@ -12,7 +12,7 @@ describe('useGameState', () => {
   });
 
   it('should update when state changes', () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useGameState(), client);
 
     const state: GameState = {
@@ -33,7 +33,7 @@ describe('useGameState', () => {
       customField: string;
     }
 
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useGameState(), client);
 
     const state = {
@@ -52,7 +52,7 @@ describe('useGameState', () => {
   });
 
   it('should call requestState on the client', async () => {
-    const client = new MockBonfireClient();
+    const client = new MockEmberClient();
     const { result } = renderWithProvider(() => useGameState(), client);
 
     await act(async () => {

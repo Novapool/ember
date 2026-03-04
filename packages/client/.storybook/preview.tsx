@@ -1,6 +1,6 @@
 import type { Preview } from '@storybook/react-vite';
 import React from 'react';
-import { BonfireProvider } from '../src/context/BonfireProvider';
+import { EmberProvider } from '../src/context/EmberProvider';
 import '../src/styles/tailwind.css';
 
 // Mock BonfireClient for Storybook stories
@@ -50,11 +50,11 @@ const preview: Preview = {
     (Story) => {
       const mockClient = createMockClient();
       return (
-        <BonfireProvider client={mockClient as any} autoConnect={false}>
+        <EmberProvider client={mockClient as any} autoConnect={false}>
           <div style={{ padding: '2rem' }}>
             <Story />
           </div>
-        </BonfireProvider>
+        </EmberProvider>
       );
     },
   ],

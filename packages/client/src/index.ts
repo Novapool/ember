@@ -1,9 +1,9 @@
 // ---- Client ----
-export { BonfireClient } from './client/BonfireClient';
+export { EmberClient } from './client/EmberClient';
 
 // ---- Context ----
-export { BonfireProvider } from './context/BonfireProvider';
-export type { BonfireProviderProps, BonfireContextValue } from './context/BonfireProvider';
+export { EmberProvider } from './context/EmberProvider';
+export type { EmberProviderProps, EmberContextValue } from './context/EmberProvider';
 
 // ---- Hooks ----
 export { useGameState } from './hooks/useGameState';
@@ -11,7 +11,7 @@ export { useConnection } from './hooks/useConnection';
 export { useRoom } from './hooks/useRoom';
 export { usePlayer } from './hooks/usePlayer';
 export { usePhase } from './hooks/usePhase';
-export { useBonfireEvent } from './hooks/useBonfireEvent';
+export { useEmberEvent } from './hooks/useEmberEvent';
 export { useTurn } from './hooks/useTurn';
 export { useLobby } from './hooks/useLobby';
 export type { UseLobbyOptions, UseLobbyReturn } from './hooks/useLobby';
@@ -21,7 +21,7 @@ export { useCountdown } from './hooks/useCountdown';
 export { useSession } from './hooks/useSession';
 
 // ---- Components ----
-export { BonfireErrorBoundary } from './components/BonfireErrorBoundary';
+export { EmberErrorBoundary } from './components/EmberErrorBoundary';
 export { Lobby } from './components/Lobby';
 export type { LobbyProps } from './components/Lobby';
 export { Timer } from './components/Timer';
@@ -44,7 +44,7 @@ export { getPlayerColor, getPlayerInitials } from './utils/colorHash';
 
 // ---- Types ----
 export type {
-  BonfireClientConfig,
+  EmberClientConfig,
   ConnectionStatus,
   BaseResponse,
   RoomCreateResponse,
@@ -52,5 +52,5 @@ export type {
   StateResponse,
   ActionResponse,
   ErrorResponse,
-  BonfireGameEvent,
+  EmberGameEvent,
 } from './types';

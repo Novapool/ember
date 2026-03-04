@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useBonfireContext } from '../context/BonfireProvider';
+import { useEmberContext } from '../context/EmberProvider';
 import { useGameState } from './useGameState';
 import type { Player, PlayerId } from '@bonfire/core';
 
@@ -16,7 +16,7 @@ export function usePlayer(): {
   isHost: boolean;
   players: Player[];
 } {
-  const { client } = useBonfireContext();
+  const { client } = useEmberContext();
   const { state } = useGameState();
 
   const playerId = client.playerId;

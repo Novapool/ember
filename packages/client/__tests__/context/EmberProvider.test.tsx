@@ -1,5 +1,5 @@
 /**
- * Direct tests for BonfireProvider
+ * Direct tests for EmberProvider
  *
  * Covers lifecycle behaviours that renderWithProvider intentionally bypasses
  * (autoConnect, cleanup, error throwing).
@@ -7,64 +7,64 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, act } from '@testing-library/react';
-import { BonfireProvider, useBonfireContext } from '../../src/context/BonfireProvider';
-import { MockBonfireClient } from '../fixtures/mockBonfireClient';
+import { EmberProvider, useEmberContext } from '../../src/context/EmberProvider';
+import { MockEmberClient } from '../fixtures/mockEmberClient';
 
 // Suppress React's console.error spam for expected throws
 beforeEach(() => {
   vi.spyOn(console, 'error').mockImplementation(() => {});
 });
 
-describe('BonfireProvider', () => {
+describe('EmberProvider', () => {
   describe('prop validation', () => {
     it('throws when neither client nor config is provided', () => {
       expect(() =>
         render(
           // @ts-expect-error intentionally omitting required props
-          <BonfireProvider>
+          <EmberProvider>
             <div />
-          </BonfireProvider>
+          </EmberProvider>
         )
-      ).toThrow('BonfireProvider requires either a "client" or "config" prop');
+      ).toThrow('EmberProvider requires either a "client" or "config" prop');
     });
   });
 
   describe('autoConnect', () => {
     it('calls client.connect() on mount when autoConnect is true and client is not connected', () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       expect(client.isConnected).toBe(false);
 
       render(
-        <BonfireProvider client={client as any} autoConnect={true}>
+        <EmberProvider client={client as any} autoConnect={true}>
           <div />
-        </BonfireProvider>
+        </EmberProvider>
       );
 
       expect(client.connect).toHaveBeenCalledTimes(1);
     });
 
     it('does not call client.connect() when autoConnect is false', () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
 
       render(
-        <BonfireProvider client={client as any} autoConnect={false}>
+        <EmberProvider client={client as any} autoConnect={false}>
           <div />
-        </BonfireProvider>
+        </EmberProvider>
       );
 
       expect(client.connect).not.toHaveBeenCalled();
     });
 
     it('does not call client.connect() when client is already connected', () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       // Connect first so isConnected === true
       client.connect();
       client.connect.mockClear();
 
       render(
-        <BonfireProvider client={client as any} autoConnect={true}>
+        <EmberProvider client={client as any} autoConnect={true}>
           <div />
-        </BonfireProvider>
+        </EmberProvider>
       );
 
       expect(client.connect).not.toHaveBeenCalled();
@@ -73,12 +73,12 @@ describe('BonfireProvider', () => {
 
   describe('cleanup on unmount', () => {
     it('does NOT call disconnect on an externally-provided client', () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
 
       const { unmount } = render(
-        <BonfireProvider client={client as any} autoConnect={false}>
+        <EmberProvider client={client as any} autoConnect={false}>
           <div />
-        </BonfireProvider>
+        </EmberProvider>
       );
 
       unmount();
@@ -87,15 +87,15 @@ describe('BonfireProvider', () => {
     });
 
     it('unsubscribes state and status listeners on unmount', () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
 
       const onStateChangeSpy = vi.spyOn(client, 'onStateChange');
       const onStatusChangeSpy = vi.spyOn(client, 'onStatusChange');
 
       const { unmount } = render(
-        <BonfireProvider client={client as any} autoConnect={false}>
+        <EmberProvider client={client as any} autoConnect={false}>
           <div />
-        </BonfireProvider>
+        </EmberProvider>
       );
 
       // Each subscription returns an unsubscribe function; collect them
@@ -119,31 +119,31 @@ describe('BonfireProvider', () => {
     });
   });
 
-  describe('useBonfireContext', () => {
-    it('throws when used outside a BonfireProvider', () => {
+  describe('useEmberContext', () => {
+    it('throws when used outside a EmberProvider', () => {
       function TestHook() {
-        useBonfireContext();
+        useEmberContext();
         return null;
       }
 
       expect(() => render(<TestHook />)).toThrow(
-        'Bonfire hooks must be used within a <BonfireProvider>'
+        'Ember hooks must be used within an <EmberProvider>'
       );
     });
 
     it('returns client, status, and gameState from context', () => {
-      const client = new MockBonfireClient();
-      let capturedContext: ReturnType<typeof useBonfireContext> | null = null;
+      const client = new MockEmberClient();
+      let capturedContext: ReturnType<typeof useEmberContext> | null = null;
 
       function TestHook() {
-        capturedContext = useBonfireContext();
+        capturedContext = useEmberContext();
         return null;
       }
 
       render(
-        <BonfireProvider client={client as any} autoConnect={false}>
+        <EmberProvider client={client as any} autoConnect={false}>
           <TestHook />
-        </BonfireProvider>
+        </EmberProvider>
       );
 
       expect(capturedContext).not.toBeNull();
@@ -153,19 +153,19 @@ describe('BonfireProvider', () => {
     });
 
     it('reflects status changes reactively', () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       let capturedStatus = '';
 
       function TestHook() {
-        const { status } = useBonfireContext();
+        const { status } = useEmberContext();
         capturedStatus = status;
         return null;
       }
 
       render(
-        <BonfireProvider client={client as any} autoConnect={false}>
+        <EmberProvider client={client as any} autoConnect={false}>
           <TestHook />
-        </BonfireProvider>
+        </EmberProvider>
       );
 
       expect(capturedStatus).toBe('disconnected');
@@ -178,19 +178,19 @@ describe('BonfireProvider', () => {
     });
 
     it('reflects gameState changes reactively', () => {
-      const client = new MockBonfireClient();
+      const client = new MockEmberClient();
       let capturedState: any = null;
 
       function TestHook() {
-        const { gameState } = useBonfireContext();
+        const { gameState } = useEmberContext();
         capturedState = gameState;
         return null;
       }
 
       render(
-        <BonfireProvider client={client as any} autoConnect={false}>
+        <EmberProvider client={client as any} autoConnect={false}>
           <TestHook />
-        </BonfireProvider>
+        </EmberProvider>
       );
 
       expect(capturedState).toBeNull();

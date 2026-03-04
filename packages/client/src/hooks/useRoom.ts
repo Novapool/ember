@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useBonfireContext } from '../context/BonfireProvider';
+import { useEmberContext } from '../context/EmberProvider';
 import { useGameState } from './useGameState';
 import type { RoomId, PlayerId } from '@bonfire/core';
 import type { RoomCreateResponse, RoomJoinResponse, RoomReconnectResponse, BaseResponse, ActionResponse } from '../types';
@@ -25,7 +25,7 @@ export function useRoom(): {
   sendAction: (actionType: string, payload: unknown) => Promise<ActionResponse>;
   reconnectToRoom: (roomId: RoomId, playerId: PlayerId) => Promise<RoomReconnectResponse>;
 } {
-  const { client } = useBonfireContext();
+  const { client } = useEmberContext();
   // Subscribe to state so roomId re-renders when it changes
   useGameState();
 
