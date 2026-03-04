@@ -14,7 +14,7 @@ Active bugs and framework gaps discovered during development.
 
 ## Framework Gaps Resolved (Feb 27, 2026)
 
-The following gaps were discovered during LOIV2 development and are now fixed in the framework itself.
+The following gaps were discovered during Surface Level development and are now fixed in the framework itself.
 
 ---
 

@@ -40,7 +40,7 @@ Moderation is at the **game level**, not the session level. What happens inside 
 Games are built by us using Ember. Quality and tone are controlled. Intimacy/emotional closeness is the through-line. Goal is to knock out games steadily — a game a week is feasible with Ember's abstractions.
 
 Current games:
-- Intimacy Ladder V2
+- Surface Level
 
 ### External Games (Future)
 Ember is open source. Developers can build games on top of it and host themselves. If a community game is high quality and gaining traction, it can be onboarded to the platform:

@@ -8,7 +8,7 @@ Milestone 2: Core Game Engine ✅ Complete (Feb 8, 2026)
 Milestone 3: Server Infrastructure ✅ Complete (Feb 8, 2026)
 Milestone 4: Client Library ✅ Complete (Feb 9, 2026)
 Milestone 5: UI Component Library ✅ Complete (Feb 12, 2026)
-Milestone 6: First Game - Intimacy Ladder v2 ✅ Complete (Feb 28, 2026)
+Milestone 6: First Game - Surface Level ✅ Complete (Feb 28, 2026)
 Milestone 7: Dual-Use Architecture ✅ Complete (Feb 28, 2026)
 Milestone 7.5: Session & Timer Improvements ✅ Complete (Mar 1, 2026)
 **Next:** Milestone 8: Second Game - Validation 🔵
@@ -69,8 +69,8 @@ bonfire/
 
 ## Games Built on Bonfire
 
-- **Intimacy Ladder V2** (`~/Documents/Programs/LOIV2/`) — first game, primary beta tester
-  - Integration notes and workarounds: `LOIV2/docs/TO-REMEMBER.md`
+- **Surface Level** (`~/Documents/Programs/games/surface_level/`) — first game, primary beta tester
+  - Integration notes and workarounds: `surface_level/docs/TO-REMEMBER.md`
   - Issues for Bonfire to fix: `docs/KNOWN_ISSUES.md` (game projects write here directly)
 
 ## Cross-Project Reference

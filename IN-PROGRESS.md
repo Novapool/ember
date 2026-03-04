@@ -18,7 +18,7 @@
 No active plan — Milestone 7 just completed. Start Milestone 8 by choosing a game concept.
 
 **Options for Game 2:**
-- Two Truths and a Lie — simple, different mechanic from LOIV2
+- Two Truths and a Lie — simple, different mechanic from Surface Level
 - Values Alignment — voting-heavy, good stress test for VotingInterface
 - Hot Takes — opinion-based, good use of ResponseInput + RevealPhase
 
@@ -77,7 +77,7 @@ No active plan — Milestone 7 just completed. Start Milestone 8 by choosing a g
    - All tests passing: core 131/131, client 204/204, server non-Firebase 129/129.
    - New docs: `docs/KNOWN_ISSUES.md` — canonical tracker for active bugs and recently fixed issues.
 
-2. **Bonfire Bug Fixes from LOIV2** (Feb 19, 2026)
+2. **Bonfire Bug Fixes from Surface Level** (Feb 19, 2026)
    - ✅ `SocketServer.handleGameAction` — was a stub, now properly delegates to `room.game.handleAction(action)` (already fixed)
    - ✅ **UI components Tailwind tokens** — replaced all Bonfire-specific tokens (`bg-surface`, `text-brand-primary`, `text-text-secondary`, etc.) with standard Tailwind equivalents (`bg-white`, `text-indigo-500`, `text-gray-500`, etc.) in all 8 components + stories
    - ✅ **API documentation** — fixed incorrect signatures in README.md, architecture doc, CLAUDE.md:
@@ -88,12 +88,12 @@ No active plan — Milestone 7 just completed. Start Milestone 8 by choosing a g
    - ✅ **Vite CJS interop** — added `optimizeDeps` + `commonjsOptions` config to README
    - ✅ **Build order** — documented that Bonfire packages must be built before game project install
 
-3. **Milestone 6 - LOIV2 Project Scaffolded** (Feb 17, 2026)
-   - Created `~/Documents/Programs/LOIV2/` as standalone project
+3. **Milestone 6 - Surface Level Project Scaffolded** (Feb 17, 2026)
+   - Created `~/Documents/Programs/games/surface_level/` as standalone project
    - Ported question bank (5 levels, ~200 questions) from LOI v1 to TypeScript
    - Wrote complete game design doc: state model, player actions, turn flow
    - Wrote architecture doc: how game uses Bonfire layers
-   - Wrote curated Bonfire docs (server-setup + client-api) for LOIV2 sessions
+   - Wrote curated Bonfire docs (server-setup + client-api) for Surface Level sessions
    - Set up package.json with `file:` references to Bonfire packages
    - Created placeholder entry points ready for implementation
 
@@ -132,7 +132,7 @@ _No active blockers. See `docs/KNOWN_ISSUES.md` for the canonical issue tracker.
 
 1. **Short-term (Next Sprint — Milestone 8):**
    - Choose Game 2 concept (see options in Active Plan)
-   - Scaffold standalone project like LOIV2
+   - Scaffold standalone project like Surface Level
    - Build using framework with zero modifications — prove it works
 
 2. **Medium-term (Milestone 9+):**

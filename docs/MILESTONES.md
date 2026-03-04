@@ -283,14 +283,14 @@
 
 ---
 
-## Milestone 6: First Game - Intimacy Ladder v2 🟢
+## Milestone 6: First Game - Surface Level 🟢
 
 **Goal:** Build complete game using the framework to validate abstractions
 
 **Status:** Implementation complete, pending multi-browser playtest and optional settings UI.
 
 ### Tasks
-- [x] 🟢 Create LOIV2 project structure with curated Bonfire docs
+- [x] 🟢 Create Surface Level project structure with curated Bonfire docs
 - [x] 🟢 Port question database to TypeScript (levels 1–5, ~200 questions)
 - [x] 🟢 Write GAME_DESIGN.md — state model, player actions, turn flow
 - [x] 🟢 Write ARCHITECTURE.md — how game uses Bonfire layers
@@ -305,11 +305,11 @@
 - [x] 🟢 Document pain points in framework usage (`docs/TO-REMEMBER.md`)
 - [x] 🟢 Fix bugs surfaced by integration: turn rotation, phase guards, joinRoom error handling, unit tests
 
-**Deliverable:** Fully functional Intimacy Ladder game proving framework works
+**Deliverable:** Fully functional Surface Level game proving framework works
 
-**Location:** `~/Documents/Programs/LOIV2/` (standalone project, not in this monorepo)
+**Location:** `~/Documents/Programs/games/surface_level/` (standalone project, not in this monorepo)
 
-**Key learnings captured in:** `~/Documents/Programs/LOIV2/docs/TO-REMEMBER.md`
+**Key learnings captured in:** `~/Documents/Programs/games/surface_level/docs/TO-REMEMBER.md`
 
 ---
 
@@ -317,9 +317,9 @@
 
 **Status:** ✅ Complete (Feb 28, 2026)
 
-**Goal:** Make Ember equally good for two usage patterns — drop-in default components and fully custom UI — based on real integration experience from LOIV2.
+**Goal:** Make Ember equally good for two usage patterns — drop-in default components and fully custom UI — based on real integration experience from Surface Level.
 
-**Why this milestone exists:** LOIV2 revealed that both usage patterns are partially supported but neither is complete. Default components work visually (inline styles, fixed in M5). Hooks-only custom UI works (7 pure game-state hooks). But the *middle ground* — using a component's business logic with custom UI — requires duplicating framework logic in every game. That gap must close before game 2.
+**Why this milestone exists:** Surface Level revealed that both usage patterns are partially supported but neither is complete. Default components work visually (inline styles, fixed in M5). Hooks-only custom UI works (7 pure game-state hooks). But the *middle ground* — using a component's business logic with custom UI — requires duplicating framework logic in every game. That gap must close before game 2.
 
 ### Architectural decision: headless hooks pattern
 
@@ -351,12 +351,12 @@ The 7 game-state hooks (useGameState, useRoom, usePlayer, usePhase, useTurn, use
 - [x] 🟢 Add `styles` prop to `<VotingInterface>` → `{ option?, voteBar?, winnerBadge? }`
 - [x] 🟢 Documented in `docs/DUAL_USE_GUIDE.md`: when to use `style` (root override) vs `styles` (inner element overrides)
 
-### Phase 3: DX improvements from LOIV2 learnings ✅ Complete
+### Phase 3: DX improvements from Surface Level learnings ✅ Complete
 
 - [x] 🟢 `transitionPhase()` error message now lists valid phases: `Phase "X" is not defined. Valid phases are: [lobby, playing, results]`
 - [x] 🟢 Dev-mode console warning when `onGameStart()` returns without calling `transitionPhase()` (silent foot-gun)
 - [x] 🟢 `BonfireClient.createRoom()` / `joinRoom()` now have 10-second timeout — returns `{ success: false, error: '...' }` if server never responds instead of hanging forever
-- [x] 🟢 API docs audited (already fixed during M6 LOIV2 integration — correct signatures in README, CLAUDE.md, and architecture docs)
+- [x] 🟢 API docs audited (already fixed during M6 Surface Level integration — correct signatures in README, CLAUDE.md, and architecture docs)
 
 ### Phase 4: Dual-use documentation ✅ Complete
 
@@ -382,11 +382,11 @@ The 7 game-state hooks (useGameState, useRoom, usePlayer, usePhase, useTurn, use
 
 ---
 
-## Milestone 7.5: Session & Timer Improvements (from LOIV2 M4) 🟢
+## Milestone 7.5: Session & Timer Improvements (from Surface Level M4) 🟢
 
 **Status:** ✅ Complete (March 1, 2026)
 
-**Goal:** Framework improvements discovered while building Intimacy Ladder V2 Milestone 4 (session reconnect, vote-to-skip, timer). These were needed by the game and upstreamed into Bonfire so all future games benefit.
+**Goal:** Framework improvements discovered while building Surface Level Milestone 4 (session reconnect, vote-to-skip, timer). These were needed by the game and upstreamed into Bonfire so all future games benefit.
 
 ### Tasks
 - [x] 🟢 `localStorage` session persistence — was `sessionStorage`, destroyed on tab close; now survives tab close/reopen
@@ -570,6 +570,6 @@ The 7 game-state hooks (useGameState, useRoom, usePlayer, usePhase, useTurn, use
 - **Milestone 4:** Duplicating server response types in the client avoids pulling in Node.js-only server deps (Express, firebase-admin) — clean client/server boundary.
 - **Milestone 4:** MockBonfireClient with `simulate*` methods mirrors the real client's subscription API, enabling fast hook unit tests without sockets.
 - **Milestone 4:** Server-authoritative model (no client-side optimistic update machinery) is sufficient for turn-based social games. Can revisit in Milestone 7 if needed.
-- **Milestone 6 / Milestone 7 (Feb 28, 2026):** LOIV2 integration revealed the key architectural gap: game devs can use default components OR build fully custom UI with hooks, but there is no clean path for "component logic, custom UI." Headless hooks (`useLobby`, `useResponseInput`) are the missing layer. Also: inner-element styling (font, color of prompt text, badge styles) requires a `styles` prop map — the `style` prop only reaches the root container. Full analysis in `~/Documents/Programs/LOIV2/docs/TO-REMEMBER.md`.
+- **Milestone 6 / Milestone 7 (Feb 28, 2026):** Surface Level integration revealed the key architectural gap: game devs can use default components OR build fully custom UI with hooks, but there is no clean path for "component logic, custom UI." Headless hooks (`useLobby`, `useResponseInput`) are the missing layer. Also: inner-element styling (font, color of prompt text, badge styles) requires a `styles` prop map — the `style` prop only reaches the root container. Full analysis in `~/Documents/Programs/games/surface_level/docs/TO-REMEMBER.md`.
 - **Naming (Mar 2026):** Framework renamed to **Ember**. Platform is **Bonfire**. Package scope stays `@bonfire/*` (org-scoped, avoids `@ember` npm conflict with Ember.js).
 

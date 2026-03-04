@@ -207,7 +207,7 @@ function MyRankingInput({ items }: { items: { id: string; label: string }[] }) {
 
 ## Pattern 3: Hooks only — build everything yourself
 
-Use the 7 game-state hooks and write all UI from scratch. This is what LOIV2 uses.
+Use the 7 game-state hooks and write all UI from scratch. This is what Surface Level uses.
 
 ```tsx
 import {
