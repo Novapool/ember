@@ -76,6 +76,8 @@ export function createTestState(overrides?: Partial<GameState>): GameState {
     startedAt: overrides?.startedAt,
     endedAt: overrides?.endedAt,
     metadata: overrides?.metadata,
+    playerOrder: overrides?.playerOrder,
+    currentTurnIndex: overrides?.currentTurnIndex,
   };
 }
 
@@ -89,6 +91,7 @@ export function createTestConfig(overrides?: Partial<GameConfig>): GameConfig {
     phases: overrides?.phases ?? ['lobby', 'playing', 'results'],
     allowJoinInProgress: overrides?.allowJoinInProgress ?? false,
     disconnectTimeout: overrides?.disconnectTimeout ?? 1000, // Short timeout for tests
+    disconnectStrategy: overrides?.disconnectStrategy,
   };
 }
 
