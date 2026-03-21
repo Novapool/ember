@@ -323,7 +323,10 @@ packages/client/
     │   ├── useRoom.test.ts
     │   ├── usePlayer.test.ts
     │   ├── usePhase.test.ts
-    │   └── useEmberEvent.test.ts
+    │   ├── useEmberEvent.test.ts
+    │   ├── useLobby.test.ts
+    │   ├── useResponseInput.test.ts
+    │   └── useTurn.test.ts
     ├── components/
     │   ├── EmberErrorBoundary.test.tsx
     │   ├── Lobby.test.tsx

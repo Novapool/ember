@@ -130,7 +130,7 @@ Framework Structure:
 
 **Build Games to Build the Framework:**
 
-1. Build first game (Intimacy Ladder) while extracting generic parts
+1. Build first game (Surface Level) while extracting generic parts
 2. Build second game to validate abstractions
 3. Build third game to prove framework maturity
 4. Open-source and invite contributors

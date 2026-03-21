@@ -34,7 +34,7 @@ The following gaps were discovered during Surface Level development and are now 
 
 ### ~~No reconnect path after page refresh~~ ✅ Fixed Feb 27, 2026
 **Symptom:** Players who refreshed the page had no way back into their session — they had to re-enter the room code and name, getting a new player ID.
-**Fix:** `BonfireClient` auto-saves `{ roomId, playerId }` to `sessionStorage` on `createRoom`/`joinRoom`, clears on `leaveRoom`/`room:closed`. New `reconnectToRoom(roomId, playerId)` method (and `useRoom().reconnectToRoom`) emits `room:reconnect` to the server, which validates the player still exists and restores the session. `loadSession()` reads the saved session.
+**Fix:** `EmberClient` auto-saves `{ roomId, playerId }` to `localStorage` on `createRoom`/`joinRoom`, clears on `leaveRoom`/`room:closed`. New `reconnectToRoom(roomId, playerId)` method (and `useRoom().reconnectToRoom`) emits `room:reconnect` to the server, which validates the player still exists and restores the session. `loadSession()` reads the saved session.
 **Usage:**
 ```typescript
 // On app mount:
@@ -114,4 +114,4 @@ playerOrder: shuffleArray(players.map(p => p.id)),
 - `usePlayer()` → key is `player`, not `currentPlayer`
 - `sendAction(type, payload)` → two separate args, not one object
 - `usePhase()` → returns value directly, not `{ phase }`
-- `BonfireProvider` → use `config` prop, not `serverUrl`
+- `EmberProvider` → use `config` prop, not `serverUrl`

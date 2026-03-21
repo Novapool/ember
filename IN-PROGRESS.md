@@ -1,6 +1,6 @@
 # IN-PROGRESS - Bonfire Platform / Ember Framework
 
-**Last Updated:** March 4, 2026 (Framework rename: Bonfire* → Ember* in source code)
+**Last Updated:** March 5, 2026 (Documentation audit: fixed stale references, added missing docs to index)
 
 ---
 
@@ -162,18 +162,20 @@ _No active blockers. See `docs/KNOWN_ISSUES.md` for the canonical issue tracker.
 - Shared contract types in @bonfire/core/contracts.ts (client/server import from single source)
 
 **Documentation Status:**
-- Root CLAUDE.md ✅ (updated Feb 12, 2026 - Milestone 5 complete)
-- docs/PROJECT_OVERVIEW.md ✅ (updated Feb 19, 2026)
-- docs/MILESTONES.md ✅ (updated Feb 19, 2026)
-- docs/architecture/core-classes.md ✅ (updated Feb 19, 2026)
+- Root CLAUDE.md ✅ (updated Mar 5, 2026 - audit: added DUAL_USE_GUIDE, KNOWN_ISSUES to index, fixed project structure block)
+- docs/PROJECT_OVERVIEW.md ✅ (updated Mar 5, 2026 - fixed "Intimacy Ladder" → "Surface Level")
+- docs/MILESTONES.md ✅ (updated Mar 5, 2026 - fixed "IntimacyLadderGame" → "SurfaceLevelGame")
+- docs/DUAL_USE_GUIDE.md ✅ (updated Feb 28, 2026)
+- docs/PLATFORM_VISION.md ✅
+- docs/architecture/core-classes.md ✅ (updated Mar 5, 2026 - removed stale M3 future-work note)
 - docs/architecture/server-infrastructure.md ✅
-- docs/architecture/client-library.md ✅ (updated Feb 28, 2026)
+- docs/architecture/client-library.md ✅ (updated Mar 5, 2026 - added missing hook test files to directory listing)
 - docs/api/FIREBASE.md ✅
 - docs/api/ADMIN_API.md ✅
 - docs/KNOWN_ISSUES.md ✅ (updated Feb 28, 2026)
-- IN-PROGRESS.md ✅ (updated Feb 28, 2026)
+- IN-PROGRESS.md ✅ (updated Mar 5, 2026)
 - packages/core/README.md ✅
 - packages/server/README.md ✅
 - packages/server/CLAUDE.md ✅ (updated Feb 19, 2026)
 - packages/client/README.md ✅ (updated Feb 28, 2026)
-- packages/client/CLAUDE.md ✅ (updated Feb 28, 2026)
+- packages/client/CLAUDE.md ✅ (updated Mar 5, 2026 - added theme.ts to utils listing)

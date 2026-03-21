@@ -50,9 +50,9 @@ import { EmberProvider, useGameState, usePlayer, Lobby } from '@bonfire/client';
 
 function App() {
   return (
-    <EmberProvider config={{ serverUrl: 'http://localhost:3001' }}>
+    <EmberProvider config={{ url: 'http://localhost:3001' }}>
       <Game />
-    </BonfireProvider>
+    </EmberProvider>
   );
 }
 
@@ -125,4 +125,4 @@ export default {
 
 ## Status
 
-Milestones 1–5 are complete (core engine, server infrastructure, client library, UI components). Milestone 6 is actively in progress: building the first real game on top of the framework to validate the abstractions.
+Milestones 1–7.5 are complete (core engine, server infrastructure, client library, UI components, Surface Level game, dual-use architecture, session/timer improvements). Milestone 8 (second game — validation) is next.

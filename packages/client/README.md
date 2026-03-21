@@ -90,7 +90,7 @@ function GameUI() {
   if (!state) {
     return (
       <div>
-        <button onClick={() => createRoom()}>Create Room</button>
+        <button onClick={() => createRoom('surface-level', 'Host')}>Create Room</button>
         <button onClick={() => joinRoom('ABC123', 'Player1')}>Join Room</button>
       </div>
     );
@@ -844,8 +844,8 @@ import { VotingInterface } from '@bonfire/client';
     { id: 'b', label: 'Option B' },
     { id: 'c', label: 'Option C' },
   ]}
-  onVote={(optionId) => sendAction({ type: 'vote', payload: { optionId } })}
-  selectedId={myVoteId}
+  onVote={(optionId) => sendAction('vote', { optionId })}
+  currentVote={myVoteId}
   disabled={hasVoted}
 />
 

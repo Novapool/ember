@@ -358,7 +358,7 @@ interface RoomJoinResponse {
 
 ##### `room:reconnect`
 
-Reconnect to a room after a page refresh. Session data is automatically saved to `sessionStorage` by the client library on `room:create` / `room:join`.
+Reconnect to a room after a page refresh. Session data is automatically saved to `localStorage` by the client library on `room:create` / `room:join`.
 
 ```typescript
 socket.emit('room:reconnect', roomId, playerId, (response) => {

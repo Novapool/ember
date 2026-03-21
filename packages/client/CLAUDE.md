@@ -63,7 +63,8 @@ src/
 │   ├── VotingInterface.tsx           - Voting UI with results display
 │   └── VotingInterface.stories.tsx
 └── utils/
-    └── colorHash.ts                  - Deterministic color & initials from player name
+    ├── colorHash.ts                  - Deterministic color & initials from player name
+    └── theme.ts                      - Shared inline style constants (colors, radius, shadows)
 
 __tests__/
 ├── client/
@@ -74,7 +75,9 @@ __tests__/
 │   ├── useRoom.test.ts
 │   ├── usePlayer.test.ts
 │   ├── usePhase.test.ts
-│   └── useEmberEvent.test.ts
+│   ├── useEmberEvent.test.ts
+│   ├── useCountdown.test.ts
+│   └── useSession.test.ts
 ├── components/
 │   ├── EmberErrorBoundary.test.tsx
 │   ├── Lobby.test.tsx

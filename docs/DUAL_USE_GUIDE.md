@@ -11,7 +11,7 @@ The fastest path. Import a pre-built component, drop it in, and you're done. Zer
 ```tsx
 import { Lobby, PromptCard, VotingInterface } from '@bonfire/client';
 
-// Lobby screen — reads room state automatically via BonfireProvider
+// Lobby screen — reads room state automatically via EmberProvider
 function LobbyScreen() {
   return <Lobby />;
 }
@@ -40,7 +40,7 @@ function VoteScreen() {
 }
 ```
 
-**When to use:** Prototyping, internal tools, or when you're happy with Bonfire's visual style.
+**When to use:** Prototyping, internal tools, or when you're happy with Ember's visual style.
 
 ### Customising inner elements with `styles`
 
@@ -217,7 +217,7 @@ import {
   usePhase,
   useTurn,
   useConnection,
-  useBonfireEvent,
+  useEmberEvent,
 } from '@bonfire/client';
 
 function GameRoot() {
@@ -234,7 +234,7 @@ function MyQuestion() {
   const { sendAction } = useRoom();
   const { isMyTurn, currentPlayer } = useTurn();
 
-  useBonfireEvent('question_revealed', (data) => {
+  useEmberEvent('question_revealed', (data) => {
     playSound('ding');
   });
 
@@ -265,7 +265,7 @@ function MyQuestion() {
 | `usePhase()` | current phase string |
 | `useTurn()` | `{ isMyTurn, currentPlayerId, currentPlayer, turnIndex }` |
 | `useConnection()` | `{ status, connect, disconnect }` |
-| `useBonfireEvent(type, handler)` | — (subscribes to custom game events) |
+| `useEmberEvent(type, handler)` | — (subscribes to custom game events) |
 
 ---
 

@@ -359,9 +359,9 @@ Everything else is handled by the framework.
 - Spectator mode support
 - Save/restore game state
 
-**Migration Path:**
-When backend integrations are built (Milestone 3), they will:
-- Implement IStateSynchronizer interface
-- Live in separate packages (@bonfire/firebase, @bonfire/railway)
-- Not require changes to core package
-- Allow games to switch backends without code changes
+**Backend Integrations (Milestone 3 - Complete):**
+Backend integrations live in `@bonfire/server`:
+- `SocketStateSynchronizer` implements `IStateSynchronizer` via Socket.io + Firebase
+- `FirebaseAdapter` implements `IDatabaseAdapter` for Firebase Realtime Database
+- Core package requires no changes to add new backends
+- Games can switch backends without changing game code

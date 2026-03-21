@@ -234,6 +234,8 @@
 
 **Architecture Documentation:** See `docs/architecture/client-library.md` for detailed design.
 
+> **Note (March 2026):** All `Bonfire*` class names listed above were renamed to `Ember*` equivalents (`BonfireClient` → `EmberClient`, `BonfireProvider` → `EmberProvider`, `BonfireErrorBoundary` → `EmberErrorBoundary`, `MockBonfireClient` → `MockEmberClient`, `useBonfireEvent` → `useEmberEvent`). The historical names above reflect what was built at the time.
+
 **Time to Complete:** ~2 hours focused development
 
 ---
@@ -295,7 +297,7 @@
 - [x] 🟢 Write GAME_DESIGN.md — state model, player actions, turn flow
 - [x] 🟢 Write ARCHITECTURE.md — how game uses Bonfire layers
 - [x] 🟢 Write docs/bonfire/ — curated server-setup and client-api guides
-- [x] 🟢 Implement `IntimacyLadderGame` extending `SocialGame`
+- [x] 🟢 Implement `SurfaceLevelGame` extending `SocialGame`
 - [x] 🟢 Implement progressive disclosure mechanic (descending levels, questionsPerLevel)
 - [ ] 🔴 Add reflection phase between levels *(deferred — not required for v1)*
 - [x] 🟢 Build mobile-responsive UI (Landing, Lobby, QuestionSelect, Answering, Waiting, Finished)
@@ -329,7 +331,7 @@ Ember adopts the **headless component pattern**: every component with business l
 2. **Headless + custom UI** — `useLobby()` — full logic, your own markup and styles
 3. **Hooks only** — `useGameState()` / `usePlayer()` etc. — write everything yourself
 
-The 7 game-state hooks (useGameState, useRoom, usePlayer, usePhase, useTurn, useConnection, useBonfireEvent) already satisfy pattern 3. Pattern 1 works after the M5 inline-style fix. This milestone closes pattern 2.
+The 7 game-state hooks (useGameState, useRoom, usePlayer, usePhase, useTurn, useConnection, useEmberEvent) already satisfy pattern 3. Pattern 1 works after the M5 inline-style fix. This milestone closes pattern 2.
 
 ---
 

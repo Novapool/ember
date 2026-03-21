@@ -40,13 +40,19 @@ Milestone 7.5: Session & Timer Improvements ✅ Complete (Mar 1, 2026)
   - `FIREBASE.md` - Complete Firebase setup guide (local dev with emulator, production deployment)
   - `ADMIN_API.md` - Admin REST endpoints (stats, force-end, kick player)
 
-**Future documentation (create as needed):**
-- `docs/SETUP.md` - Local development setup instructions
+- `docs/DUAL_USE_GUIDE.md` - Three usage patterns: drop-in components, headless hooks, hooks-only
+  - Read when: Building game UIs, choosing between default components and custom UI
+
+- `docs/KNOWN_ISSUES.md` - Canonical bug tracker; active issues and recently fixed
+  - Read when: Debugging framework issues, checking if a problem is known
+
+- `docs/SETUP.md` - Local development setup (clone, build order, tests, emulator, Storybook)
+  - Read when: Setting up the project for the first time, running tests, configuring the Firebase emulator
 
 ## Project Structure
 
 ```
-bonfire/
+ember/
 ├── packages/
 │   ├── core/          - @bonfire/core package (game engine)
 │   ├── server/        - Server infrastructure (Milestone 3+)
@@ -55,7 +61,10 @@ bonfire/
     ├── architecture/  - Core class design and system architecture
     ├── api/           - API integration and endpoint documentation
     ├── MILESTONES.md  - Development roadmap
-    └── PROJECT_OVERVIEW.md - Vision and philosophy
+    ├── PROJECT_OVERVIEW.md - Vision and philosophy
+    ├── PLATFORM_VISION.md  - Platform product vision and business model
+    ├── DUAL_USE_GUIDE.md   - Three UI usage patterns with examples
+    └── KNOWN_ISSUES.md     - Active bug tracker and recently fixed issues
 ```
 
 ## Tech Stack

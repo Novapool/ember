@@ -238,11 +238,9 @@ const game = new MyPartyGame('room-123', initialState, myBackendSync);
 
 ## Examples
 
-See the `/examples` directory for complete game implementations:
+See the `/examples` directory for a complete game implementation:
 
-- Simple Quiz Game
-- Drawing Game
-- Voting Game
+- `simple-game.ts` — minimal `SocialGame` extension demonstrating the full lifecycle
 
 ## Development
 
