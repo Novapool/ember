@@ -2,7 +2,7 @@
  * Test game implementation for unit tests
  */
 
-import { SocialGame, type GameState, type GameConfig, type RoomId, type PlayerAction } from '@bonfire/core'
+import { SocialGame, type GameState, type GameConfig, type RoomId, type PlayerAction } from '@bonfire-ember/core'
 import type { SocketStateSynchronizer } from '../../src/core/SocketStateSynchronizer'
 
 /**
@@ -41,11 +41,11 @@ export class TestGame extends SocialGame<TestGameState> {
     // No-op for test
   }
 
-  protected async onPlayerJoin(player: import('@bonfire/core').Player): Promise<void> {
+  protected async onPlayerJoin(player: import('@bonfire-ember/core').Player): Promise<void> {
     // No-op for test
   }
 
-  protected async onPlayerLeave(playerId: import('@bonfire/core').PlayerId): Promise<void> {
+  protected async onPlayerLeave(playerId: import('@bonfire-ember/core').PlayerId): Promise<void> {
     // No-op for test
   }
 

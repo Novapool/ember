@@ -2,7 +2,7 @@ import React, { ReactNode, useState } from 'react';
 import { useLobby } from '../hooks/useLobby';
 import { PlayerAvatar } from './PlayerAvatar';
 import { C, radius, shadow } from '../utils/theme';
-import type { Player } from '@bonfire/core';
+import type { Player } from '@bonfire-ember/core';
 
 export interface LobbyProps {
   /** Override automatic room code detection */

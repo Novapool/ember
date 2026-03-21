@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useEmberContext } from '../context/EmberProvider';
 import { useGameState } from './useGameState';
-import type { Player, PlayerId } from '@bonfire/core';
+import type { Player, PlayerId } from '@bonfire-ember/core';
 
 /**
  * Access current player info and the full player list.

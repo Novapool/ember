@@ -6,7 +6,7 @@
  */
 
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest'
-import type { GameState, RoomId } from '@bonfire/core'
+import type { GameState, RoomId } from '@bonfire-ember/core'
 import type { RoomMetadata } from '../../../src/types'
 import { FirebaseAdapter, type FirebaseAdapterConfig } from '../../../src/database/FirebaseAdapter'
 

@@ -9,7 +9,7 @@ Ember supports three distinct usage patterns for building game UIs. Pick the one
 The fastest path. Import a pre-built component, drop it in, and you're done. Zero configuration required.
 
 ```tsx
-import { Lobby, PromptCard, VotingInterface } from '@bonfire/client';
+import { Lobby, PromptCard, VotingInterface } from '@bonfire-ember/client';
 
 // Lobby screen — reads room state automatically via EmberProvider
 function LobbyScreen() {
@@ -101,7 +101,7 @@ Every component with meaningful inner elements accepts a `styles` prop — an ob
 You want Bonfire's component logic (state management, validation, handlers) but you supply the markup and styles entirely.
 
 ```tsx
-import { useLobby, useResponseInput } from '@bonfire/client';
+import { useLobby, useResponseInput } from '@bonfire-ember/client';
 
 // Custom lobby using useLobby() for all state + handlers
 function MyCustomLobby() {
@@ -218,7 +218,7 @@ import {
   useTurn,
   useConnection,
   useEmberEvent,
-} from '@bonfire/client';
+} from '@bonfire-ember/client';
 
 function GameRoot() {
   const phase = usePhase();

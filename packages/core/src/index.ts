@@ -1,5 +1,5 @@
 /**
- * @bonfire/core
+ * @bonfire-ember/core
  *
  * Core types, interfaces, and base classes for building party games
  */

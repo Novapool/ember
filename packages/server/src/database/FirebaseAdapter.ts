@@ -6,7 +6,7 @@
  */
 
 import * as admin from 'firebase-admin'
-import type { GameState, RoomId } from '@bonfire/core'
+import type { GameState, RoomId } from '@bonfire-ember/core'
 import type { RoomMetadata } from '../types'
 import type { IDatabaseAdapter } from './IDatabaseAdapter'
 

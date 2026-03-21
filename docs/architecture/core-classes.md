@@ -360,7 +360,7 @@ Everything else is handled by the framework.
 - Save/restore game state
 
 **Backend Integrations (Milestone 3 - Complete):**
-Backend integrations live in `@bonfire/server`:
+Backend integrations live in `@bonfire-ember/server`:
 - `SocketStateSynchronizer` implements `IStateSynchronizer` via Socket.io + Firebase
 - `FirebaseAdapter` implements `IDatabaseAdapter` for Firebase Realtime Database
 - Core package requires no changes to add new backends

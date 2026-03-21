@@ -8,7 +8,45 @@ Active bugs and framework gaps discovered during development.
 
 ## Active Issues
 
-*No active issues.*
+### Provider naming inconsistency (`EmberProvider` vs `BonfireProvider`)
+**Severity:** Medium — new game devs following older docs or examples will get import errors.
+**Symptom:** Some documentation and older files reference `EmberProvider` / `EmberErrorBoundary`, but the actual exports from `@bonfire-ember/client` are `BonfireProvider` / `BonfireErrorBoundary`. The mismatch produces a clean import error at the TypeScript level.
+**Fix needed:** Pick one name and make it consistent across all source code, docs, CLAUDE.md files, and the scaffold. If the public API is `BonfireProvider`, remove all references to `EmberProvider` from documentation.
+
+---
+
+## Recently Fixed (Mar 2026)
+
+### ~~Room code not accessible from hooks~~ ✅ Fixed Mar 2026
+**Was:** No hook exposed the current room ID/code. Workaround required casting through `any`.
+**Fix:** `useRoom()` already returns `roomId: RoomId | null`. Use it directly:
+```typescript
+const { roomId } = useRoom();
+```
+
+---
+
+### ~~Vite named exports list must be manually maintained per game~~ ✅ Fixed Mar 2026
+**Was:** Vite's CJS→ESM interop required every named export to be manually listed in `vite.config.ts`. Adding a new hook without updating the list caused a cryptic runtime error with no TypeScript warning.
+**Fix:** All three packages (`@bonfire-ember/core`, `@bonfire-ember/server`, `@bonfire-ember/client`) now output ESM (`"type": "module"`, `"module": "ESNext"` in tsconfig). Vite handles ESM natively — no `namedExports`, no `optimizeDeps.include`, no `commonjsOptions` needed. Game `vite.config.ts` is now a plain 7-line config.
+
+---
+
+### ~~`onGameStart()` not auto-transitioning phases is a silent failure~~ ✅ Fixed Mar 2026
+**Was:** Game silently stayed in `'lobby'` if `transitionPhase()` was not called inside `onGameStart()`.
+**Fix:** `SocialGame.startGame()` emits a `console.warn` in non-production environments if `onGameStart()` returns without changing the phase:
+```
+[Bonfire] onGameStart() returned but the phase is still "lobby". Did you forget to call transitionPhase()? Valid phases are: [lobby, playing, results]
+```
+
+---
+
+### ~~`config.phases` omission causes runtime error with unhelpful message~~ ✅ Fixed Mar 2026
+**Was:** Calling `transitionPhase('revealing')` when `'revealing'` wasn't in `config.phases` threw with a non-obvious error message.
+**Fix:** `GameValidator.validatePhaseTransition()` now returns a clear error:
+```
+Phase "revealing" is not defined in game config. Valid phases are: [lobby, playing, results]
+```
 
 ---
 
@@ -18,7 +56,7 @@ The following gaps were discovered during Surface Level development and are now 
 
 ---
 
-## Recently Fixed
+## Recently Fixed (Feb 2026)
 
 ### ~~Component business logic has no standalone headless hooks~~ ✅ Fixed Feb 28, 2026
 **Symptom:** `<Lobby>` and `<ResponseInput>` encapsulated logic (canStart, minPlayers, ranking ops) with no standalone hook equivalent. Developers building custom UI had to re-implement framework-managed logic.

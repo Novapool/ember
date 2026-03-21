@@ -17,7 +17,7 @@ import type {
   StateResponse,
   ActionResponse,
   ErrorResponse,
-} from '@bonfire/core'
+} from '@bonfire-ember/core'
 import type { SocketStateSynchronizer } from './core/SocketStateSynchronizer'
 
 /**
@@ -194,7 +194,7 @@ export interface ServerToClientEvents {
   'room:closed': (reason: string) => void
 }
 
-// Response types are now imported from @bonfire/core (see contracts.ts)
+// Response types are now imported from @bonfire-ember/core (see contracts.ts)
 // Re-export for backwards compatibility
 export type {
   BaseResponse,

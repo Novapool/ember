@@ -1,5 +1,5 @@
 import { useGameState } from './useGameState';
-import type { Phase } from '@bonfire/core';
+import type { Phase } from '@bonfire-ember/core';
 
 /**
  * Access the current game phase.

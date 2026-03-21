@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { useGameState } from './useGameState';
 import { usePlayer } from './usePlayer';
 import { useRoom } from './useRoom';
-import type { Player } from '@bonfire/core';
+import type { Player } from '@bonfire-ember/core';
 
 export interface UseLobbyOptions {
   /** Override automatic room code detection */

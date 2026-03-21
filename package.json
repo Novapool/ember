@@ -13,7 +13,8 @@
     "lint:fix": "eslint packages/*/src --ext .ts --fix",
     "format": "prettier --write \"packages/*/src/**/*.ts\"",
     "format:check": "prettier --check \"packages/*/src/**/*.ts\"",
-    "clean": "rm -rf packages/*/dist packages/*/*.tsbuildinfo node_modules"
+    "clean": "rm -rf packages/*/dist packages/*/*.tsbuildinfo node_modules",
+    "create-game": "node scripts/create-game.mjs"
   },
   "keywords": [
     "party-games",

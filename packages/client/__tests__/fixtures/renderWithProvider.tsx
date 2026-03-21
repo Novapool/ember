@@ -6,7 +6,7 @@ import { render, renderHook, type RenderHookOptions, type RenderOptions } from '
 import type { ReactNode, ReactElement } from 'react';
 import { EmberProvider } from '../../src/context/EmberProvider';
 import { MockEmberClient } from './mockEmberClient';
-import type { GameState, PlayerId } from '@bonfire/core';
+import type { GameState, PlayerId } from '@bonfire-ember/core';
 
 // Overloaded signatures for different use cases
 export function renderWithProvider<TResult>(

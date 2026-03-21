@@ -13,7 +13,7 @@ import type {
   GameEventType,
   GameEventPayloads,
   RoomId,
-} from '@bonfire/core'
+} from '@bonfire-ember/core'
 import type { TypedSocketServer } from '../types'
 import type { IDatabaseAdapter } from '../database/IDatabaseAdapter'
 

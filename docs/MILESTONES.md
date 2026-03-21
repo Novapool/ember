@@ -12,7 +12,7 @@
 - [x] 🟢 Set up monorepo structure (npm workspaces)
 - [x] 🟢 Initialize TypeScript configuration for all packages
 - [x] 🟢 Define base `Game` class interface and types
-- [x] 🟢 Create package structure (`@bonfire/core`, `/server`, `/client`) — Ember framework packages
+- [x] 🟢 Create package structure (`@bonfire-ember/core`, `/server`, `/client`) — Ember framework packages
 - [x] 🟢 Set up development tooling (ESLint, Prettier)
 - [x] 🟢 Initialize Git repository with proper .gitignore
 
@@ -273,7 +273,7 @@
 - [x] 🟢 Updated README.md, CLAUDE.md, MILESTONES.md, and IN-PROGRESS.md
 
 **What Was Built (Phases 1-4):**
-- **8 reusable UI components** exported from `@bonfire/client`: Lobby, PlayerAvatar, Timer, PromptCard, ResponseInput, RevealPhase, GameProgress, VotingInterface
+- **8 reusable UI components** exported from `@bonfire-ember/client`: Lobby, PlayerAvatar, Timer, PromptCard, ResponseInput, RevealPhase, GameProgress, VotingInterface
 - **colorHash utility** for deterministic player color assignment
 - **Storybook 8** with full story coverage for all components
 - **Inline styles** via shared `src/utils/theme.ts` constants — zero external CSS dependencies, no consumer setup required
@@ -341,7 +341,7 @@ The 7 game-state hooks (useGameState, useRoom, usePlayer, usePhase, useTurn, use
 - [x] 🟢 Extract `useResponseInput(config)` → `{ value, handleChange, canSubmit, disabled, reset, rankingOps: { moveUp, moveDown, add, remove } }`
 - [x] 🟢 Refactor `<Lobby>` to be a thin wrapper over `useLobby()` (no duplicated logic)
 - [x] 🟢 Refactor `<ResponseInput>` to be a thin wrapper over `useResponseInput()`
-- [x] 🟢 Export `useLobby` and `useResponseInput` from `@bonfire/client`
+- [x] 🟢 Export `useLobby` and `useResponseInput` from `@bonfire-ember/client`
 - [x] 🟢 Add tests for new hooks (38 tests total, all passing)
 
 ### Phase 2: Inner-element theming — enable custom-styled Bonfire components ✅ Complete

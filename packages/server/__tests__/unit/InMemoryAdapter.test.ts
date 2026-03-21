@@ -4,7 +4,7 @@
 
 import { describe, it, expect, beforeEach } from 'vitest'
 import { InMemoryAdapter } from '../../src/database/InMemoryAdapter'
-import type { GameState } from '@bonfire/core'
+import type { GameState } from '@bonfire-ember/core'
 import type { RoomMetadata } from '../../src/types'
 
 describe('InMemoryAdapter', () => {

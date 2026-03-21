@@ -51,7 +51,7 @@ A comprehensive framework that provides:
 - **Phase 2 (Scale):** Railway + Socket.io + Redis/PostgreSQL - Full control, hard cost caps
 
 ### Distribution
-- **NPM Packages** - `@bonfire/core`, `/server`, `/client`
+- **NPM Packages** - `@bonfire-ember/core`, `/server`, `/client`
 - **CLI Tool** - `npx create-ember-game my-game` for instant scaffolding
 - **Documentation Site** - Docusaurus or VitePress for guides and API reference
 
@@ -61,7 +61,7 @@ A comprehensive framework that provides:
 
 **Minimal Game Implementation:**
 ```javascript
-import { SocialGame } from '@bonfire/core';
+import { SocialGame } from '@bonfire-ember/core';
 
 export default class MyGame extends SocialGame {
   config = {
@@ -106,7 +106,7 @@ export default class MyGame extends SocialGame {
 ```
 Framework Structure:
 ┌─────────────────────────────────────┐
-│   @bonfire/core                     │
+│   @bonfire-ember/core                     │
 │   - Base game classes                │
 │   - State management abstractions    │
 │   - Type definitions                 │

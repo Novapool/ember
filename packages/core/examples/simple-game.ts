@@ -162,8 +162,6 @@ async function runExample() {
 }
 
 // Run if executed directly
-if (require.main === module) {
-  runExample().catch(console.error);
-}
+runExample().catch(console.error);
 
 export { SimpleQuizGame, runExample };

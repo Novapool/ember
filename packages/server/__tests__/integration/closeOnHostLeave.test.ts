@@ -21,7 +21,7 @@ import {
   waitForEvent,
   type TestSocket,
 } from './fixtures/socketClient'
-import { SocialGame, type GameState, type GameConfig, type RoomId, type PlayerAction } from '@bonfire/core'
+import { SocialGame, type GameState, type GameConfig, type RoomId, type PlayerAction } from '@bonfire-ember/core'
 import type { SocketStateSynchronizer } from '../../src/core/SocketStateSynchronizer'
 
 // ---------------------------------------------------------------------------

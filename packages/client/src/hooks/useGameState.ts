@@ -1,6 +1,6 @@
 import { useSyncExternalStore, useCallback } from 'react';
 import { useEmberContext } from '../context/EmberProvider';
-import type { GameState } from '@bonfire/core';
+import type { GameState } from '@bonfire-ember/core';
 
 /**
  * Subscribe to game state updates from the server.

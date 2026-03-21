@@ -7,7 +7,7 @@
  */
 
 import { io, type Socket } from 'socket.io-client';
-import type { GameState, PlayerId, RoomId } from '@bonfire/core';
+import type { GameState, PlayerId, RoomId } from '@bonfire-ember/core';
 import type {
   EmberClientConfig,
   ConnectionStatus,

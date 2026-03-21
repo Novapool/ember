@@ -5,7 +5,7 @@
  * Tests call `simulate*` methods to trigger listener callbacks.
  */
 
-import type { GameState, PlayerId, RoomId } from '@bonfire/core';
+import type { GameState, PlayerId, RoomId } from '@bonfire-ember/core';
 import type {
   ConnectionStatus,
   ErrorResponse,

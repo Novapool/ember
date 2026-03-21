@@ -3,7 +3,7 @@ import { screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Lobby } from '../../src/components/Lobby';
 import { renderWithProvider } from '../fixtures/renderWithProvider';
-import type { GameState } from '@bonfire/core';
+import type { GameState } from '@bonfire-ember/core';
 
 describe('Lobby', () => {
   const mockState: GameState = {

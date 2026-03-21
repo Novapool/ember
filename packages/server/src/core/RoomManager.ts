@@ -8,7 +8,7 @@
  * - List and filter rooms
  */
 
-import type { SocialGame, RoomId, PlayerId } from '@bonfire/core'
+import type { SocialGame, RoomId, PlayerId } from '@bonfire-ember/core'
 import type { RoomInstance, RoomInfo, TypedSocketServer, RoomMetadata } from '../types'
 import type { IDatabaseAdapter } from '../database/IDatabaseAdapter'
 import { SocketStateSynchronizer } from './SocketStateSynchronizer'

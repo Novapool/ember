@@ -6,7 +6,7 @@
  */
 
 import { SocketServer, FirebaseAdapter } from '../src/index'
-import { SocialGame } from '@bonfire/core'
+import { SocialGame } from '@bonfire-ember/core'
 import * as dotenv from 'dotenv'
 
 // Load environment variables

@@ -86,9 +86,9 @@ Reference packages via local `file:` paths:
 ```json
 {
   "dependencies": {
-    "@bonfire/core": "file:../ember/packages/core",
-    "@bonfire/server": "file:../ember/packages/server",
-    "@bonfire/client": "file:../ember/packages/client"
+    "@bonfire-ember/core": "file:../ember/packages/core",
+    "@bonfire-ember/server": "file:../ember/packages/server",
+    "@bonfire-ember/client": "file:../ember/packages/client"
   }
 }
 ```
@@ -106,8 +106,8 @@ If using Vite, add CJS interop config — see `README.md` for the `vite.config.t
 ```json
 {
   "dependencies": {
-    "@bonfire/core": "npm:@bonfire-ember/core@0.1.1",
-    "@bonfire/server": "npm:@bonfire-ember/server@0.1.1"
+    "@bonfire-ember/core": "npm:@bonfire-ember/core@0.1.1",
+    "@bonfire-ember/server": "npm:@bonfire-ember/server@0.1.1"
   }
 }
 ```

@@ -1,4 +1,4 @@
-# @bonfire/server Package
+# @bonfire-ember/server Package
 
 Server infrastructure for Ember - multi-room orchestration, Socket.io integration, and database abstraction.
 

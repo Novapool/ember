@@ -3,7 +3,7 @@ import { act } from '@testing-library/react';
 import { useLobby } from '../../src/hooks/useLobby';
 import { renderWithProvider } from '../fixtures/renderWithProvider';
 import { MockEmberClient } from '../fixtures/mockEmberClient';
-import type { GameState } from '@bonfire/core';
+import type { GameState } from '@bonfire-ember/core';
 
 const hostState: GameState = {
   roomId: 'ABC123',

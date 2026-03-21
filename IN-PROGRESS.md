@@ -102,14 +102,14 @@ No active plan — Milestone 7 just completed. Start Milestone 8 by choosing a g
    - Built `<GameProgress>` - Progress indicator with bar/dots/number variants, all with ARIA progressbar role
    - Built `<VotingInterface>` - Full voting UI with results display, vote counts, percentages, winner highlighting
    - Added Storybook stories for all 3 Phase 4 components
-   - Exported all new components from @bonfire/client index.ts
+   - Exported all new components from @bonfire-ember/client index.ts
    - **205 total tests, all passing** (46 new for Phase 4)
    - Updated all documentation (CLAUDE.md, MILESTONES.md, IN-PROGRESS.md, client CLAUDE.md, client README.md)
 
 5. **Milestone 5 - UI Components Phase 3** (Feb 12, 2026)
    - Built PromptCard with 4 variants (standard/spicy/creative/dare), category badge, round indicator
    - Built ResponseInput: text (single/multiline), multiple-choice (single/multi-select), ranking modes
-   - Exported all 5 components + colorHash utility from @bonfire/client index
+   - Exported all 5 components + colorHash utility from @bonfire-ember/client index
    - Added Storybook stories for both components (including combined PromptCard+ResponseInput demo)
    - 159 tests total (100 new for Phase 3), all passing
 
@@ -145,7 +145,7 @@ _No active blockers. See `docs/KNOWN_ISSUES.md` for the canonical issue tracker.
 
 **Current Architecture:**
 - Monorepo structure with TypeScript
-- Three main Ember framework packages: @bonfire/core, /server, /client (package scope stays @bonfire/*)
+- Three main Ember framework packages: @bonfire-ember/core, /server, /client (package scope stays @bonfire/*)
 - Using npm workspaces for dependency management
 
 **UI Component Library Summary (Milestone 5 Complete):**
@@ -159,7 +159,7 @@ _No active blockers. See `docs/KNOWN_ISSUES.md` for the canonical issue tracker.
 - Chose npm workspaces over Turborepo for simplicity (can migrate later)
 - useSyncExternalStore for hook state subscriptions (React 18 best practice)
 - Server-authoritative model — no client-side optimistic update machinery
-- Shared contract types in @bonfire/core/contracts.ts (client/server import from single source)
+- Shared contract types in @bonfire-ember/core/contracts.ts (client/server import from single source)
 
 **Documentation Status:**
 - Root CLAUDE.md ✅ (updated Mar 5, 2026 - audit: added DUAL_USE_GUIDE, KNOWN_ISSUES to index, fixed project structure block)

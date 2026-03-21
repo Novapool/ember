@@ -8,16 +8,16 @@ Ember handles the infrastructure so you can focus on game logic: WebSocket rooms
 
 ## What's in the box
 
-**`@bonfire/core`** — Base classes, types, and interfaces. Extend `SocialGame` and implement your game logic.
+**`@bonfire-ember/core`** — Base classes, types, and interfaces. Extend `SocialGame` and implement your game logic.
 
-**`@bonfire/server`** — Socket.io server, room management, and database adapters (Firebase + in-memory for testing).
+**`@bonfire-ember/server`** — Socket.io server, room management, and database adapters (Firebase + in-memory for testing).
 
-**`@bonfire/client`** — React hooks and a UI component library (Lobby, Timer, PlayerAvatar, PromptCard, ResponseInput, VotingInterface, RevealPhase, GameProgress).
+**`@bonfire-ember/client`** — React hooks and a UI component library (Lobby, Timer, PlayerAvatar, PromptCard, ResponseInput, VotingInterface, RevealPhase, GameProgress).
 
 ## Quick look
 
 ```typescript
-import { SocialGame, GameState, Player, PlayerAction, ActionResult } from '@bonfire/core';
+import { SocialGame, GameState, Player, PlayerAction, ActionResult } from '@bonfire-ember/core';
 
 interface TriviaState extends GameState {
   scores: Record<string, number>;
@@ -46,7 +46,7 @@ class TriviaGame extends SocialGame<TriviaState> {
 On the client:
 
 ```tsx
-import { EmberProvider, useGameState, usePlayer, Lobby } from '@bonfire/client';
+import { EmberProvider, useGameState, usePlayer, Lobby } from '@bonfire-ember/client';
 
 function App() {
   return (
@@ -87,9 +87,9 @@ Reference packages via local `file:` paths while in development:
 ```json
 {
   "dependencies": {
-    "@bonfire/core": "file:../bonfire/packages/core",
-    "@bonfire/server": "file:../bonfire/packages/server",
-    "@bonfire/client": "file:../bonfire/packages/client"
+    "@bonfire-ember/core": "file:../bonfire/packages/core",
+    "@bonfire-ember/server": "file:../bonfire/packages/server",
+    "@bonfire-ember/client": "file:../bonfire/packages/client"
   }
 }
 ```
@@ -100,7 +100,7 @@ If using Vite, add CJS interop config:
 // vite.config.ts
 export default {
   optimizeDeps: {
-    include: ['@bonfire/core', '@bonfire/server', '@bonfire/client'],
+    include: ['@bonfire-ember/core', '@bonfire-ember/server', '@bonfire-ember/client'],
   },
   build: {
     commonjsOptions: {

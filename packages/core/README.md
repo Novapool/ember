@@ -1,17 +1,17 @@
-# @bonfire/core
+# @bonfire-ember/core
 
 Core types, interfaces, and base classes for building social party games with Bonfire.
 
 ## Installation
 
 ```bash
-npm install @bonfire/core
+npm install @bonfire-ember/core
 ```
 
 ## Quick Start
 
 ```typescript
-import { SocialGame, Player, PlayerAction, ActionResult } from '@bonfire/core';
+import { SocialGame, Player, PlayerAction, ActionResult } from '@bonfire-ember/core';
 
 // 1. Define your game state
 interface MyGameState extends GameState {
@@ -184,7 +184,7 @@ game.on('room:closed', ({ roomId }) => { /* ... */ });
 Integrate with a backend by providing an `IStateSynchronizer`:
 
 ```typescript
-import { IStateSynchronizer } from '@bonfire/core';
+import { IStateSynchronizer } from '@bonfire-ember/core';
 
 class MyBackendSync implements IStateSynchronizer<MyGameState> {
   async broadcastState(state: MyGameState): Promise<void> {

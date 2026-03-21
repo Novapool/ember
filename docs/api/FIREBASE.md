@@ -83,7 +83,7 @@ Bonfire uses Firebase Realtime Database for:
 
 4. **Use in Code:**
    ```typescript
-   import { FirebaseAdapter } from '@bonfire/server'
+   import { FirebaseAdapter } from '@bonfire-ember/server'
 
    const adapter = new FirebaseAdapter({
      projectId: process.env.FIREBASE_PROJECT_ID!,
@@ -210,7 +210,7 @@ FIREBASE_SERVICE_ACCOUNT={"type":"service_account","project_id":"..."}
 
 **Using Credentials File:**
 ```typescript
-import { FirebaseAdapter } from '@bonfire/server'
+import { FirebaseAdapter } from '@bonfire-ember/server'
 
 const adapter = new FirebaseAdapter({
   projectId: process.env.FIREBASE_PROJECT_ID!,
@@ -223,7 +223,7 @@ await adapter.initialize()
 
 **Using Credentials Object:**
 ```typescript
-import { FirebaseAdapter } from '@bonfire/server'
+import { FirebaseAdapter } from '@bonfire-ember/server'
 
 const credentials = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT!)
 
@@ -327,8 +327,8 @@ This will:
 ## Integration with SocketServer
 
 ```typescript
-import { SocketServer, FirebaseAdapter } from '@bonfire/server'
-import { SocialGame } from '@bonfire/core'
+import { SocketServer, FirebaseAdapter } from '@bonfire-ember/server'
+import { SocialGame } from '@bonfire-ember/core'
 
 // Create Firebase adapter
 const adapter = new FirebaseAdapter({
@@ -543,7 +543,7 @@ firebase emulators:start --only database
 
 **Before (InMemoryAdapter):**
 ```typescript
-import { InMemoryAdapter } from '@bonfire/server'
+import { InMemoryAdapter } from '@bonfire-ember/server'
 
 const adapter = new InMemoryAdapter()
 await adapter.initialize()
@@ -551,7 +551,7 @@ await adapter.initialize()
 
 **After (FirebaseAdapter):**
 ```typescript
-import { FirebaseAdapter } from '@bonfire/server'
+import { FirebaseAdapter } from '@bonfire-ember/server'
 
 const adapter = new FirebaseAdapter({
   projectId: process.env.FIREBASE_PROJECT_ID!,

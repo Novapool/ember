@@ -1,7 +1,7 @@
 /**
  * Client-specific type definitions for Bonfire
  *
- * Response types are imported from @bonfire/core to maintain
+ * Response types are imported from @bonfire-ember/core to maintain
  * type safety between client and server without duplication.
  */
 
@@ -16,7 +16,7 @@ import type {
   StateResponse,
   ActionResponse,
   ErrorResponse,
-} from '@bonfire/core';
+} from '@bonfire-ember/core';
 
 // ---- Connection ----
 
@@ -37,7 +37,7 @@ export interface EmberClientConfig {
   reconnectionAttempts?: number;
 }
 
-// ---- Server Response Types (imported from @bonfire/core) ----
+// ---- Server Response Types (imported from @bonfire-ember/core) ----
 // Re-export for convenience
 export type {
   BaseResponse,
@@ -49,7 +49,7 @@ export type {
   ErrorResponse,
 }
 
-// ---- Socket.io Event Contracts (mirrored from @bonfire/server) ----
+// ---- Socket.io Event Contracts (mirrored from @bonfire-ember/server) ----
 
 export interface ClientToServerEvents {
   'room:create': (gameType: string, hostName: string, callback: (response: RoomCreateResponse) => void) => void;

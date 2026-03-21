@@ -3,7 +3,7 @@ import { act } from '@testing-library/react';
 import { usePlayer } from '../../src/hooks/usePlayer';
 import { renderWithProvider } from '../fixtures/renderWithProvider';
 import { MockEmberClient } from '../fixtures/mockEmberClient';
-import type { GameState } from '@bonfire/core';
+import type { GameState } from '@bonfire-ember/core';
 
 describe('usePlayer', () => {
   it('should return null player and empty players list initially', () => {

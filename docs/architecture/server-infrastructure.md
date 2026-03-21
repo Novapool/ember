@@ -90,7 +90,7 @@ class RoomManager<T extends SocialGame<any>> {
 - Persist state to database on every update
 
 **Key Design Decisions:**
-- Implements `IStateSynchronizer` from @bonfire/core (backend-agnostic)
+- Implements `IStateSynchronizer` from @bonfire-ember/core (backend-agnostic)
 - Uses Socket.io rooms for efficient broadcasting
 - Combines Socket.io (realtime) + database (persistence) in single operation
 - Maintains socket-player mapping for targeted sends

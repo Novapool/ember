@@ -1,4 +1,4 @@
-# Testing Guide - @bonfire/server
+# Testing Guide - @bonfire-ember/server
 
 This guide explains how to run tests for the server package, including Firebase Emulator setup.
 

@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `@bonfire/client` package provides React hooks and utilities for building game UIs that connect to an Ember server. It wraps `socket.io-client` in a type-safe, React-friendly API.
+The `@bonfire-ember/client` package provides React hooks and utilities for building game UIs that connect to an Ember server. It wraps `socket.io-client` in a type-safe, React-friendly API.
 
 ## Architecture
 
@@ -73,7 +73,7 @@ React context provider that wraps the app tree.
 
 ## Type Strategy
 
-The client package **does not depend on `@bonfire/server`**. Server response types (`BaseResponse`, `RoomCreateResponse`, `RoomReconnectResponse`, etc.) are imported from `@bonfire/core/contracts.ts` — a single source of truth shared with the server. Socket.io event contracts (`ClientToServerEvents`, `ServerToClientEvents`) are defined locally in `src/types.ts`. This keeps the client free of Node.js-only dependencies (Express, firebase-admin) while eliminating type duplication.
+The client package **does not depend on `@bonfire-ember/server`**. Server response types (`BaseResponse`, `RoomCreateResponse`, `RoomReconnectResponse`, etc.) are imported from `@bonfire-ember/core/contracts.ts` — a single source of truth shared with the server. Socket.io event contracts (`ClientToServerEvents`, `ServerToClientEvents`) are defined locally in `src/types.ts`. This keeps the client free of Node.js-only dependencies (Express, firebase-admin) while eliminating type duplication.
 
 ## Testing
 

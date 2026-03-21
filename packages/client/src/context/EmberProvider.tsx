@@ -9,7 +9,7 @@ import { createContext, useContext, useEffect, useState, useRef } from 'react';
 import type { ReactNode } from 'react';
 import { EmberClient } from '../client/EmberClient';
 import type { EmberClientConfig, ConnectionStatus } from '../types';
-import type { GameState } from '@bonfire/core';
+import type { GameState } from '@bonfire-ember/core';
 
 export interface EmberContextValue {
   client: EmberClient;

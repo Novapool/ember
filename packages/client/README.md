@@ -1,4 +1,4 @@
-# @bonfire/client
+# @bonfire-ember/client
 
 React hooks and utilities for building Bonfire party game UIs.
 
@@ -25,17 +25,17 @@ React hooks and utilities for building Bonfire party game UIs.
 ## Installation
 
 ```bash
-npm install @bonfire/client socket.io-client
+npm install @bonfire-ember/client socket.io-client
 ```
 
 > **Build order matters:** When using local `file:` references, build the Bonfire packages first before running your game app:
 > ```bash
-> cd bonfire && npm run build   # build @bonfire/core, /server, /client first
+> cd bonfire && npm run build   # build @bonfire-ember/core, /server, /client first
 > cd ../my-game && npm install  # then install
 > ```
 
 **Dependencies:**
-- `@bonfire/core` - Core types and interfaces
+- `@bonfire-ember/core` - Core types and interfaces
 - `socket.io-client` - Realtime communication
 - `react` - React 18+ (peer dependency)
 
@@ -48,8 +48,8 @@ npm install @bonfire/client socket.io-client
 Wrap your app with `EmberProvider` to make Bonfire hooks available:
 
 ```tsx
-import { EmberProvider, EmberClient } from '@bonfire/client';
-import { GameState } from '@bonfire/core';
+import { EmberProvider, EmberClient } from '@bonfire-ember/client';
+import { GameState } from '@bonfire-ember/core';
 
 // Option A: Pass config (provider creates client)
 function App() {
@@ -75,7 +75,7 @@ function App() {
 ### 2. Use Bonfire Hooks in Your Components
 
 ```tsx
-import { useGameState, useConnection, useRoom, usePlayer } from '@bonfire/client';
+import { useGameState, useConnection, useRoom, usePlayer } from '@bonfire-ember/client';
 
 function GameUI() {
   const { state } = useGameState();
@@ -117,7 +117,7 @@ function GameUI() {
 Wrap components with `EmberErrorBoundary` to catch and display errors:
 
 ```tsx
-import { EmberErrorBoundary } from '@bonfire/client';
+import { EmberErrorBoundary } from '@bonfire-ember/client';
 
 function App() {
   return (
@@ -141,7 +141,7 @@ function App() {
 Low-level Socket.io client wrapper. Usually used via `EmberProvider` and hooks.
 
 ```typescript
-import { EmberClient } from '@bonfire/client';
+import { EmberClient } from '@bonfire-ember/client';
 
 const client = new EmberClient({
   url: 'http://localhost:3000',
@@ -645,7 +645,7 @@ Pre-built React components for common party game UI patterns. Components use inl
 Renders a player's avatar as a colored circle with initials. Color is deterministically generated from the player's name.
 
 ```tsx
-import { PlayerAvatar } from '@bonfire/client';
+import { PlayerAvatar } from '@bonfire-ember/client';
 
 <PlayerAvatar
   name="Alice"
@@ -661,7 +661,7 @@ import { PlayerAvatar } from '@bonfire/client';
 Countdown timer with an optional circular SVG progress ring.
 
 ```tsx
-import { Timer } from '@bonfire/client';
+import { Timer } from '@bonfire-ember/client';
 
 <Timer
   duration={60}           // seconds
@@ -678,7 +678,7 @@ import { Timer } from '@bonfire/client';
 Full pre-built lobby screen. Connects to game state via hooks internally — no wiring required.
 
 ```tsx
-import { Lobby } from '@bonfire/client';
+import { Lobby } from '@bonfire-ember/client';
 
 // Minimal usage — reads room code and players from game state automatically
 <Lobby />
@@ -698,7 +698,7 @@ import { Lobby } from '@bonfire/client';
 Themed card for displaying questions, prompts, or dares.
 
 ```tsx
-import { PromptCard } from '@bonfire/client';
+import { PromptCard } from '@bonfire-ember/client';
 
 <PromptCard
   prompt="What is your biggest fear?"
@@ -716,7 +716,7 @@ import { PromptCard } from '@bonfire/client';
 Polymorphic input component — mode is determined by `config.type`.
 
 ```tsx
-import { ResponseInput } from '@bonfire/client';
+import { ResponseInput } from '@bonfire-ember/client';
 
 // Text input
 <ResponseInput
@@ -777,7 +777,7 @@ The `PromptCard` children slot is designed for `ResponseInput`:
 Sequentially reveals a list of items with configurable animation delays. Useful for answer reveals, score announcements, or any staged disclosure pattern.
 
 ```tsx
-import { RevealPhase } from '@bonfire/client';
+import { RevealPhase } from '@bonfire-ember/client';
 
 <RevealPhase
   items={[
@@ -811,7 +811,7 @@ Custom render per item:
 Displays current progress through rounds or phases. Supports three visual variants.
 
 ```tsx
-import { GameProgress } from '@bonfire/client';
+import { GameProgress } from '@bonfire-ember/client';
 
 // Progress bar
 <GameProgress
@@ -835,7 +835,7 @@ All variants include an ARIA `progressbar` role for accessibility.
 Full voting UI with live results display, vote counts, percentage bars, and winner highlighting.
 
 ```tsx
-import { VotingInterface } from '@bonfire/client';
+import { VotingInterface } from '@bonfire-ember/client';
 
 // Voting in progress
 <VotingInterface
@@ -864,7 +864,7 @@ import { VotingInterface } from '@bonfire/client';
 ### colorHash Utility
 
 ```typescript
-import { getPlayerColor, getPlayerInitials } from '@bonfire/client';
+import { getPlayerColor, getPlayerInitials } from '@bonfire-ember/client';
 
 getPlayerColor('Alice')     // '#...' — deterministic hex color
 getPlayerInitials('Alice')  // 'AL'
@@ -897,7 +897,7 @@ import type {
   ActionResponse,
   ErrorResponse,
   EmberGameEvent,
-} from '@bonfire/client';
+} from '@bonfire-ember/client';
 ```
 
 **Type Definitions:**
@@ -1007,7 +1007,7 @@ For detailed architecture documentation, see `docs/architecture/client-library.m
 ### Complete Game UI Example
 
 ```tsx
-import { EmberProvider, useGameState, useRoom, usePlayer, usePhase } from '@bonfire/client';
+import { EmberProvider, useGameState, useRoom, usePlayer, usePhase } from '@bonfire-ember/client';
 
 function App() {
   return (
@@ -1119,7 +1119,7 @@ When using Bonfire packages from a Vite app, add this to your `vite.config.ts` t
 // vite.config.ts
 export default defineConfig({
   optimizeDeps: {
-    include: ['@bonfire/client', '@bonfire/core'],
+    include: ['@bonfire-ember/client', '@bonfire-ember/core'],
   },
   build: {
     commonjsOptions: {

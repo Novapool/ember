@@ -23,7 +23,7 @@ import type {
   RoomReconnectResponse,
 } from '../types'
 import type { IDatabaseAdapter } from '../database/IDatabaseAdapter'
-import type { SocialGame, PlayerId, RoomId, GameState } from '@bonfire/core'
+import type { SocialGame, PlayerId, RoomId, GameState } from '@bonfire-ember/core'
 import { RoomManager, type GameFactory } from './RoomManager'
 import {
   ServerError,

@@ -5,7 +5,7 @@
  * (Firebase, PostgreSQL, Redis, etc.) without changing game logic.
  */
 
-import type { GameState, RoomId } from '@bonfire/core'
+import type { GameState, RoomId } from '@bonfire-ember/core'
 import type { RoomMetadata } from '../types'
 
 /**

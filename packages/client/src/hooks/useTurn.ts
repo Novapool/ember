@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useGameState } from './useGameState';
 import { usePlayer } from './usePlayer';
-import type { Player, PlayerId } from '@bonfire/core';
+import type { Player, PlayerId } from '@bonfire-ember/core';
 
 /**
  * Convenience hook for turn-based games.

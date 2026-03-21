@@ -10,7 +10,7 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import type { GameState } from '@bonfire/core'
+import type { GameState } from '@bonfire-ember/core'
 import { createTestServer, type TestServerSetup } from './fixtures/testServer'
 import { createTestClient, connectClient, disconnectClient, waitForEvent, type TestSocket } from './fixtures/socketClient'
 import { SocketServer } from '../../src/core/SocketServer'

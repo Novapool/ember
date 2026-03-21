@@ -1,4 +1,4 @@
-# @bonfire/client Package
+# @bonfire-ember/client Package
 
 React hooks and utilities for building Ember party game UIs.
 

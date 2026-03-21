@@ -54,7 +54,7 @@ Milestone 7.5: Session & Timer Improvements ✅ Complete (Mar 1, 2026)
 ```
 ember/
 ├── packages/
-│   ├── core/          - @bonfire/core package (game engine)
+│   ├── core/          - @bonfire-ember/core package (game engine)
 │   ├── server/        - Server infrastructure (Milestone 3+)
 │   └── client/        - Client library and components (Milestone 4+)
 └── docs/

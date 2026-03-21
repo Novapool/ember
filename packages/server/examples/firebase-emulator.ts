@@ -6,7 +6,7 @@
  */
 
 import { SocketServer, FirebaseAdapter } from '../src/index'
-import { SocialGame } from '@bonfire/core'
+import { SocialGame } from '@bonfire-ember/core'
 
 async function main() {
   console.log('🔥 Starting Bonfire server with Firebase Emulator...')

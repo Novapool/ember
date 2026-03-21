@@ -1,4 +1,4 @@
-# @bonfire/server
+# @bonfire-ember/server
 
 Server infrastructure for Bonfire party game framework, providing multi-room orchestration, Socket.io integration, and database abstraction.
 
@@ -20,11 +20,11 @@ Server infrastructure for Bonfire party game framework, providing multi-room orc
 ## Installation
 
 ```bash
-npm install @bonfire/server
+npm install @bonfire-ember/server
 ```
 
 **Dependencies:**
-- `@bonfire/core` - Game engine
+- `@bonfire-ember/core` - Game engine
 - `socket.io` - Realtime communication
 - `express` - HTTP server
 - `firebase-admin` - Firebase integration (optional)
@@ -36,8 +36,8 @@ npm install @bonfire/server
 **Using SocketServer (Recommended - Phase 3+):**
 
 ```typescript
-import { SocketServer, InMemoryAdapter } from '@bonfire/server'
-import { SocialGame } from '@bonfire/core'
+import { SocketServer, InMemoryAdapter } from '@bonfire-ember/server'
+import { SocialGame } from '@bonfire-ember/core'
 
 // Create database adapter
 const adapter = new InMemoryAdapter()
@@ -89,9 +89,9 @@ process.on('SIGINT', async () => {
 **Using RoomManager directly (Advanced - Phases 1-2):**
 
 ```typescript
-import { RoomManager, InMemoryAdapter } from '@bonfire/server'
+import { RoomManager, InMemoryAdapter } from '@bonfire-ember/server'
 import { Server as SocketIOServer } from 'socket.io'
-import { SocialGame } from '@bonfire/core'
+import { SocialGame } from '@bonfire-ember/core'
 import express from 'express'
 import { createServer } from 'http'
 
@@ -777,7 +777,7 @@ await roomManager.shutdown()
 
 ### SocketStateSynchronizer
 
-Broadcasts game state and events via Socket.io and persists to database. Implements `IStateSynchronizer` from `@bonfire/core`.
+Broadcasts game state and events via Socket.io and persists to database. Implements `IStateSynchronizer` from `@bonfire-ember/core`.
 
 #### Constructor
 
@@ -1010,7 +1010,7 @@ interface FirebaseAdapterConfig {
 
 **Production (with credentials file):**
 ```typescript
-import { FirebaseAdapter } from '@bonfire/server'
+import { FirebaseAdapter } from '@bonfire-ember/server'
 
 const adapter = new FirebaseAdapter({
   projectId: process.env.FIREBASE_PROJECT_ID!,
@@ -1180,7 +1180,7 @@ interface RoomInfo {
 ### Room Code Generation
 
 ```typescript
-import { generateRoomCode, isValidRoomCode } from '@bonfire/server'
+import { generateRoomCode, isValidRoomCode } from '@bonfire-ember/server'
 
 const roomId = generateRoomCode() // e.g., "A3K7N2"
 const isValid = isValidRoomCode(roomId) // true
@@ -1204,7 +1204,7 @@ import {
   RoomClosedError,
   UnauthorizedError,
   ValidationError,
-} from '@bonfire/server'
+} from '@bonfire-ember/server'
 
 try {
   const room = roomManager.getRoom(roomId)
@@ -1262,7 +1262,7 @@ npm run test:firebase
 For testing server code that uses Socket.io:
 
 ```typescript
-import { MockSocket, MockSocketServer } from '@bonfire/server/__mocks__/mockSocketIo'
+import { MockSocket, MockSocketServer } from '@bonfire-ember/server/__mocks__/mockSocketIo'
 
 // Create mock server
 const mockIo = new MockSocketServer()
@@ -1311,8 +1311,8 @@ class MockSocketServer {
 import express from 'express'
 import { createServer } from 'http'
 import { Server as SocketIOServer } from 'socket.io'
-import { RoomManager, InMemoryAdapter } from '@bonfire/server'
-import { SocialGame } from '@bonfire/core'
+import { RoomManager, InMemoryAdapter } from '@bonfire-ember/server'
+import { SocialGame } from '@bonfire-ember/core'
 
 const app = express()
 const httpServer = createServer(app)

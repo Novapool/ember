@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useEmberContext } from '../context/EmberProvider';
 import { useGameState } from './useGameState';
-import type { RoomId, PlayerId } from '@bonfire/core';
+import type { RoomId, PlayerId } from '@bonfire-ember/core';
 import type { RoomCreateResponse, RoomJoinResponse, RoomReconnectResponse, BaseResponse, ActionResponse } from '../types';
 
 /**

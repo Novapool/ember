@@ -1,4 +1,4 @@
-# @bonfire/core Package
+# @bonfire-ember/core Package
 
 Core types, interfaces, and base classes for the Ember party game framework.
 
@@ -8,7 +8,7 @@ Core types, interfaces, and base classes for the Ember party game framework.
 
 ## Package Overview
 
-This package is the shared foundation imported by both `@bonfire/server` and `@bonfire/client`. It has **no runtime dependencies** — only type definitions and abstract base classes.
+This package is the shared foundation imported by both `@bonfire-ember/server` and `@bonfire-ember/client`. It has **no runtime dependencies** — only type definitions and abstract base classes.
 
 - **`SocialGame`** — Abstract base class that game developers extend
 - **`PlayerManager`** — Composition class handling player lifecycle
@@ -23,7 +23,7 @@ This package is the shared foundation imported by both `@bonfire/server` and `@b
 
 **Composition over inheritance:** `SocialGame` uses `PlayerManager` and `GameEventEmitter` as internal instances — not as parent classes. Cleaner separation of concerns, easier to test.
 
-**Backend-agnostic via `IStateSynchronizer`:** Core has no knowledge of Socket.io, Firebase, or any network layer. `SocialGame` accepts an optional `IStateSynchronizer` instance. Tests use an in-memory implementation; production uses `SocketStateSynchronizer` from `@bonfire/server`.
+**Backend-agnostic via `IStateSynchronizer`:** Core has no knowledge of Socket.io, Firebase, or any network layer. `SocialGame` accepts an optional `IStateSynchronizer` instance. Tests use an in-memory implementation; production uses `SocketStateSynchronizer` from `@bonfire-ember/server`.
 
 **Single source of truth for shared types:** Contract types (`BaseResponse`, `RoomCreateResponse`, `RoomReconnectResponse`, etc.) live in `src/contracts.ts`. Both server and client import from here — no type duplication.
 

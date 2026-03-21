@@ -3,7 +3,7 @@ import { act } from '@testing-library/react';
 import { useTurn } from '../../src/hooks/useTurn';
 import { renderWithProvider } from '../fixtures/renderWithProvider';
 import { MockEmberClient } from '../fixtures/mockEmberClient';
-import type { GameState } from '@bonfire/core';
+import type { GameState } from '@bonfire-ember/core';
 
 describe('useTurn', () => {
   it('returns all-null values when there is no game state', () => {

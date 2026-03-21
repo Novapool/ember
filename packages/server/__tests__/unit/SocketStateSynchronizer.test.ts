@@ -6,7 +6,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { SocketStateSynchronizer } from '../../src/core/SocketStateSynchronizer'
 import { InMemoryAdapter } from '../../src/database/InMemoryAdapter'
 import { createMockSocketServer } from '../helpers/mockSocket'
-import type { GameState } from '@bonfire/core'
+import type { GameState } from '@bonfire-ember/core'
 
 describe('SocketStateSynchronizer', () => {
   let synchronizer: SocketStateSynchronizer<GameState>

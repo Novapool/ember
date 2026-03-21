@@ -14,7 +14,7 @@ vi.mock('socket.io-client', () => ({
 }));
 
 import { EmberClient } from '../../src/client/EmberClient';
-import type { GameState } from '@bonfire/core';
+import type { GameState } from '@bonfire-ember/core';
 
 describe('EmberClient', () => {
   let client: EmberClient;
