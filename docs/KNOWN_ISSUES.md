@@ -8,14 +8,19 @@ Active bugs and framework gaps discovered during development.
 
 ## Active Issues
 
-### Provider naming inconsistency (`EmberProvider` vs `BonfireProvider`)
-**Severity:** Medium — new game devs following older docs or examples will get import errors.
-**Symptom:** Some documentation and older files reference `EmberProvider` / `EmberErrorBoundary`, but the actual exports from `@bonfire-ember/client` are `BonfireProvider` / `BonfireErrorBoundary`. The mismatch produces a clean import error at the TypeScript level.
-**Fix needed:** Pick one name and make it consistent across all source code, docs, CLAUDE.md files, and the scaffold. If the public API is `BonfireProvider`, remove all references to `EmberProvider` from documentation.
+### `tailwindcss` still listed as a runtime dependency in `@bonfire-ember/client`
+**Severity:** Low — components use inline styles and do not require Tailwind at runtime. The `build:css` script and Tailwind dependency in `packages/client/package.json` are leftovers from before the inline-styles migration (Milestone 5 / Feb 28, 2026).
+**Symptom:** Consumers who inspect `package.json` will see `tailwindcss` as a dependency, which implies they need to configure it. They do not. The dependency is unused by the distributed components.
+**Partial fix (Mar 25, 2026):** `postcss.config.js` renamed to `postcss.config.cjs` — was causing `vitest` to crash with "module is not defined in ES module scope" because the CJS config file conflicted with `"type": "module"` in package.json. Tests now pass.
+**Remaining fix needed:** Remove `tailwindcss`, `@tailwindcss/postcss`, `autoprefixer`, `postcss`, `postcss-cli` from `package.json`. Remove `build:css` script and the `dist/styles.css` export entry. Verify build and tests still pass. (No consumer-facing API change — this is purely a dependency cleanup.)
 
 ---
 
 ## Recently Fixed (Mar 2026)
+
+### ~~Provider naming inconsistency (`BonfireProvider` vs `EmberProvider`)~~ ✅ Fixed Mar 2026
+**Was:** Class names used the `Bonfire` prefix (`BonfireClient`, `BonfireProvider`, `BonfireErrorBoundary`, `MockBonfireClient`, `useBonfireEvent`, `BonfireClientConfig`, `BonfireGameEvent`). This conflicted with the project's intent to keep "Ember" as the framework name and "Bonfire" as the platform name.
+**Fix:** All `Bonfire*` class and hook names in `@bonfire-ember/client` were renamed to `Ember*` equivalents: `EmberClient`, `EmberProvider`, `EmberErrorBoundary`, `MockEmberClient`, `useEmberEvent`, `EmberClientConfig`, `EmberGameEvent`. Package scope stays `@bonfire-ember` (matches npm org). All source, tests, Storybook, README, and CLAUDE.md files updated. TypeScript compiles cleanly with zero errors.
 
 ### ~~Room code not accessible from hooks~~ ✅ Fixed Mar 2026
 **Was:** No hook exposed the current room ID/code. Workaround required casting through `any`.

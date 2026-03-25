@@ -1,6 +1,6 @@
 # IN-PROGRESS - Bonfire Platform / Ember Framework
 
-**Last Updated:** March 5, 2026 (Documentation audit: fixed stale references, added missing docs to index)
+**Last Updated:** March 25, 2026 (Disconnect/rejoin handling fixes: reconnectToRoom timeout, leaveRoom timeout, iOS visibilitychange recovery)
 
 ---
 
@@ -26,7 +26,15 @@ No active plan — Milestone 7 just completed. Start Milestone 8 by choosing a g
 
 ## Recently Completed
 
-1. **Framework class rename: Bonfire* → Ember*** (Mar 4, 2026)
+1. **Disconnect/rejoin handling fixes** (Mar 25, 2026)
+   - ✅ `reconnectToRoom` wrapped with `withTimeout` — no longer hangs forever if server never acks; `useSession.isRestoring` now always resolves within 10s
+   - ✅ `leaveRoom` wrapped with `withTimeout` — consistent with other room operations; local state clears even if server is unreachable
+   - ✅ iOS background recovery: `EmberClient` now attaches a `visibilitychange` listener (browser-only, cleaned up on `disconnect()`) that fires `onVisibilityReconnect` when tab becomes visible and socket is connected
+   - ✅ `useSession` subscribes to `onVisibilityReconnect` and re-attempts `reconnectToRoom` when the app returns from background and the room session may have been lost server-side
+   - ✅ Pre-existing test blocker fixed: renamed `postcss.config.js` → `postcss.config.cjs` (CJS syntax incompatible with package `"type": "module"`)
+   - ✅ 266 client tests, all passing
+
+2. **Framework class rename: Bonfire* → Ember*** (Mar 4, 2026)
    - ✅ Renamed `BonfireClient` → `EmberClient` (class + file)
    - ✅ Renamed `BonfireProvider` → `EmberProvider` (component + file)
    - ✅ Renamed `useBonfireEvent` → `useEmberEvent` (hook + file)
@@ -172,10 +180,11 @@ _No active blockers. See `docs/KNOWN_ISSUES.md` for the canonical issue tracker.
 - docs/architecture/client-library.md ✅ (updated Mar 5, 2026 - added missing hook test files to directory listing)
 - docs/api/FIREBASE.md ✅
 - docs/api/ADMIN_API.md ✅
-- docs/KNOWN_ISSUES.md ✅ (updated Feb 28, 2026)
-- IN-PROGRESS.md ✅ (updated Mar 5, 2026)
+- docs/KNOWN_ISSUES.md ✅ (updated Mar 25, 2026 - resolved stale provider naming active issue; added Tailwind dependency cleanup issue)
+- IN-PROGRESS.md ✅ (updated Mar 25, 2026)
 - packages/core/README.md ✅
 - packages/server/README.md ✅
 - packages/server/CLAUDE.md ✅ (updated Feb 19, 2026)
 - packages/client/README.md ✅ (updated Feb 28, 2026)
+- README.md ✅ (updated Mar 25, 2026 - fixed Vite section: ESM, no CJS interop needed; fixed file: path example)
 - packages/client/CLAUDE.md ✅ (updated Mar 5, 2026 - added theme.ts to utils listing)

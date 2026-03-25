@@ -87,28 +87,14 @@ Reference packages via local `file:` paths while in development:
 ```json
 {
   "dependencies": {
-    "@bonfire-ember/core": "file:../bonfire/packages/core",
-    "@bonfire-ember/server": "file:../bonfire/packages/server",
-    "@bonfire-ember/client": "file:../bonfire/packages/client"
+    "@bonfire-ember/core": "file:../ember/packages/core",
+    "@bonfire-ember/server": "file:../ember/packages/server",
+    "@bonfire-ember/client": "file:../ember/packages/client"
   }
 }
 ```
 
-If using Vite, add CJS interop config:
-
-```ts
-// vite.config.ts
-export default {
-  optimizeDeps: {
-    include: ['@bonfire-ember/core', '@bonfire-ember/server', '@bonfire-ember/client'],
-  },
-  build: {
-    commonjsOptions: {
-      include: [/@bonfire/],
-    },
-  },
-};
-```
+All three packages output ESM (`"type": "module"`). Vite handles them natively — no `optimizeDeps`, `commonjsOptions`, or named exports list required. A plain `vite.config.ts` is sufficient.
 
 **Always rebuild Ember packages before running `npm install` in your game project.**
 

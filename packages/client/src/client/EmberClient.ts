@@ -66,6 +66,8 @@ export class EmberClient {
   private errorListeners = new Set<Listener<ErrorResponse>>();
   private eventListeners = new Map<string, Set<Listener<unknown>>>();
   private roomClosedListeners = new Set<Listener<string>>();
+  private visibilityReconnectListeners = new Set<Listener<void>>();
+  private visibilityChangeHandler: (() => void) | null = null;
 
   constructor(config: EmberClientConfig) {
     this.socket = io(config.url, {
@@ -109,6 +111,10 @@ export class EmberClient {
   }
 
   disconnect(): void {
+    if (this.visibilityChangeHandler && typeof document !== 'undefined') {
+      document.removeEventListener('visibilitychange', this.visibilityChangeHandler);
+      this.visibilityChangeHandler = null;
+    }
     this.socket.disconnect();
     this.setStatus('disconnected');
     this._gameState = null;
@@ -156,31 +162,37 @@ export class EmberClient {
   }
 
   leaveRoom(): Promise<BaseResponse> {
-    return new Promise((resolve) => {
-      this.socket.emit('room:leave', (response: BaseResponse) => {
-        if (response.success) {
-          this._roomId = null;
-          this._playerId = null;
-          this._gameState = null;
-          this.clearSession();
-        }
-        resolve(response);
-      });
-    });
+    return withTimeout<BaseResponse>(
+      (resolve) => {
+        this.socket.emit('room:leave', (response: BaseResponse) => {
+          if (response.success) {
+            this._roomId = null;
+            this._playerId = null;
+            this._gameState = null;
+            this.clearSession();
+          }
+          resolve(response);
+        });
+      },
+      'Server did not respond to room:leave. Check your connection.'
+    );
   }
 
   reconnectToRoom(roomId: RoomId, playerId: PlayerId): Promise<RoomReconnectResponse> {
-    return new Promise((resolve) => {
-      this.socket.emit('room:reconnect', roomId, playerId, (response: RoomReconnectResponse) => {
-        if (response.success && response.state && response.playerId) {
-          this._roomId = roomId;
-          this._playerId = response.playerId;
-          this._gameState = response.state;
-          this.notifyStateListeners(response.state);
-        }
-        resolve(response);
-      });
-    });
+    return withTimeout<RoomReconnectResponse>(
+      (resolve) => {
+        this.socket.emit('room:reconnect', roomId, playerId, (response: RoomReconnectResponse) => {
+          if (response.success && response.state && response.playerId) {
+            this._roomId = roomId;
+            this._playerId = response.playerId;
+            this._gameState = response.state;
+            this.notifyStateListeners(response.state);
+          }
+          resolve(response);
+        });
+      },
+      `Server did not respond to room:reconnect for room "${roomId}". The room may be gone or the server is unreachable.`
+    );
   }
 
   /** Read a previously saved session from localStorage. Returns null if missing or malformed. */
@@ -292,6 +304,20 @@ export class EmberClient {
     };
   }
 
+  /**
+   * Subscribe to visibility-change reconnect signals.
+   *
+   * Fires when the document becomes visible again AND the socket is connected,
+   * indicating the app may need to re-validate its room session (e.g. after iOS
+   * backgrounding). Consumers (e.g. useSession) decide whether to act.
+   */
+  onVisibilityReconnect(listener: Listener<void>): () => void {
+    this.visibilityReconnectListeners.add(listener);
+    return () => {
+      this.visibilityReconnectListeners.delete(listener);
+    };
+  }
+
   /** Expose raw socket for advanced use cases */
   getSocket(): TypedClientSocket {
     return this.socket;
@@ -340,6 +366,18 @@ export class EmberClient {
       this.clearSession();
       this.roomClosedListeners.forEach((l) => l(reason));
     });
+
+    // iOS background recovery: when the tab becomes visible again and the socket
+    // is connected, notify subscribers so they can re-validate their room session.
+    // The server's reconnect window may have already expired while the app was backgrounded.
+    if (typeof document !== 'undefined') {
+      this.visibilityChangeHandler = () => {
+        if (document.visibilityState === 'visible' && this._status === 'connected') {
+          this.visibilityReconnectListeners.forEach((l) => l());
+        }
+      };
+      document.addEventListener('visibilitychange', this.visibilityChangeHandler);
+    }
   }
 
   private setStatus(status: ConnectionStatus): void {

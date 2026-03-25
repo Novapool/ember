@@ -17,6 +17,10 @@ function hasSavedSession(): boolean {
  * When the socket connects, attempts `reconnectToRoom` if not already in a room.
  * Cleans up stale sessions by clearing them on failed reconnect.
  *
+ * Also handles iOS background recovery: if the tab becomes visible again after
+ * being backgrounded, and the socket is connected but the room session may have
+ * been lost server-side, this hook re-attempts `reconnectToRoom` to re-validate.
+ *
  * @returns `{ isRestoring, restored, failed }`
  *   - `isRestoring` — true while the reconnect attempt is in flight; show a loading overlay
  *   - `restored` — true if the reconnect succeeded
@@ -39,6 +43,7 @@ export function useSession(): { isRestoring: boolean; restored: boolean; failed:
 
   const { client, status } = useEmberContext();
 
+  // Initial reconnect on mount: fires when socket first connects
   useEffect(() => {
     // Wait until connected
     if (status !== 'connected') return;
@@ -67,6 +72,37 @@ export function useSession(): { isRestoring: boolean; restored: boolean; failed:
       setIsRestoring(false);
     });
   }, [status, client]);
+
+  // iOS background recovery: re-validate session when tab becomes visible again.
+  // Only fires if: (a) document became visible, (b) socket is connected,
+  // (c) there is a saved session or active roomId, and (d) the initial mount
+  // reconnect already succeeded (so we don't double-attempt on first load).
+  useEffect(() => {
+    const unsubscribe = client.onVisibilityReconnect(() => {
+      // Guard: only re-validate if we've already successfully restored a session
+      // and we're not currently in a room (which would mean we got kicked while backgrounded)
+      if (!attemptedRef.current) return;
+      if (client.roomId) return; // still in room — nothing to do
+
+      const session = client.loadSession();
+      if (!session) return;
+
+      setIsRestoring(true);
+      setRestored(false);
+      setFailed(false);
+
+      client.reconnectToRoom(session.roomId, session.playerId).then((response) => {
+        if (response.success) {
+          setRestored(true);
+        } else {
+          setFailed(true);
+        }
+        setIsRestoring(false);
+      });
+    });
+
+    return unsubscribe;
+  }, [client]);
 
   return { isRestoring, restored, failed };
 }
