@@ -73,14 +73,18 @@ ember/
 - **Monorepo:** npm workspaces (chosen over Turborepo for simplicity — see MILESTONES.md notes)
 - **Realtime:** Socket.io
 - **Frontend:** React
-- **Backend (MVP):** Firebase Realtime Database
-- **Backend (Production):** Railway + PostgreSQL + Redis
+- **Backend (Current Production):** Firebase Realtime Database
+- **Backend (Future Scale):** Railway + PostgreSQL + Redis
 
 ## Games Built on Bonfire
 
-- **Surface Level** (`~/Documents/Programs/games/surface_level/`) — first game, primary beta tester
-  - Integration notes and workarounds: `surface_level/docs/TO-REMEMBER.md`
-  - Issues for Bonfire to fix: `docs/KNOWN_ISSUES.md` (game projects write here directly)
+- **Surface Level** (`games/surface_level/`) — first game, primary beta tester; Firebase adapter, full reconnect, timers
+  - Integration notes and workarounds: `games/surface_level/docs/TO-REMEMBER.md`
+  - Issues for Ember to fix: `docs/KNOWN_ISSUES.md` (game projects write here directly)
+- **Split** (`games/split/`) — simultaneous voting pattern; InMemoryAdapter
+  - Integration notes: `games/split/docs/TO-REMEMBER.md`
+- **Rank'd** (`games/rankd/`) — simultaneous ranking; InMemoryAdapter; Bonfire integration complete
+- **Decoy** (`games/decoy/`) — deduction game; custom Spark framework (no React); Papers Please aesthetic
 
 ## Cross-Project Reference
 
